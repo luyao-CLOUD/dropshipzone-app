@@ -1,12 +1,16 @@
 {
   "version": "7.1",
-  "updateDate": "2026-06-19",
-  "description": "翻译功能修复 + 静态翻译框 + 主题按钮旁翻译按钮",
-  "htmlFile": "Dropshipzone全品类上架模板_v7.1.html",
+  "updateDate": "2026-06-20",
+  "description": "翻译功能修复 + 静态翻译框 + 主题按钮旁翻译按钮 + 自动更新增强",
+  "htmlFile": "app.html",
+  "mainJs": "main.js",
+  "packageJson": "package.json",
   "files": {
-    "v7.1": "Dropshipzone全品类上架模板_v7.1.html",
+    "app_html": "app.html",
+    "main_js": "main.js",
+    "package_json": "package.json",
     "v7.1_desktop": "Dropshipzone全品类上架模板_V7.1_桌面版.html",
     "v1.3": "Dropshipzone服装鞋类上架工具_V1.3.html"
   },
-  "updateNotes": "2026-06-19: 翻译功能修复，恢复静态翻译框，在主题切换按钮旁新增翻译按钮，删除所有拖动相关代码"
+  "updateNotes": "2026-06-20: 自动更新脚本增强 - 同时更新软件程序(main.js)和HTML(app.html)，修复 package.json 版本号"
 }
