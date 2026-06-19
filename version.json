@@ -1,8 +1,12 @@
 {
   "version": "7.1",
   "updateDate": "2026-06-19",
-  "description": "SEO关键词自动导入产品名称 + 悬浮翻译框 + 拖拽排序",
-  "htmlFile": "Dropshipzone全品类上架模板_v6.9_批量上架版.html",
-  "url": "https://raw.githubusercontent.com/luyao-CLOUD/dropshipzone-app/main/Dropshipzone%E5%85%A8%E5%93%81%E7%B1%BB%E4%B8%8A%E6%9E%B6%E6%A8%A1%E6%9D%BF_v6.9_%E6%89%B9%E9%87%8F%E4%B8%8A%E6%9E%B6%E7%89%88.html",
-  "updateNotes": "SEO关键词自动导入产品名称 + 悬浮翻译框 + 拖拽排序"
+  "description": "翻译功能修复 + 静态翻译框 + 主题按钮旁翻译按钮",
+  "htmlFile": "Dropshipzone全品类上架模板_v7.1.html",
+  "files": {
+    "v7.1": "Dropshipzone全品类上架模板_v7.1.html",
+    "v7.1_desktop": "Dropshipzone全品类上架模板_V7.1_桌面版.html",
+    "v1.3": "Dropshipzone服装鞋类上架工具_V1.3.html"
+  },
+  "updateNotes": "2026-06-19: 翻译功能修复，恢复静态翻译框，在主题切换按钮旁新增翻译按钮，删除所有拖动相关代码"
 }
