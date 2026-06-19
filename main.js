@@ -3,7 +3,7 @@ const path = require('path');
 const fs = require('fs');
 const https = require('https');
 
-const HTML_FILE = 'Dropshipzone全品类上架模板_v6.9_批量上架版.html';
+const HTML_FILE = 'app.html';
 const VERSION_URL = 'https://raw.githubusercontent.com/luyao-CLOUD/dropshipzone-app/main/version.json';
 
 // Local storage paths (always writable)
@@ -96,7 +96,7 @@ async function checkForUpdate(mainWindow) {
 
         if (remote.version && remote.version !== local) {
             // New version available — download
-            const downloadUrl = remote.url || (VERSION_URL.replace('version.json', HTML_FILE));
+            const downloadUrl = remote.url || (VERSION_URL.replace('version.json', 'app.html'));
             await downloadFile(downloadUrl, localHtmlPath);
             saveLocalVersion(remote.version, remote.updateDate);
 
