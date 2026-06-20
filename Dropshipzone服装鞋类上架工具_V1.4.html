@@ -470,7 +470,7 @@ body { background: #ffffff; min-height: 100vh; font-family: ... }
     border-color: #718096;
     box-shadow: 0 3px 12px rgba(113,128,150,0.12);
 }
-.btn-sm { padding: 4px 12px; font-size: 12px; }
+.btn-sm { padding: 2px 6px; font-size: 10px; }
 /* 浅色信息按钮 */
 .btn-info {
     background: #ffffff;
@@ -570,9 +570,9 @@ table tr:hover td { background: #f5f5f5; }
 .upload-zone:hover { border-color: #667eea; background: #f0f4ff; }
 .image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
 .image-card { border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; position: relative; cursor: move; }
-.image-card img { width: 100%; height: 120px; object-fit: cover; }
+.image-card img { width: 100%; height: auto; min-height: 80px; max-height: 160px; object-fit: contain; background: #f8f9f9; padding: 4px; }
 .image-card .main-badge { position: absolute; top: 5px; left: 5px; background: #28a745; color: #2d3748; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
-.image-card .actions { padding: 6px; display: flex; gap: 5px; justify-content: center; }
+.image-card .actions { padding: 4px 2px; display: flex; gap: 3px; justify-content: center; }
 .image-card.dragging { opacity: 0.5; }
 .image-card.drag-over { border-color: #667eea; border-width: 3px; }
 .preview-box { border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-top: 15px; background: #fafafa; min-height: 100px; }
@@ -2302,7 +2302,7 @@ function renderGallery() {
     uploadedImages.forEach(function(img, i) {
         var mainBadge = i === mainImageIndex ? '<span class="main-badge">主图</span>' : '';
         html += '<div class="image-card" draggable="true" ondragstart="imgDragStart(event,' + i + ')" ondragover="imgDragOver(event)" ondrop="imgDrop(event,' + i + ')" ondragend="imgDragEnd(event)">' +
-            mainBadge + '<img src="' + img.url + '" alt="' + img.name + '">' +
+            mainBadge + '<img src="' + img.url + '" alt="' + img.name + '" loading="lazy">' +
             '<div class="actions">' +
             '<button class="btn btn-sm btn-success" onclick="setMainImage(' + i + ')">主图</button>' +
             '<button class="btn btn-sm btn-secondary" onclick="copyImageUrl(' + i + ')">复制</button>' +
