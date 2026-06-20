@@ -1993,18 +1993,34 @@ function rebuildVariantsFromSelection() {
     var productName = document.getElementById('product-name-en').value.trim() || parentSku || '';
     var defaultPrice = parseFloat(document.getElementById('product-price').value) || 29.99;
     var defaultStock = parseInt(document.getElementById('product-stock').value) || 999;
-    
+
+    // V1.4: 根据品类自动添加M-/W-/K-前缀
+    var category = document.getElementById('product-category').value || '';
+    var genderPrefix = '';
+    if (category.indexOf('mens') !== -1) {
+        genderPrefix = 'M-';
+    } else if (category.indexOf('womens') !== -1) {
+        genderPrefix = 'W-';
+    } else if (category.indexOf('kids') !== -1) {
+        genderPrefix = 'K-';
+    }
+
     colorInputs.forEach(function(colorObj) {
         selectedSizes.forEach(function(size) {
             var abbr = colorAbbr(colorObj.colorEn);
             var paddedSize = padSizeForSku(size);
             var cleanParent = cleanSku(parentSku);
-            var sku = cleanParent ? (cleanParent + '-' + abbr + '-' + paddedSize) : '';
-            
+            // 添加性别前缀（如果还没有）
+            var cleanParentWithPrefix = cleanParent;
+            if (genderPrefix && cleanParent && cleanParent.indexOf(genderPrefix) !== 0) {
+                cleanParentWithPrefix = genderPrefix + cleanParent;
+            }
+            var sku = cleanParent ? (cleanParentWithPrefix + '-' + abbr + '-' + paddedSize) : '';
+
             skuVariants.push({
                 sku: sku,
                 skuTitle: productName ? (productName + ' - ' + getColorForExport(colorObj.colorEn) + ' - Size ' + size) : '',
-                parentSku: cleanParent,
+                parentSku: cleanParentWithPrefix,
                 colour: getColorForExport(colorObj.colorEn),
                 size: size,
                 price: defaultPrice,
@@ -2015,7 +2031,7 @@ function rebuildVariantsFromSelection() {
             });
         });
     });
-    
+
     updateVariantDisplay();
     updateTotalCount();
 }
@@ -2507,7 +2523,18 @@ function exportToExcel() {
         var row = new Array(EXPORT_HEADERS.length).fill('');
         row[0] = v.sku;
         row[1] = v.skuTitle;
-        row[2] = parentSku;
+        // V1.4: 导出时Parent SKU也带性别前缀
+        var category = document.getElementById('product-category').value || '';
+        var genderPrefix = '';
+        if (category.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
+        else if (category.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
+        else if (category.indexOf('kids') !== -1) { genderPrefix = 'K-'; }
+        var cleanParent = cleanSku(parentSku);
+        var parentSkuWithPrefix = cleanParent;
+        if (genderPrefix && cleanParent && cleanParent.indexOf(genderPrefix) !== 0) {
+            parentSkuWithPrefix = genderPrefix + cleanParent;
+        }
+        row[2] = parentSkuWithPrefix;
         row[3] = parentTitle.replace(/[^a-zA-Z0-9\-_\s\(\)\/]/g, '');  // 清理特殊符号
         row[4] = 'Size';
         row[5] = v.size;
