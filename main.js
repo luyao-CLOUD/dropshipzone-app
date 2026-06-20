@@ -1,4 +1,4 @@
-const { app, BrowserWindow, dialog } = require('electron');
+const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
 const https = require('https');
@@ -90,7 +90,6 @@ function applyPendingUpdates() {
         const appDir = __dirname;
         let updated = false;
         
-        // Copy each file from pending_update to app directory
         const files = fs.readdirSync(updateDir);
         for (const file of files) {
             const src = path.join(updateDir, file);
@@ -98,7 +97,6 @@ function applyPendingUpdates() {
             const stat = fs.statSync(src);
             if (stat.isFile()) {
                 try {
-                    // Backup old file
                     if (fs.existsSync(dest)) {
                         fs.copyFileSync(dest, dest + '.bak');
                     }
@@ -111,7 +109,6 @@ function applyPendingUpdates() {
             }
         }
         
-        // Clean up
         try { fs.rmSync(updateDir, { recursive: true, force: true }); } catch (_) {}
         
         return updated;
@@ -123,7 +120,6 @@ function applyPendingUpdates() {
 
 // ─── HTML path resolution ───
 function getHtmlPath() {
-    // Use downloaded (updated) HTML if available, otherwise use bundled
     if (fs.existsSync(localHtmlPath)) {
         return localHtmlPath;
     }
@@ -137,17 +133,14 @@ async function checkForUpdate(mainWindow) {
         const local = getLocalVersion();
 
         if (remote.version && remote.version !== local) {
-            // New version available
             const version = remote.version;
             const updateNotes = remote.updateNotes || '应用已自动更新到最新版本。';
             const updateDate = remote.updateDate || 'N/A';
 
-            // Create pending update directory
             if (!fs.existsSync(updateDir)) {
                 fs.mkdirSync(updateDir, { recursive: true });
             }
 
-            // 1. Download app.html (HTML content - applied immediately)
             const htmlUrl = remote.htmlFile ? (BASE_RAW_URL + remote.htmlFile) : (BASE_RAW_URL + 'app.html');
             try {
                 await downloadFile(htmlUrl, localHtmlPath);
@@ -156,7 +149,6 @@ async function checkForUpdate(mainWindow) {
                 console.log('[AutoUpdate] Failed to download HTML:', e.message);
             }
 
-            // 2. Download main.js (saved to pending - applied on next restart)
             try {
                 const mainJsUrl = BASE_RAW_URL + 'main.js';
                 await downloadFile(mainJsUrl, path.join(updateDir, 'main.js'));
@@ -165,7 +157,6 @@ async function checkForUpdate(mainWindow) {
                 console.log('[AutoUpdate] Failed to download main.js:', e.message);
             }
 
-            // 3. Download package.json (saved to pending - applied on next restart)
             try {
                 const pkgUrl = BASE_RAW_URL + 'package.json';
                 await downloadFile(pkgUrl, path.join(updateDir, 'package.json'));
@@ -174,7 +165,6 @@ async function checkForUpdate(mainWindow) {
                 console.log('[AutoUpdate] Failed to download package.json:', e.message);
             }
 
-            // Save version
             saveLocalVersion(version, updateDate);
 
             if (mainWindow && !mainWindow.isDestroyed()) {
@@ -185,13 +175,11 @@ async function checkForUpdate(mainWindow) {
                     detail: updateNotes +
                             '\n\n更新日期: ' + updateDate +
                             '\n\n🌐 HTML 已立即生效（点击确定后自动刷新）' +
-                            '\n📦 软件程序(main.js)将在下次启动时自动应用' +
-                            '\n\n建议重启软件以完成全部更新',
+                            '\n📦 软件程序(main.js)将在下次启动时自动应用',
                     buttons: ['确定并刷新', '稍后重启']
                 });
 
                 if (result.response === 0) {
-                    // Reload to apply HTML changes
                     mainWindow.reload();
                 }
             }
@@ -199,35 +187,63 @@ async function checkForUpdate(mainWindow) {
             console.log('[AutoUpdate] Already up to date (v' + local + ')');
         }
     } catch (e) {
-        // Silently fail — use local/bundled HTML
         console.log('[AutoUpdate] Check failed:', e.message);
     }
 }
 
-// ─── Window creation ───
+// ─── Window creation (圆角无框窗口) ───
+let mainWindow;
+
 function createWindow() {
-    // Apply pending updates before creating window
     const hadPending = applyPendingUpdates();
 
-    const win = new BrowserWindow({
+    // Windows 11 风格圆角无框窗口
+    mainWindow = new BrowserWindow({
         width: 1400,
         height: 900,
+        frame: false,              // 无系统边框（自定义圆角+按钮）
+        titleBarStyle: 'hidden',   // 隐藏原生标题栏
+        transparent: false,
+        backgroundColor: '#ffffff',
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
             webSecurity: false
+        },
+        icon: path.join(__dirname, 'icon.ico')  // 可选：自定义图标
+    });
+
+    mainWindow.loadFile(getHtmlPath());
+
+    // IPC handlers for custom titlebar buttons
+    ipcMain.on('window-minimize', () => mainWindow.minimize());
+    ipcMain.on('window-maximize', () => {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    });
+    ipcMain.on('window-close', () => mainWindow.close());
+
+    // Update max/restore button state on window events
+    mainWindow.on('maximize', () => {
+        if (!mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-max-changed', true);
+        }
+    });
+    mainWindow.on('unmaximize', () => {
+        if (!mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-max-changed', false);
         }
     });
 
-    win.loadFile(getHtmlPath());
-
-    // Check for updates after window loads (non-blocking)
-    win.webContents.on('did-finish-load', () => {
-        checkForUpdate(win);
+    // Auto-update after load
+    mainWindow.webContents.on('did-finish-load', () => {
+        checkForUpdate(mainWindow);
         
-        // If we applied pending updates, notify user
         if (hadPending) {
-            dialog.showMessageBox(win, {
+            dialog.showMessageBox(mainWindow, {
                 type: 'info',
                 title: '📦 软件程序已更新',
                 message: '检测到并已应用程序更新',
@@ -237,7 +253,7 @@ function createWindow() {
         }
     });
 
-    // win.webContents.openDevTools();
+    // mainWindow.webContents.openDevTools();
 }
 
 app.on('ready', () => {

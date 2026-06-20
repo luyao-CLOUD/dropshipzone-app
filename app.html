@@ -940,6 +940,8 @@ input, select, textarea {
 
 </head>
 <body>
+<div class="titlebar-custom" id="custom-titlebar"><div class="titlebar-buttons"><button class="titlebar-btn" id="tb-min" title="最小化">−</button><button class="titlebar-btn" id="tb-max" title="最大化">■</button><button class="titlebar-btn btn-close" id="tb-close" title="关闭">✕</button></div></div>
+
 <div id="brightness-filter" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;background:transparent;opacity:1;transition:background 0.3s;"></div>
     <!-- 图片灯箱预览 -->
     <div class="img-lightbox" id="img-lightbox" onclick="closeLightbox(event)">
@@ -6839,6 +6841,75 @@ input:focus, select:focus, textarea:focus {
     padding-bottom: 16px !important;
 }
 
+
+/* ========== 圆角窗口 + 自定义标题栏 ========== */
+html {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+body {
+    border-radius: 12px !important;
+    overflow: hidden !important;
+}
+
+/* 自定义标题栏 */
+.titlebar-custom {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.92) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.06) !important;
+    -webkit-app-region: drag;
+    user-select: none;
+}
+/* 标题栏按钮容器 */
+.titlebar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    -webkit-app-region: no-drag;
+}
+/* 标题栏单个按钮 */
+.titlebar-btn {
+    width: 34px;
+    height: 28px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    line-height: 1;
+}
+.titlebar-btn:hover {
+    background: rgba(0, 0, 0, 0.06);
+}
+/* 关闭按钮悬停红色 */
+.titlebar-btn.btn-close:hover {
+    background: #E81123 !important;
+    color: #fff !important;
+}
+/* Header 下移给标题栏腾空间 */
+.header {
+    padding-top: 42px !important;
+}
+/* 侧边栏也下移 */
+.sidebar-nav {
+    padding-top: 46px !important;
+}
+
 </style>
 
 
@@ -6921,5 +6992,47 @@ document.addEventListener('keydown', function(evt) {
 
 </script>
 
+
+<script>
+
+// ====== 自定义标题栏按钮事件 ======
+(function() {
+    var minBtn = document.getElementById('tb-min');
+    var maxBtn = document.getElementById('tb-max');
+    var closeBtn = document.getElementById('tb-close');
+
+    if (minBtn && typeof require !== 'undefined') {
+        minBtn.onclick = function() {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('window-minimize');
+        };
+    }
+    if (maxBtn && typeof require !== 'undefined') {
+        maxBtn.onclick = function() {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('window-maximize');
+        };
+    }
+    if (closeBtn && typeof require !== 'undefined') {
+        closeBtn.onclick = function() {
+            const { ipcRenderer } = require('electron');
+            ipcRenderer.send('window-close');
+        };
+    }
+
+    // 监听最大化状态变化，切换图标
+    if (typeof require !== 'undefined') {
+        const { ipcRenderer } = require('electron');
+        ipcRenderer.on('window-max-changed', function(event, isMax) {
+            var btn = document.getElementById('tb-max');
+            if (btn) {
+                btn.textContent = isMax ? '□' : '■'; // 方块 vs 恢复方块
+                btn.setAttribute('title', isMax ? '还原' : '最大化');
+            }
+        });
+    }
+})();
+
+</script>
 </body>
 </html>
