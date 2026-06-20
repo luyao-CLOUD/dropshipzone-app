@@ -1259,7 +1259,7 @@ body.eye-protection .btn-secondary {
 <div class="form-group">
 <label>Parent SKU <span style="color:#dc3545;">*</span></label>
 <div style="display:flex;gap:8px;">
-<input type="text" class="form-control" id="parent-sku" placeholder="DRESS-001">
+<input type="text" class="form-control" id="parent-sku" placeholder="DRESS-001" oninput="this.value=cleanSku(this.value)">
 <button class="btn btn-sm btn-warning" onclick="autoGenParentSku()">自动生成</button>
 </div>
 </div>
@@ -1998,12 +1998,13 @@ function rebuildVariantsFromSelection() {
         selectedSizes.forEach(function(size) {
             var abbr = colorAbbr(colorObj.colorEn);
             var paddedSize = padSizeForSku(size);
-            var sku = parentSku ? (parentSku + '-' + abbr + '-' + paddedSize) : '';
+            var cleanParent = cleanSku(parentSku);
+            var sku = cleanParent ? (cleanParent + '-' + abbr + '-' + paddedSize) : '';
             
             skuVariants.push({
                 sku: sku,
                 skuTitle: productName ? (productName + ' - ' + getColorForExport(colorObj.colorEn) + ' - Size ' + size) : '',
-                parentSku: parentSku,
+                parentSku: cleanParent,
                 colour: getColorForExport(colorObj.colorEn),
                 size: size,
                 price: defaultPrice,
@@ -2154,6 +2155,12 @@ function clearAllVariants() {
     showNotification('已清空所有变体', 'info');
 }
 
+
+// ==================== SKU 清理函数 ====================
+function cleanSku(s) {
+    // 仅保留字母、数字、横杠(-)，移除空格和所有特殊符号
+    return String(s).replace(/[^a-zA-Z0-9\-]/g, '');
+}
 // ==================== SKU 辅助函数 ====================
 function colorAbbr(color) {
     // 先尝试英文缩写
@@ -2501,7 +2508,7 @@ function exportToExcel() {
         row[0] = v.sku;
         row[1] = v.skuTitle;
         row[2] = parentSku;
-        row[3] = parentTitle;
+        row[3] = parentTitle.replace(/[^a-zA-Z0-9\-_\s\(\)\/]/g, '');  // 清理特殊符号
         row[4] = 'Size';
         row[5] = v.size;
         row[6] = 'Colour';
@@ -2517,7 +2524,7 @@ function exportToExcel() {
         row[16] = getVal(v,'volH',pheight);
         row[17] = pcbm;
         row[18] = v.price;
-        row[19] = rrp;
+        row[19] = (v.price * 1.5).toFixed(2);  // V1.4-fix: RRP = 价格 × 1.5
         row[20] = v.stock;
         row[21] = subcat;
         row[22] = images;
