@@ -940,7 +940,7 @@ input, select, textarea {
 
 </head>
 <body>
-<div class="titlebar-custom" id="custom-titlebar"><div class="titlebar-buttons"><button class="titlebar-btn" id="tb-min" title="最小化">−</button><button class="titlebar-btn" id="tb-max" title="最大化">■</button><button class="titlebar-btn btn-close" id="tb-close" title="关闭">✕</button></div></div>
+<div class="titlebar-custom" id="custom-titlebar"><div class="titlebar-buttons"><button class="titlebar-btn btn-close" id="tb-close" title="关闭"></button><button class="titlebar-btn btn-min" id="tb-min" title="最小化"></button><button class="titlebar-btn btn-max" id="tb-max" title="最大化"></button></div></div>
 
 <div id="brightness-filter" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;background:transparent;opacity:1;transition:background 0.3s;"></div>
     <!-- 图片灯箱预览 -->
@@ -6844,59 +6844,116 @@ input:focus, select:focus, textarea:focus {
 
 /* ========== 自定义标题栏（无框窗口） ========== */
 
-/* 自定义标题栏 - 毛玻璃透明 */
+/* 自定义标题栏 - macOS风格 */
 .titlebar-custom {
     position: fixed;
     top: 0; left: 0; right: 0;
-    height: 38px;
-    background: rgba(255, 255, 255, 0.55) !important;
-    backdrop-filter: blur(30px) saturate(200%) !important;
-    -webkit-backdrop-filter: blur(30px) saturate(200%) !important;
+    height: 40px;
+    background: rgba(246, 246, 246, 0.78) !important;
+    backdrop-filter: blur(48px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(48px) saturate(180%) !important;
     z-index: 9999;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 10px;
-    border-bottom: 0.5px solid rgba(0, 0, 0, 0.08) !important;
+    padding-left: 14px;
+    border-bottom: 0.5px solid rgba(0, 0, 0, 0.1) !important;
     -webkit-app-region: drag;
     user-select: none;
 }
-/* 标题栏按钮容器 */
+/* 标题栏按钮容器 - 左侧排列 */
 .titlebar-buttons {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-left: auto;
+    gap: 8px;
     -webkit-app-region: no-drag;
 }
-/* 标题栏单个按钮 - 玻璃质感 */
+/* macOS风格按钮 - 三色圆点 */
 .titlebar-btn {
-    width: 34px;
-    height: 28px;
-    border: 1px solid rgba(255, 255, 255, 0.5);
-    border-radius: 8px;
-    background: rgba(255, 255, 255, 0.35) !important;
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
-    font-size: 14px;
-    color: #444 !important;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(0, 0, 0, 0.12);
     cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-    line-height: 1;
+    padding: 0;
+    position: relative;
+    transition: all 0.15s ease;
+    -webkit-app-region: no-drag;
 }
-.titlebar-btn:hover {
-    background: rgba(0, 122, 255, 0.12) !important;
-    border-color: rgba(0, 122, 255, 0.25) !important;
-    color: #007AFF !important;
+/* 关闭按钮 - macOS红色 */
+.titlebar-btn.btn-close {
+    background: #FF5F57;
 }
-/* 关闭按钮悬停红色 */
+/* 最小化按钮 - macOS黄色 */
+.titlebar-btn.btn-min {
+    background: #FFBD2F;
+}
+/* 最大化按钮 - macOS绿色 */
+.titlebar-btn.btn-max {
+    background: #28C840;
+}
+/* 鼠标悬停时显示图标 */
+.titlebar-btn::after {
+    content: '';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 10px;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.1s ease;
+    pointer-events: none;
+}
+.titlebar-btn.btn-close::after {
+    content: '✕';
+    color: #8B1A14;
+}
+.titlebar-btn.btn-min::after {
+    content: '−';
+    color: #8B6914;
+}
+.titlebar-btn.btn-max::after {
+    content: '↗';
+    color: #0D5A1A;
+    font-size: 10px;
+}
+/* 最大化状态下显示还原图标 */
+.titlebar-btn.btn-max.is-max::after {
+    content: '↙';
+    color: #0D5A1A;
+    font-size: 10px;
+}
+.titlebar-btn:hover::after {
+    opacity: 1;
+}
+/* 按钮悬停加深效果 */
 .titlebar-btn.btn-close:hover {
-    background: #E81123 !important;
-    border-color: #E81123 !important;
-    color: #fff !important;
+    background: #FF3B30;
+}
+.titlebar-btn.btn-min:hover {
+    background: #FFA500;
+}
+.titlebar-btn.btn-max:hover {
+    background: #28A745;
+}
+/* 窗口非激活状态 - 按钮变灰 */
+.window-inactive .titlebar-btn {
+    background: #D4D4D4 !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+.window-inactive .titlebar-btn::after {
+    content: '' !important;
+}
+/* 标题栏右侧可放应用标题（可选） */
+.titlebar-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    opacity: 0.7;
+    pointer-events: none;
+    -webkit-app-region: drag;
 }
 /* Header 下移给标题栏腾空间 */
 .header {
@@ -6992,40 +7049,54 @@ document.addEventListener('keydown', function(evt) {
 
 <script>
 
-// ====== 自定义标题栏按钮事件 ======
+// ===== 自定义标题栏按钮事件（macOS风格）======
 (function() {
     var minBtn = document.getElementById('tb-min');
     var maxBtn = document.getElementById('tb-max');
     var closeBtn = document.getElementById('tb-close');
 
+    if (closeBtn && typeof require !== 'undefined') {
+        closeBtn.onclick = function() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-close');
+        };
+    }
     if (minBtn && typeof require !== 'undefined') {
         minBtn.onclick = function() {
-            const { ipcRenderer } = require('electron');
-            ipcRenderer.send('window-minimize');
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-minimize');
         };
     }
     if (maxBtn && typeof require !== 'undefined') {
         maxBtn.onclick = function() {
-            const { ipcRenderer } = require('electron');
-            ipcRenderer.send('window-maximize');
-        };
-    }
-    if (closeBtn && typeof require !== 'undefined') {
-        closeBtn.onclick = function() {
-            const { ipcRenderer } = require('electron');
-            ipcRenderer.send('window-close');
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-maximize');
         };
     }
 
-    // 监听最大化状态变化，切换图标
+    // 监听最大化状态变化，切换按钮样式
     if (typeof require !== 'undefined') {
-        const { ipcRenderer } = require('electron');
+        var ipcRenderer = require('electron').ipcRenderer;
         ipcRenderer.on('window-max-changed', function(event, isMax) {
             var btn = document.getElementById('tb-max');
             if (btn) {
-                btn.textContent = isMax ? '□' : '■'; // 方块 vs 恢复方块
+                if (isMax) {
+                    btn.classList.add('is-max');
+                } else {
+                    btn.classList.remove('is-max');
+                }
                 btn.setAttribute('title', isMax ? '还原' : '最大化');
             }
+        });
+
+        // 窗口激活/失活状态
+        ipcRenderer.on('window-active', function() {
+            var bar = document.getElementById('custom-titlebar');
+            if (bar) bar.classList.remove('window-inactive');
+        });
+        ipcRenderer.on('window-inactive', function() {
+            var bar = document.getElementById('custom-titlebar');
+            if (bar) bar.classList.add('window-inactive');
         });
     }
 })();

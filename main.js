@@ -238,6 +238,18 @@ function createWindow() {
         }
     });
 
+    // 窗口激活/失活状态（macOS三色按钮变灰效果）
+    mainWindow.on('focus', () => {
+        if (!mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-active');
+        }
+    });
+    mainWindow.on('blur', () => {
+        if (!mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-inactive');
+        }
+    });
+
     // Auto-update after load
     mainWindow.webContents.on('did-finish-load', () => {
         checkForUpdate(mainWindow);
