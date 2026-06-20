@@ -574,8 +574,7 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <select class="form-control" id="product-category" onchange="onCategoryChange()">
 <option value="womens-clothing">女装服装 (Women's Clothing)</option>
 <option value="mens-clothing">男装服装 (Men's Clothing)</option>
-<option value="womens-shoes">女鞋 (Women's Shoes)</option>
-<option value="mens-shoes">男鞋 (Men's Shoes)</option>
+<option value="unisex-shoes">男女鞋 (Unisex Shoes)</option>
 <option value="kids-shoes">童鞋 (Kids' Shoes)</option>
 <option value="kids-clothing">童装 (Kids' Clothing)</option>
 </select>
@@ -981,15 +980,10 @@ var SIZE_DATA = {
         dual: [],
         hot: ['M(AU M/EU48)','L(AU L/EU50)','XL(AU XL/EU52)']
     },
-    'womens-shoes': {
-        normal: ['4(AU4/EU35)','5(AU5/EU36)','6(AU6/EU37)','7(AU7/EU38)','8(AU8/EU39)','9(AU9/EU40)','10(AU10/EU41)','11(AU11/EU42)','12(AU12/EU43)'],
+    'unisex-shoes': {
+        normal: ['4(AU4/EU35)','5(AU5/EU36)','6(AU6/EU37-39)','7(AU7/EU38-40)','8(AU8/EU39-41)','9(AU9/EU40-42)','10(AU10/EU41-43)','11(AU11/EU42-44)','12(AU12/EU43-45)','13(AU13/EU46)'],
         dual: [],
-        hot: ['6(AU6/EU37)','7(AU7/EU38)','8(AU8/EU39)','9(AU9/EU40)','10(AU10/EU41)']
-    },
-    'mens-shoes': {
-        normal: ['6(AU6/EU39)','7(AU7/EU40)','8(AU8/EU41)','9(AU9/EU42)','10(AU10/EU43)','11(AU11/EU44)','12(AU12/EU45)','13(AU13/EU46)'],
-        dual: [],
-        hot: ['8(AU8/EU41)','9(AU9/EU42)','10(AU10/EU43)','11(AU11/EU44)','12(AU12/EU45)']
+        hot: ['6(AU6/EU37-39)','7(AU7/EU38-40)','8(AU8/EU39-41)','9(AU9/EU40-42)','10(AU10/EU41-43)','11(AU11/EU42-44)','12(AU12/EU43-45)']
     },
     'kids-shoes': {
         normal: ['10(AU10/EU27)','11(AU11/EU28)','12(AU12/EU30)','13(AU13/EU31)','1(AU1/EU32)','2(AU2/EU33)','3(AU3/EU35)','4(AU4/EU36)','5(AU5/EU38)','6(AU6/EU39)'],
@@ -1006,8 +1000,7 @@ var SIZE_DATA = {
 var CATEGORY_LABELS = {
     'womens-clothing': '女装服装',
     'mens-clothing': '男装服装',
-    'womens-shoes': '女鞋',
-    'mens-shoes': '男鞋',
+    'unisex-shoes': '男女鞋',
     'kids-shoes': '童鞋',
     'kids-clothing': '童装'
 };
@@ -1034,24 +1027,18 @@ var ATTR_DEFINITIONS = {
         { key:'sleeve', label:'袖型 Sleeve', required:false, options:['请选择','长袖','短袖','七分袖','无袖'] },
         { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','套头','拉链','扣子'] },
     ],
-    'womens-shoes': [
-        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','PU皮革','真皮','网布','帆布','绒面','麂皮','人造革','针织布','亮片','漆皮'] },
-        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','TPR','PVC','PU','MD','真皮'] },
-        { key:'inner_material', label:'内里材料 Inner Material', required:true, options:['请选择','PU','真皮','网布','毛巾布','无内里'] },
-        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','套脚','魔术贴','系带','拉链','搭扣','松紧带'] },
+    'unisex-shoes': [
+        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','PU皮革','真皮','网布','帆布','绒面','麂皮','人造革','针织布','飞织','合成材料','亮片','漆皮','牛仔布'] },
+        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','MD','TPR','PVC','PU','真皮'] },
+        { key:'inner_material', label:'内里材料 Inner Material', required:false, options:['请选择','PU','真皮','网布','毛巾布','无内里'] },
+        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','套脚','系带','魔术贴','拉链','搭扣','松紧带','一脚蹬'] },
+        { key:'shoe_type', label:'鞋型 Shoe Type', required:false, options:['请选择','运动鞋','休闲鞋','皮鞋','靴子','凉鞋','拖鞋','乐福鞋','高跟鞋','单鞋'] },
         { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春夏','秋冬','夏季','冬季'] },
-        { key:'heel_height', label:'跟高 Heel Height', required:false, options:['请选择','Flat 平底','Low 低跟(1-3cm)','Mid 中跟(3-5cm)','High 高跟(5-8cm)','Very High 超高跟(8cm+)'] },
+        { key:'heel_height', label:'跟高/帮高 Heel Height', required:false, options:['请选择','Flat 平底','Low 低跟(1-3cm)','Mid 中跟(3-5cm)','High 高跟(5-8cm)','Very High 超高跟(8cm+)','平跟','坡跟'] },
         { key:'toe_shape', label:'鞋头形状 Toe Shape', required:false, options:['请选择','圆头','尖头','方头','鱼嘴','包头'] },
-        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色','印花','拼接','金属装饰','水钻'] },
-        { key:'occasion', label:'场合 Occasion', required:false, options:['请选择','日常','通勤','派对','运动','户外','婚礼'] },
-    ],
-    'mens-shoes': [
-        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','真皮','PU皮革','网布','帆布','麂皮','合成材料','飞织'] },
-        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','MD','TPR','PVC'] },
-        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','系带','套脚','魔术贴','松紧带','一脚蹬'] },
-        { key:'shoe_type', label:'鞋型 Shoe Type', required:false, options:['请选择','运动鞋','休闲鞋','皮鞋','靴子','凉鞋','拖鞋','乐福鞋'] },
-        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春夏','秋冬','夏季','冬季'] },
-        { key:'occasion', label:'场合 Occasion', required:false, options:['请选择','日常','商务','运动','户外','休闲','正式'] },
+        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色','印花','拼接','金属装饰','水钻','条纹','格子','迷彩'] },
+        { key:'occasion', label:'场合 Occasion', required:false, options:['请选择','日常','通勤','商务','派对','运动','户外','休闲','正式','婚礼'] },
+        { key:'applicable_people', label:'适用人群 Applicable People', required:false, options:['请选择','女士','男士','通用','青少年'] },
     ],
     'kids-shoes': [
         { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','PU皮革','网布','帆布','绒面','EVA'] },
@@ -1496,7 +1483,7 @@ function escAttr(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;
 function autoGenParentSku() {
     var cat = document.getElementById('product-category').value;
     var prefix = 'PROD';
-    var map = { 'womens-clothing':'DRESS','mens-clothing':'APP','womens-shoes':'SHOE','mens-shoes':'SHOE','kids-shoes':'KSHOE','kids-clothing':'KID' };
+    var map = { 'womens-clothing':'DRESS','mens-clothing':'APP','unisex-shoes':'SHOE','kids-shoes':'KSHOE','kids-clothing':'KID' };
     prefix = map[cat] || 'PROD';
     var num = String(Math.floor(Math.random()*9000)+1000);
     var sku = prefix + '-' + num;
@@ -1692,8 +1679,7 @@ function addKeyword(keyword){var current=document.getElementById('seo-keywords-e
 var SIZE_CHART_DATA={
     'womens-clothing':{title:'Women\'s Clothing Size Chart (AU)',headers:['AU','US','UK','EU','Bust(cm)','Waist(cm)'],rows:[['6','2','6','34','84','64'],['8','4','8','36','88','68'],['10','6','10','38','92','72'],['12','8','12','40','96','76'],['14','10','14','42','100','80'],['16','12','16','44','104','84'],['18','14','18','46','110','90']]},
     'mens-clothing':{title:'Men\'s Clothing Size Chart',headers:['Size','Chest(cm)','Waist(cm)'],rows:[['S','96','80'],['M','100','84'],['L','104','88'],['XL','112','96'],['2XL','120','104'],['3XL','128','112']]},
-    'womens-shoes':{title:'Women\'s Shoes Size Chart (AU)',headers:['AU','US','UK','EU','Foot Length(cm)'],rows:[['5','7','5','37','23.0'],['6','8','6','38','23.8'],['7','9','7','39','24.6'],['8','10','8','40','25.4'],['9','11','9','41','26.2'],['10','12','10','42','27.0']]},
-    'mens-shoes':{title:'Men\'s Shoes Size Chart (AU)',headers:['AU','US','UK','EU','Foot Length(cm)'],rows:[['7','8','7','41','25.4'],['8','9','8','42','26.0'],['9','10','9','43','26.7'],['10','11','10','44','27.3'],['11','12','11','45','27.9'],['12','13','12','46','28.6']]},
+    'unisex-shoes':{title:'Unisex Shoes Size Chart (AU)',headers:['AU','US(W/M)','UK','EU','Foot Length(cm)'],rows:[['4','6/5','4','35','22.0'],['5','7/6','5','36','22.7'],['6','8/7','6','37-39','23.5-24.0'],['7','9/8','7','38-40','24.3-25.0'],['8','10/9','8','39-41','25.0-25.7'],['9','11/10','9','40-42','25.8-26.5'],['10','12/11','10','41-43','26.5-27.2'],['11','13/12','11','42-44','27.2-27.9'],['12','14/13','12','43-45','28.0-28.6'],['13','15/14','13','46','29.3']]},
     'kids-shoes':{title:'Kids\' Shoes Size Chart (AU)',headers:['AU','EU','Foot Length(cm)','Approx Age'],rows:[['10','27','16.5','3-4 yrs'],['11','28','17.1','4-5 yrs'],['12','29','17.7','5-6 yrs'],['13','30','18.4','6-7 yrs'],['1','31','19.0','7-8 yrs'],['2','32','19.7','8-9 yrs'],['3','33','20.4','9-10 yrs']]},
     'kids-clothing':{title:'Kids\' Clothing Size Chart (AU)',headers:['AU','Age','Height(cm)'],rows:[['2','2T','92'],['4','4T','104'],['6','6','116'],['8','8','128'],['10','10','140'],['12','12','152'],['14','14','164']]}
 };
