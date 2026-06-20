@@ -1,16 +1,1 @@
-{
-  "version": "7.1",
-  "updateDate": "2026-06-20",
-  "description": "翻译功能修复 + 静态翻译框 + 主题按钮旁翻译按钮 + 自动更新增强",
-  "htmlFile": "app.html",
-  "mainJs": "main.js",
-  "packageJson": "package.json",
-  "files": {
-    "app_html": "app.html",
-    "main_js": "main.js",
-    "package_json": "package.json",
-    "v7.1_desktop": "Dropshipzone全品类上架模板_V7.1_桌面版.html",
-    "v1.3": "Dropshipzone服装鞋类上架工具_V1.3.html"
-  },
-  "updateNotes": "2026-06-20: 自动更新脚本增强 - 同时更新软件程序(main.js)和HTML(app.html)，修复 package.json 版本号"
-}
+{"version": "7.2", "updateDate": "2026-06-21", "description": "Apple Glass毛玻璃UI + 护眼模式 + 亮度调节滑块 + 图片灯箱预览 + Header工具栏重排", "htmlFile": "app.html", "mainJs": "main.js", "packageJson": "package.json", "files": {"app_html": "app.html", "v7_1_html": "Dropshipzone全品类上架模板_v7.1.html", "v1_4_html": "Dropshipzone服装鞋类上架工具_V1.4.html"}, "updateNotes": "2026-06-21: V7.2 Apple Glass全面升级 - 毛玻璃导航栏/按钮、护眼模式(暖色低蓝光)、亮度调节40%~120%、图片悬停放大+灯箱预览、Header工具栏统一布局"}
