@@ -1472,23 +1472,44 @@ function clearAllVariants() {
 }
 
 // ==================== SKU 辅助函数 ====================
+// 中文颜色名 → 英文缩写映射
+var COLOR_ABBR_MAP = {
+    '红色':'RED','蓝色':'BLU','黑色':'BLK','白色':'WHT',
+    '绿色':'GRN','黄色':'YLW','紫色':'PPL',
+    '橙色':'ORG','粉色':'PNK','棕色':'BRN',
+    '灰色':'GRY','米色':'BEI','卡其色':'KHA','卡其':'KHA',
+    '海军蓝':'NAV','藏青':'NAV','酒红色':'BUR','酒红':'BUR','玫红色':'ROZ','玫瑰红':'ROZ',
+    '金色':'GLD','银色':'SLV','彩虹色':'RGB',
+    '咖啡色':'BRN','巧克力色':'CHO','深蓝色':'DKBLU','浅蓝色':'LTBLU',
+    '深绿色':'DKGRN','浅绿色':'LTGRN','深灰色':'DKGRY','浅灰色':'LTGRY',
+    '深粉色':'DKPNK','浅粉色':'LTPNK','深紫色':'DKPPL','浅紫色':'LTPPL',
+    '深黄色':'DKYLW','浅黄色':'LTYLW','深橙色':'DKORG','浅橙色':'LTORG',
+    '透明':'CLR','花色':'MUL','拼色':'MUL','印花':'PRI',
+    '红':'RED','蓝':'BLU','黑':'BLK','白':'WHT','绿':'GRN','黄':'YLW',
+    '紫':'PPL','橙':'ORG','粉':'PNK','棕':'BRN','灰':'GRY','金':'GLD','银':'SLV'
+};
+
 function colorAbbr(color) {
-    // 先尝试英文缩写
+    // 先查中文映射表
+    if (COLOR_ABBR_MAP[color]) return COLOR_ABBR_MAP[color];
+    // 去掉所有非英文字母，取前3位
     var name = color.replace(/[^a-zA-Z]/g,'').substring(0,3).toUpperCase();
     if (name.length >= 2) return name;
-    // 中文取首字母大写
-    return color.substring(0,1).toUpperCase() + color.substring(1,2);
+    // 实在没有就用随机数
+    return 'C' + String(Math.floor(Math.random()*900)+100);
 }
 
 function padSizeForSku(size) {
     var str = String(size);
+    // 鞋类尺码格式: "W4(AU4/EU35)" → 提取括号前的内容 "W4"
+    var parenIdx = str.indexOf('(');
+    if (parenIdx > 0) str = str.substring(0, parenIdx);
     // 数字型码数补零
     if (/^\d+$/.test(str) || /^\d+\.\d$/.test(str)) {
         if (str.length <= 2 && !str.includes('.')) return str.length < 2 ? '0' + str : str;
-        // 半码如 31.5 -> 315
         return str.replace('.', '');
     }
-    // 字母码直接返回
+    // 字母码直接返回（如 W4, M8）
     return str;
 }
 
