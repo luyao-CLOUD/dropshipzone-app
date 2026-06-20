@@ -1501,15 +1501,24 @@ function colorAbbr(color) {
 
 function padSizeForSku(size) {
     var str = String(size);
-    // 鞋类尺码格式: "W4(AU4/EU35)" → 提取括号前的内容 "W4"
+    // 鞋类尺码格式: "W4(AU4/EU35)" → 提取 "W4" + "EU35" → "W4-EU35"
     var parenIdx = str.indexOf('(');
-    if (parenIdx > 0) str = str.substring(0, parenIdx);
+    if (parenIdx > 0) {
+        var prefix = str.substring(0, parenIdx);  // e.g. "W4"
+        var paren = str.substring(parenIdx);        // e.g. "(AU4/EU35)"
+        // 提取 EU 码
+        var euMatch = paren.match(/EU(\d+)/);
+        if (euMatch) {
+            return prefix + '-EU' + euMatch[1];
+        }
+        return prefix;
+    }
     // 数字型码数补零
     if (/^\d+$/.test(str) || /^\d+\.\d$/.test(str)) {
         if (str.length <= 2 && !str.includes('.')) return str.length < 2 ? '0' + str : str;
         return str.replace('.', '');
     }
-    // 字母码直接返回（如 W4, M8）
+    // 字母码直接返回
     return str;
 }
 
