@@ -2002,9 +2002,9 @@ function rebuildVariantsFromSelection() {
             
             skuVariants.push({
                 sku: sku,
-                skuTitle: productName ? (productName + ' - ' + colorObj.colorEn + ' - Size ' + size) : '',
+                skuTitle: productName ? (productName + ' - ' + getColorForExport(colorObj.colorEn) + ' - Size ' + size) : '',
                 parentSku: parentSku,
-                colour: colorObj.colorEn,
+                colour: getColorForExport(colorObj.colorEn),
                 size: size,
                 price: defaultPrice,
                 stock: defaultStock,
@@ -2483,6 +2483,12 @@ function exportToExcel() {
     var subcat = document.getElementById('sub-subcategory').value;
     var images = uploadedImages.map(function(img){return img.url;}).join(',');
     var parentTitle = document.getElementById('product-name-en').value;
+    /* V1.4-fix: 自动将产品名称中的中文颜色替换为英文 */
+    parentTitle = parentTitle.replace(/银色/g, 'Silver').replace(/金色/g, 'Gold').replace(/红色/g, 'Red').replace(/蓝色/g, 'Blue')
+        .replace(/黑色/g, 'Black').replace(/白色/g, 'White').replace(/绿色/g, 'Green').replace(/黄色/g, 'Yellow')
+        .replace(/紫色/g, 'Purple').replace(/橙色/g, 'Orange').replace(/粉色/g, 'Pink').replace(/玫红/g, 'Rose')
+        .replace(/棕色/g, 'Brown').replace(/灰色/g, 'Gray').replace(/米色/g, 'Beige').replace(/卡其色/g, 'Khaki')
+        .replace(/海军蓝/g, 'Navy').replace(/酒红色/g, 'Burgundy').replace(/藏青/g, 'Navy').replace(/咖啡色/g, 'Coffee');
 
     // 如果变体有独立的体积/重量，优先使用；否则用全局值
     function getVal(v, field, fallback) { return v[field] || fallback; }
@@ -2504,7 +2510,7 @@ function exportToExcel() {
         row[9] = desc;
         row[10] = status;
         row[11] = brand;
-        row[12] = v.colour;
+        row[12] = getColorForExport(v.colour);
         row[13] = weight || '';
         row[14] = getVal(v,'volL',plength);
         row[15] = getVal(v,'volW',pwidth);
