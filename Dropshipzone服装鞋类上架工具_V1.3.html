@@ -486,22 +486,22 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <div class="result-box">
 <h4>📝 ProductTitle (EN)</h4>
 <div id="ai-title-en" style="min-height:30px;"></div>
-<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('product-name-en','ai-title-en')">Apply到Product名称(EN)</button></div>
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('product-name-en','ai-title-en')">Apply to Product Name (EN)</button></div>
 </div>
 <div class="result-box">
 <h4>📝 ProductTitle (CN)</h4>
-<div id="ai-title-zh" style="min-height:30px;"></div>
+<div id="ai-title-zh" style="min-height:30px;display:none;"></div>
 <div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('product-name-cn','ai-title-zh')">Apply到Product名称(CN)</button></div>
 </div>
 <div class="result-box">
 <h4>📄 ProductDescription (EN HTML)</h4>
 <div id="ai-description-en" style="min-height:50px;white-space:pre-wrap;"></div>
-<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('html-description','ai-description-en');updateDescriptionPreview()">Apply到Description</button></div>
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('html-description','ai-description-en');updateDescriptionPreview()">Apply to Description</button></div>
 </div>
 <div class="result-box">
 <h4>✨ Selling Points (EN)</h4>
 <div id="ai-bullets-en" style="min-height:50px;white-space:pre-wrap;"></div>
-<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="appendBulletsToDescription()">追加到Description</button></div>
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="appendBulletsToDescription()">Append to Description</button></div>
 </div>
 <div class="result-box">
 <h4>🔑 SEOKeywords (EN)</h4>
@@ -510,12 +510,12 @@ body.dark-mode .section-title { color: #e0e0e0; }
 </div>
 <div class="result-box">
 <h4>🔑 SEOKeywords (CN)</h4>
-<div id="ai-keywords-zh" style="min-height:30px;"></div>
+<div id="ai-keywords-zh" style="min-height:30px;display:none;"></div>
 <div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('seo-keywords-cn','ai-keywords-zh')">Apply到SEOKeywords(CN)</button></div>
 </div>
 <div style="margin-top:15px;">
 <button class="btn btn-success" onclick="applyAllAIResults()">✅ Apply All Results</button>
-<span style="margin-left:10px;font-size:13px;color:#888;">Product Name(EN) auto-generated from SEO keywords</span>
+<span style="margin-left:10px;font-size:13px;color:#888;">Product Name (EN) auto-generated from SEO keywords</span>
 </div>
 </div>
 </div>
@@ -529,7 +529,7 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <label>SEO Keywords (EN) — comma separated</label>
 <textarea class="form-control" id="seo-keywords-en" rows="3" placeholder="floral dress, summer dress, cotton dress, casual wear" oninput="debouncedSyncProductName()"></textarea>
 </div>
-<div class="form-group">
+<div class="form-group" style="display:none;">
 <label>SEO Keywords (CN) — comma separated</label>
 <textarea class="form-control" id="seo-keywords-cn" rows="3" placeholder="floral dress, summer dress, cotton dress"></textarea>
 </div>
@@ -539,7 +539,7 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <input type="text" class="form-control" id="meta-title-en" placeholder="SEO Meta Title">
 </div>
 <div class="form-group">
-<label>Meta Title (CN)</label>
+<label style="display:none;">Meta Title (CN)</label>
 <input type="text" class="form-control" id="meta-title-cn" placeholder="SEO MetaTitle">
 </div>
 </div>
@@ -548,7 +548,7 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <textarea class="form-control" id="meta-desc-en" rows="3" placeholder="SEO Meta Description"></textarea>
 </div>
 <div class="form-group">
-<label>Meta Description (CN)</label>
+<label style="display:none;">Meta Description (CN)</label>
 <textarea class="form-control" id="meta-desc-cn" rows="3" placeholder="SEO MetaDescription"></textarea>
 </div>
 <div style="margin-top:15px;">
@@ -569,7 +569,7 @@ body.dark-mode .section-title { color: #e0e0e0; }
 <label>Product Name (EN) <span style="color:#dc3545;">*</span></label>
 <input type="text" class="form-control" id="product-name-en" placeholder="Summer Floral Dress" oninput="syncParentSkuTitle()">
 </div>
-<div class="form-group">
+<div class="form-group" style="display:none;">
 <label>Product Name (CN)</label>
 <input type="text" class="form-control" id="product-name-cn" placeholder="Summer floral dress">
 </div>
@@ -672,12 +672,12 @@ Wider size range improves conversion rate.
 <!-- Size type switch -->
 <div class="size-type-tabs" id="size-type-tabs">
 <div class="size-type-tab active" data-type="normal" onclick="switchSizeType('normal')">Normal</div>
-<div class="size-type-tab" data-type="dual" onclick="switchSizeType('dual')">Normal-双码</div>
+<div class="size-type-tab" data-type="dual" onclick="switchSizeType('dual')">Normal-Dual</div>
 </div>
-<!-- 全选 -->
+<!-- Select all -->
 <div class="select-all-row">
 <input type="checkbox" id="select-all-sizes" onchange="toggleSelectAllSizes(this.checked)">
-<label for="select-all-sizes">全选</label>
+<label for="select-all-sizes">Select All</label>
 </div>
 <!-- Size Grid -->
 <div class="size-check-grid" id="size-check-grid">
@@ -1201,7 +1201,7 @@ function renderColorInputList() {
 
 function addColorInputRow() {
     // 默认Colour建议
-    var suggestions = ['黑色','白色','灰色','红色','蓝色','粉色','绿色','紫色','橙色','棕色','米色','酒红','藏青','卡其','驼色','深灰'];
+    var suggestions = ['Black','White','Grey','Red','Blue','Pink','Green','Purple','Orange','Brown','Beige','Burgundy','Navy','Khaki','Camel','Charcoal'];
     var usedNames = colorInputs.map(function(c){return c.colorEn.toLowerCase();});
     var nextName = '';
     for (var i = 0; i < suggestions.length; i++) {
@@ -1210,7 +1210,7 @@ function addColorInputRow() {
             break;
         }
     }
-    if (!nextName) nextName = '自定义Colour' + (colorInputs.length + 1);
+    if (!nextName) nextName = 'Custom Colour' + (colorInputs.length + 1);
     
     colorInputs.push({ colorEn: nextName, colorZh: nextName });
     renderColorInputList();
@@ -1226,6 +1226,11 @@ function removeColorInput(idx) {
 function updateColorName(idx, newName) {
     newName = newName.trim();
     if (!newName) return;
+
+    // 中文颜色名 -> 英文映射
+    var COLOR_EN_MAP = {'黑色':'Black','白色':'White','灰色':'Grey','红色':'Red','蓝色':'Blue','粉色':'Pink','绿色':'Green','紫色':'Purple','橙色':'Orange','棕色':'Brown','米色':'Beige','酒红':'Burgundy','藏青':'Navy','卡其':'Khaki','驼色':'Camel','深灰':'Charcoal','浅灰':'Light Grey','玫红':'Rose','金色':'Gold','银色':'Silver','黄色':'Yellow','彩虹':'Rainbow','咖啡色':'Coffee','巧克力色':'Chocolate'};
+    if (COLOR_EN_MAP[newName]) newName = COLOR_EN_MAP[newName];
+
     colorInputs[idx].colorEn = newName;
     colorInputs[idx].colorZh = newName;
     rebuildVariantsFromSelection();
@@ -1728,7 +1733,7 @@ async function generateAICopy() {
     var keyword=document.getElementById('ai-keyword').value.trim();if(!keyword){showNotification('Please InputProductKeywords!','error');return;}
     var provider=document.getElementById('ai-provider').value;var btn=document.getElementById('ai-generate-btn');btn.textContent='⏳ Generate中...';btn.disabled=true;
     var cat=document.getElementById('product-category').value;var catLabel=CATEGORY_LABELS[cat];
-    var prompt='You are an e-commerce copywriter for the Australian market. Write product listing content for a '+catLabel+' product: '+keyword+'.\n\nReturn JSON format:\n{"title_en":"product title in English","title_zh":"ProductTitle中文","description_en":"<p>HTML description 300+ words</p>","bullets_en":"- bullet1\\n- bullet2\\n- bullet3\\n- bullet4\\n- bullet5","keywords_en":"keyword1, keyword2, keyword3, ...","keywords_zh":"Keywords1, Keywords2, ..."}';
+    var prompt='You are an e-commerce copywriter for the Australian market. Write product listing content in English only for a '+catLabel+' product: '+keyword+'.\n\nReturn JSON format (English only, no Chinese characters):\n{"title_en":"product title in English, max 80 chars","description_en":"<p>HTML description 300+ words, mention Australian sizing and fit</p>","bullets_en":"- bullet 1\n- bullet 2\n- bullet 3\n- bullet 4\n- bullet 5","keywords_en":"keyword1, keyword2, keyword3, ..."}';
     try{var result;
         if(provider==='deepseek'){var apiKey=document.getElementById('deepseek-key').value.trim();if(!apiKey){showNotification('Please 填写DeepSeek API Key!','error');return;}
             var resp=await fetch('https://api.deepseek.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],temperature:0.7,max_tokens:2000})});
@@ -1738,9 +1743,9 @@ async function generateAICopy() {
             var data2=await resp2.json();result=data2.choices[0].message.content;
         }
         var jsonMatch=result.match(/\{[\s\S]*\}/);if(jsonMatch){var parsed=JSON.parse(jsonMatch[0]);
-            document.getElementById('ai-title-en').textContent=parsed.title_en||'';document.getElementById('ai-title-zh').textContent=parsed.title_zh||'';
+            document.getElementById('ai-title-en').textContent=parsed.title_en||'';document.getElementById('ai-title-zh').textContent='';
             document.getElementById('ai-description-en').textContent=parsed.description_en||'';document.getElementById('ai-bullets-en').textContent=parsed.bullets_en||'';
-            document.getElementById('ai-keywords-en').textContent=parsed.keywords_en||'';document.getElementById('ai-keywords-zh').textContent=parsed.keywords_zh||'';
+            document.getElementById('ai-keywords-en').textContent=parsed.keywords_en||'';document.getElementById('ai-keywords-zh').textContent='';
             document.getElementById('ai-results').style.display='block';showNotification('AI CopyGenerateSuccess!','success');
         }else{showNotification('AI返回格式异常, Please 重试','error');}
     }catch(err){showNotification('Generate失败: '+err.message,'error');}
@@ -1748,9 +1753,9 @@ async function generateAICopy() {
 }
 
 function applyToField(fieldId,sourceId){var text=document.getElementById(sourceId).textContent;var field=document.getElementById(fieldId);if(field){field.value=text;showNotification('Apply到 '+fieldId,'success');}}
-function appendBulletsToDescription(){var bullets=document.getElementById('ai-bullets-en').textContent;var desc=document.getElementById('html-description').value;document.getElementById('html-description').value=desc+'\n<h3>Key Features</h3>\n'+bullets.replace(/\n/g,'<br>\n');updateDescriptionPreview();showNotification('追加到Description','success');}
+function appendBulletsToDescription(){var bullets=document.getElementById('ai-bullets-en').textContent;var desc=document.getElementById('html-description').value;document.getElementById('html-description').value=desc+'\n<h3>Key Features</h3>\n'+bullets.replace(/\n/g,'<br>\n');updateDescriptionPreview();showNotification('Append to Description','success');}
 function applyAllAIResults(){
-    var pairs=[['product-name-cn','ai-title-zh'],['html-description','ai-description-en'],['seo-keywords-en','ai-keywords-en'],['seo-keywords-cn','ai-keywords-zh']];
+    var pairs=[['html-description','ai-description-en'],['seo-keywords-en','ai-keywords-en']];
     pairs.forEach(function(p){var text=document.getElementById(p[1]).textContent;var field=document.getElementById(p[0]);if(field)field.value=text;});
     applySEOKeywordsToProductName();updateDescriptionPreview();showNotification('allAI结果Apply!Product名称(EN)从SEOKeywordsGenerate','success');
 }
