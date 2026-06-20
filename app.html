@@ -3599,13 +3599,18 @@ function filterBatchProducts(query) {
             if (btn) btn.disabled = true;
             if (progressContainer) progressContainer.style.display = "block";
             uploadedImageUrls = [];
-            for (let i = 0; i < uploadedImages.length; i++) {
-                const img = uploadedImages[i];
-                statusEl.textContent = "正在上传 " + (i + 1) + "/" + uploadedImages.length + ": " + img.name + "...";
-                progressEl.style.width = ((i / uploadedImages.length) * 100) + "%";
+            let successCount = 0;
+            let failCount = 0;
+            const total = uploadedImages.length;
+            const CONCURRENCY = 3; // 同时上传3张，速度提升3倍
+            /* 上传单张图片（含压缩） */
+            async function uploadOne(img, index) {
+                statusEl.textContent = "压缩并上传 " + (index + 1) + "/" + total + ": " + img.name + "...";
                 try {
+                    /* 压缩图片：最长边1200px，质量80% */
+                    const compressedDataURL = await compressImageData(img.data, 1200, 0.8);
+                    const blob = dataURLtoBlob(compressedDataURL);
                     const formData = new FormData();
-                    const blob = dataURLtoBlob(img.data);
                     formData.append("file", blob, img.name);
                     formData.append("upload_preset", preset);
                     if (folder) formData.append("folder", folder);
@@ -3613,12 +3618,28 @@ function filterBatchProducts(query) {
                     const data = await response.json();
                     if (!response.ok) throw new Error((data.error && data.error.message) || ("HTTP " + response.status));
                     uploadedImageUrls.push(data.secure_url);
+                    successCount++;
                     showNotification(img.name + " 上传成功！", "success");
-                } catch (err) { showNotification(img.name + " 上传失败: " + err.message, "error"); uploadedImageUrls.push("[上传失败] " + img.name + " - " + err.message); }
+                } catch (err) {
+                    showNotification(img.name + " 上传失败: " + err.message, "error");
+                    uploadedImageUrls.push("[上传失败] " + img.name + " - " + err.message);
+                    failCount++;
+                }
+                /* 更新进度条 */
+                const done = successCount + failCount;
+                progressEl.style.width = ((done / total) * 100) + "%";
+                statusEl.textContent = "进度: " + done + "/" + total + " (成功:" + successCount + " 失败:" + failCount + ")";
+            }
+            /* 分批并发上传：每批3张 */
+            for (let i = 0; i < total; i += CONCURRENCY) {
+                const batch = [];
+                for (let j = i; j < Math.min(i + CONCURRENCY, total); j++) {
+                    batch.push(uploadOne(uploadedImages[j], j));
+                }
+                await Promise.all(batch);
             }
             progressEl.style.width = "100%";
-            const successCount = uploadedImageUrls.filter(u => !u.includes("上传失败")).length;
-            statusEl.innerHTML = "上传完成！成功 <strong>" + successCount + "/" + uploadedImages.length + "</strong>";
+            statusEl.innerHTML = "上传完成！成功 <strong>" + successCount + "/" + total + "</strong>";
             if (btn) btn.disabled = false;
             updateStep(4); displayUrlResults();
             const validUrls = uploadedImageUrls.filter(u => !u.includes("上传失败"));

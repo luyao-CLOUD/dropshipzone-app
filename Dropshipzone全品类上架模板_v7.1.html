@@ -940,6 +940,8 @@ input, select, textarea {
 
 </head>
 <body>
+<div class="titlebar-custom" id="custom-titlebar"><div class="titlebar-buttons"><button class="titlebar-btn btn-min" id="tb-min" title="最小化"><span class="btn-symbol">−</span></button><button class="titlebar-btn btn-max" id="tb-max" title="最大化"><span class="btn-symbol">□</span></button><button class="titlebar-btn btn-close" id="tb-close" title="关闭"><span class="btn-symbol">✕</span></button></div></div>
+
 <div id="brightness-filter" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;background:transparent;opacity:1;transition:background 0.3s;"></div>
     <!-- 图片灯箱预览 -->
     <div class="img-lightbox" id="img-lightbox" onclick="closeLightbox(event)">
@@ -3597,13 +3599,18 @@ function filterBatchProducts(query) {
             if (btn) btn.disabled = true;
             if (progressContainer) progressContainer.style.display = "block";
             uploadedImageUrls = [];
-            for (let i = 0; i < uploadedImages.length; i++) {
-                const img = uploadedImages[i];
-                statusEl.textContent = "正在上传 " + (i + 1) + "/" + uploadedImages.length + ": " + img.name + "...";
-                progressEl.style.width = ((i / uploadedImages.length) * 100) + "%";
+            let successCount = 0;
+            let failCount = 0;
+            const total = uploadedImages.length;
+            const CONCURRENCY = 3; // 同时上传3张，速度提升3倍
+            /* 上传单张图片（含压缩） */
+            async function uploadOne(img, index) {
+                statusEl.textContent = "压缩并上传 " + (index + 1) + "/" + total + ": " + img.name + "...";
                 try {
+                    /* 压缩图片：最长边1200px，质量80% */
+                    const compressedDataURL = await compressImageData(img.data, 1200, 0.8);
+                    const blob = dataURLtoBlob(compressedDataURL);
                     const formData = new FormData();
-                    const blob = dataURLtoBlob(img.data);
                     formData.append("file", blob, img.name);
                     formData.append("upload_preset", preset);
                     if (folder) formData.append("folder", folder);
@@ -3611,12 +3618,28 @@ function filterBatchProducts(query) {
                     const data = await response.json();
                     if (!response.ok) throw new Error((data.error && data.error.message) || ("HTTP " + response.status));
                     uploadedImageUrls.push(data.secure_url);
+                    successCount++;
                     showNotification(img.name + " 上传成功！", "success");
-                } catch (err) { showNotification(img.name + " 上传失败: " + err.message, "error"); uploadedImageUrls.push("[上传失败] " + img.name + " - " + err.message); }
+                } catch (err) {
+                    showNotification(img.name + " 上传失败: " + err.message, "error");
+                    uploadedImageUrls.push("[上传失败] " + img.name + " - " + err.message);
+                    failCount++;
+                }
+                /* 更新进度条 */
+                const done = successCount + failCount;
+                progressEl.style.width = ((done / total) * 100) + "%";
+                statusEl.textContent = "进度: " + done + "/" + total + " (成功:" + successCount + " 失败:" + failCount + ")";
+            }
+            /* 分批并发上传：每批3张 */
+            for (let i = 0; i < total; i += CONCURRENCY) {
+                const batch = [];
+                for (let j = i; j < Math.min(i + CONCURRENCY, total); j++) {
+                    batch.push(uploadOne(uploadedImages[j], j));
+                }
+                await Promise.all(batch);
             }
             progressEl.style.width = "100%";
-            const successCount = uploadedImageUrls.filter(u => !u.includes("上传失败")).length;
-            statusEl.innerHTML = "上传完成！成功 <strong>" + successCount + "/" + uploadedImages.length + "</strong>";
+            statusEl.innerHTML = "上传完成！成功 <strong>" + successCount + "/" + total + "</strong>";
             if (btn) btn.disabled = false;
             updateStep(4); displayUrlResults();
             const validUrls = uploadedImageUrls.filter(u => !u.includes("上传失败"));
@@ -6839,6 +6862,124 @@ input:focus, select:focus, textarea:focus {
     padding-bottom: 16px !important;
 }
 
+
+/* ========== 自定义标题栏（无框窗口） ========== */
+
+/* ========== 自定义标题栏（无框窗口）========== */
+
+/* ========== 自定义标题栏（无框窗口）========== */
+
+/* 自定义标题栏 - macOS风格玻璃透明 */
+.titlebar-custom {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 40px;
+    background: rgba(246, 246, 246, 0.72) !important;
+    backdrop-filter: blur(48px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(48px) saturate(180%) !important;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    padding: 0 14px;
+    border-bottom: 0.5px solid rgba(0,0,0,0.1) !important;
+    -webkit-app-region: drag;
+    user-select: none;
+}
+/* 标题栏右侧按钮容器（红色放最右边） */
+.titlebar-buttons {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    -webkit-app-region: no-drag;
+}
+/* macOS风格三色圆点按钮 - 小圆形 */
+.titlebar-btn {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 0.5px solid rgba(0,0,0,0.15);
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.15s ease;
+    -webkit-app-region: no-drag;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/* 按钮内符号：默认隐藏，hover显示 */
+.btn-symbol {
+    display: none;
+    font-size: 10px;
+    font-weight: 700;
+    color: rgba(0,0,0,0.55);
+    line-height: 1;
+    pointer-events: none;
+}
+.titlebar-btn:hover .btn-symbol {
+    display: block;
+}
+/* 关闭按钮 - macOS红色（最右边） */
+.titlebar-btn.btn-close {
+    background: #FF5F57;
+    border-color: #E04840;
+}
+/* 最小化按钮 - macOS黄色 */
+.titlebar-btn.btn-min {
+    background: #FFBD2F;
+    border-color: #E0A818;
+}
+/* 最大化按钮 - macOS绿色 */
+.titlebar-btn.btn-max {
+    background: #28C840;
+    border-color: #1EB838;
+}
+/* Hover: 符号变白 + 背景加深 */
+.titlebar-btn.btn-close:hover {
+    background: #FF3B30;
+}
+.titlebar-btn.btn-close:hover .btn-symbol {
+    color: #fff;
+    display: block;
+}
+.titlebar-btn.btn-min:hover {
+    background: #FFA500;
+}
+.titlebar-btn.btn-min:hover .btn-symbol {
+    color: #fff;
+    display: block;
+}
+.titlebar-btn.btn-max:hover {
+    background: #28A745;
+}
+.titlebar-btn.btn-max:hover .btn-symbol {
+    color: #fff;
+    display: block;
+}
+/* 最大化状态：符号切换为 ↙ */
+.titlebar-btn.btn-max.is-max .btn-symbol {
+    /* JS会切换textContent */
+}
+/* 窗口非激活状态 - 按钮变灰 */
+.window-inactive .titlebar-btn {
+    background: #D4D4D4 !important;
+    border-color: rgba(0,0,0,0.1) !important;
+}
+.window-inactive .titlebar-btn .btn-symbol {
+    display: none !important;
+}
+
+/* Header 下移给标题栏腾空间 */
+.header {
+.header {
+    padding-top: 42px !important;
+}
+/* 侧边栏也下移 */
+.sidebar-nav {
+    padding-top: 46px !important;
+}
+
 </style>
 
 
@@ -6921,5 +7062,64 @@ document.addEventListener('keydown', function(evt) {
 
 </script>
 
+
+<script>
+
+// ===== 自定义标题栏按钮事件（macOS风格）======
+(function() {
+    var minBtn = document.getElementById('tb-min');
+    var maxBtn = document.getElementById('tb-max');
+    var closeBtn = document.getElementById('tb-close');
+
+    if (closeBtn && typeof require !== 'undefined') {
+        closeBtn.onclick = function() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-close');
+        };
+    }
+    if (minBtn && typeof require !== 'undefined') {
+        minBtn.onclick = function() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-minimize');
+        };
+    }
+    if (maxBtn && typeof require !== 'undefined') {
+        maxBtn.onclick = function() {
+            var ipc = require('electron').ipcRenderer;
+            ipc.send('window-maximize');
+        };
+    }
+
+    // 监听最大化状态变化，切换按钮样式
+    if (typeof require !== 'undefined') {
+        var ipcRenderer = require('electron').ipcRenderer;
+        ipcRenderer.on('window-max-changed', function(event, isMax) {
+            var btn = document.getElementById('tb-max');
+            if (btn) {
+                if (isMax) {
+                    btn.classList.add('is-max');
+                } else {
+                    btn.classList.remove('is-max');
+                }
+                btn.setAttribute('title', isMax ? '还原' : '最大化');
+                // 同步更新符号span
+                var sym = btn.querySelector('.btn-symbol');
+                if (sym) sym.textContent = isMax ? '↙' : '□';
+            }
+        });
+
+        // 窗口激活/失活状态
+        ipcRenderer.on('window-active', function() {
+            var bar = document.getElementById('custom-titlebar');
+            if (bar) bar.classList.remove('window-inactive');
+        });
+        ipcRenderer.on('window-inactive', function() {
+            var bar = document.getElementById('custom-titlebar');
+            if (bar) bar.classList.add('window-inactive');
+        });
+    }
+})();
+
+</script>
 </body>
 </html>

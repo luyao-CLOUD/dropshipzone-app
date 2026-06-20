@@ -2234,11 +2234,15 @@ async function handleFileUpload(files) {
     }
 
     var totalUploaded = uploadedImages.length;
-
-    for (var i = 0; i < imageFiles.length; i++) {
-        statusEl.textContent = '上传图片 ' + (i+1) + '/' + imageFiles.length + ': ' + imageFiles[i].name;
-        progressEl.style.width = Math.round((i / files.length) * 100) + '%';
-        await uploadSingleImage(imageFiles[i], cloud, preset, folder, statusEl);
+    const CONCURRENCY = 3; // 同时上传3张，速度提升3倍
+    for (var i = 0; i < imageFiles.length; i += CONCURRENCY) {
+        const batch = [];
+        for (var j = i; j < Math.min(i + CONCURRENCY, imageFiles.length); j++) {
+            batch.push(uploadSingleImage(imageFiles[j], cloud, preset, folder, statusEl));
+        }
+        statusEl.textContent = '压缩并上传 ' + (i+1) + '-' + Math.min(i+CONCURRENCY, imageFiles.length) + '/' + imageFiles.length;
+        progressEl.style.width = Math.round((i / imageFiles.length) * 100) + '%';
+        await Promise.all(batch);
     }
 
     for (var z = 0; z < zipFiles.length; z++) {
@@ -2253,8 +2257,25 @@ async function handleFileUpload(files) {
 
 async function uploadSingleImage(file, cloud, preset, folder, statusEl) {
     try {
+        /* 压缩图片：最长边1200px，质量80% */
+        const compressedBlob = await new Promise((resolve, reject) => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let w = img.width, h = img.height;
+                const maxWidth = 1200;
+                if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+                canvas.width = w; canvas.height = h;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, w, h);
+                canvas.toBlob(function(blob) { resolve(blob); }, 'image/jpeg', 0.8);
+            };
+            img.onerror = reject;
+            img.src = url;
+        });
         var formData = new FormData();
-        formData.append('file', file);
+        formData.append('file', compressedBlob, file.name);
         formData.append('upload_preset', preset);
         if (folder) formData.append('folder', folder);
         var response = await fetch('https://api.cloudinary.com/v1_1/' + cloud + '/image/upload', { method:'POST', body:formData });
