@@ -761,8 +761,8 @@
             s.onerror = function() { console.warn('[DSZ] Both SheetJS CDNs failed. Will use built-in XLS writer.'); };
             document.head.appendChild(s);
         }
-        // 暴露给外部script使用
-            window.showNotification = showNotification;
+        // showNotification 将在后续 script 块中定义后暴露到 window
+            // window.showNotification = showNotification; // moved to after definition
             window.load = load;
             window.save = save;
             window.CFG = CFG;
@@ -1046,6 +1046,7 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
+    <button id="translate-toggle-btn" onclick="var tr=document.getElementById('dsz-translator');if(tr){tr.style.display=tr.style.display!=='none'?'none':'block';this.style.background=tr.style.display!=='none'?'rgba(0,122,255,0.85)':'rgba(255,255,255,0.9)';}}" title="显示/隐藏翻译框" style="position:fixed;bottom:74px;right:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
 
     <div class="container">
     <div class="header">
@@ -1076,15 +1077,6 @@ input, select, textarea {
             </div>
             <!-- 分隔线 -->
             <div style="width:1px;height:24px;background:rgba(0,0,0,0.08);"></div>
-            <!-- 翻译 -->
-            <button onclick="document.getElementById('dsz-translator')&&(document.getElementById('dsz-translator').style.display!=='none'?document.getElementById('dsz-translator').style.display='none':document.getElementById('dsz-translator').style.display='block')"
-                    title="显示/隐藏翻译框"
-                    style="width:36px;height:36px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;
-                           background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);cursor:pointer;
-                           font-size:16px;display:flex;align-items:center;justify-content:center;
-                           transition:all 0.2s;"
-                    onmouseover="this.style.background='rgba(0,122,255,0.08)';this.style.borderColor='rgba(0,122,255,0.2)'"
-                    onmouseout="this.style.background='rgba(255,255,255,0.85)';this.style.borderColor='rgba(0,0,0,0.08)'">&#127760;</button>
         </div>
         </div>
 
@@ -2473,10 +2465,10 @@ function updateStep(step) {
             const featureLines = features.split("\n").filter(line => line.trim() !== "");
             const productName = document.getElementById("product-name-en").value || "Premium Product";
             const brand = document.getElementById("brand").value || "Premium Brand";
-            const weight = document.getElementById("weight").value || "N/A";
-            const dimL = document.getElementById("length").value || "N/A";
-            const dimW = document.getElementById("width").value || "N/A";
-            const dimH = document.getElementById("height").value || "N/A";
+            const weight = (document.getElementById("weight") || {}).value || "N/A";
+            const dimL = (document.getElementById("length") || {}).value || "N/A";
+            const dimW = (document.getElementById("width") || {}).value || "N/A";
+            const dimH = (document.getElementById("height") || {}).value || "N/A";
             let html = '<h2>Product Features</h2>\n<ul>\n';
             featureLines.forEach(feature => { html += '    <li><strong>' + feature + '</strong></li>\n'; });
             html += '</ul>\n\n<h2>Product Description</h2>\n<p>Introducing our premium ' + productName.toLowerCase() + '...</p>\n\n<h2>Key Benefits</h2>\n<ol>\n    <li><strong>High Quality:</strong> Built to last with premium materials</li>\n    <li><strong>Great Value:</strong> Competitive pricing without compromising quality</li>\n    <li><strong>Fast Shipping:</strong> Quick delivery across Australia</li>\n</ol>\n\n<h2>Specifications</h2>\n<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">\n    <tr style="background-color: #f8f9fa;"><th style="text-align: left; padding: 10px;">Feature</th><th style="text-align: left; padding: 10px;">Details</th></tr>\n    <tr><td style="padding: 10px;"><strong>Brand</strong></td><td style="padding: 10px;">' + brand + '</td></tr>\n    <tr style="background-color: #f8f9fa;"><td style="padding: 10px;"><strong>Weight</strong></td><td style="padding: 10px;">' + weight + ' kg</td></tr>\n    <tr><td style="padding: 10px;"><strong>Dimensions</strong></td><td style="padding: 10px;">' + dimL + ' x ' + dimW + ' x ' + dimH + ' cm</td></tr>\n</table>\n\n<h2>Package Includes</h2>\n<ul>\n    <li>1 x ' + productName + '</li>\n    <li>1 x User Manual</li>\n</ul>';
@@ -2489,9 +2481,9 @@ function updateStep(step) {
         
         var _debouncedCalcCBM = debounce(autoCalcBasicCBM, 300);
 function autoCalcBasicCBM() {
-            var l = parseFloat(document.getElementById("length").value) || 0;
-            var w = parseFloat(document.getElementById("width").value) || 0;
-            var h = parseFloat(document.getElementById("height").value) || 0;
+            var l = parseFloat((document.getElementById("length") || {}).value) || 0;
+            var w = parseFloat((document.getElementById("width") || {}).value) || 0;
+            var h = parseFloat((document.getElementById("height") || {}).value) || 0;
             var cbmEl = document.getElementById("basic-cbm");
             if (l > 0 && w > 0 && h > 0) {
                 var cbm = (l * w * h / 1000000).toFixed(6);
@@ -2737,40 +2729,42 @@ function autoCalcBasicCBM() {
 
         // ==================== 完整模板 ====================
         function updateCompleteTemplate() {
-            document.getElementById("result-name-en").textContent = document.getElementById("product-name-en").value || "-";
-            document.getElementById("result-name-cn").textContent = document.getElementById("product-name-cn").value || "-";
-            document.getElementById("result-sku").textContent = document.getElementById("sku").value || "-";
-            const eanVal = document.getElementById("ean").value || "(N/A)";
+            var _safe = function(id) { var el = document.getElementById(id); return el ? (el.value || "") : ""; };
+            document.getElementById("result-name-en").textContent = _safe("product-name-en") || "-";
+            document.getElementById("result-name-cn").textContent = _safe("product-name-cn") || "-";
+            document.getElementById("result-sku").textContent = _safe("sku") || "-";
+            const eanVal = _safe("ean") || "(N/A)";
             document.getElementById("result-ean").textContent = eanVal;
-            document.getElementById("result-brand").textContent = document.getElementById("brand").value || "-";
-            document.getElementById("result-category").textContent = document.getElementById("category").value || "-";
+            document.getElementById("result-brand").textContent = _safe("brand") || "-";
+            document.getElementById("result-category").textContent = _safe("category") || "-";
             const catPath = selectedCategory.level1 ? (selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3) : "-";
             document.getElementById("result-cat-path").textContent = catPath;
             document.getElementById("result-cat-id").textContent = selectedCategory.id || "-";
             document.getElementById("result-quantity").textContent = (function(){try{return _ttMatrixData.length > 0 ? (_ttMatrixData.reduce(function(sum,item){return sum + (parseInt(item.stock)||0);},0) || "-") : "-";}catch(e){return "-";}})();
-            document.getElementById("result-weight").textContent = document.getElementById("weight").value || "-";
-            document.getElementById("result-dimensions").textContent = (document.getElementById("length").value || "-") + "\u00d7" + (document.getElementById("width").value || "-") + "\u00d7" + (document.getElementById("height").value || "-");
+            document.getElementById("result-weight").textContent = _safe("weight") || "-";
+            document.getElementById("result-dimensions").textContent = (_safe("length") || "-") + "\u00d7" + (_safe("width") || "-") + "\u00d7" + (_safe("height") || "-");
             // CBM auto-calc for complete template
-            var cL = parseFloat(document.getElementById("length").value) || 0;
-            var cW = parseFloat(document.getElementById("width").value) || 0;
-            var cH = parseFloat(document.getElementById("height").value) || 0;
+            var cL = parseFloat(_safe("length")) || 0;
+            var cW = parseFloat(_safe("width")) || 0;
+            var cH = parseFloat(_safe("height")) || 0;
             document.getElementById("result-cbm").textContent = (cL > 0 && cW > 0 && cH > 0) ? (cL * cW * cH / 1000000).toFixed(6) : "-";
-            document.getElementById("result-price").textContent = document.getElementById("selling-price").value || "-";
-            document.getElementById("result-colors").textContent = document.getElementById("selected-colors").value || "-";
-            document.getElementById("result-sizes").textContent = document.getElementById("selected-sizes").value || "-";
+            document.getElementById("result-price").textContent = _safe("selling-price") || "-";
+            document.getElementById("result-colors").textContent = _safe("selected-colors") || "-";
+            document.getElementById("result-sizes").textContent = _safe("selected-sizes") || "-";
             const mainImg = uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "-";
             document.getElementById("result-main-image").textContent = mainImg;
-            document.getElementById("result-html-description").innerHTML = document.getElementById("html-description").value || "<p>HTML description not generated yet.</p>";
+            var _htmlDescEl = document.getElementById("html-description");
+            document.getElementById("result-html-description").innerHTML = _htmlDescEl ? (_htmlDescEl.value || "<p>HTML description not generated yet.</p>") : "<p>HTML description not generated yet.</p>";
             let imagesList = uploadedImageUrls.length > 0 ? "<ul>" : "<p>No images uploaded</p>";
             uploadedImageUrls.forEach(url => { imagesList += "<li>" + url + "</li>"; });
             if (uploadedImageUrls.length > 0) imagesList += "</ul>";
             document.getElementById("result-all-images").innerHTML = imagesList;
-            document.getElementById("result-meta-title-en").textContent = document.getElementById("meta-title-en").value || "-";
-            document.getElementById("result-meta-title-cn").textContent = document.getElementById("meta-title-cn").value || "-";
-            document.getElementById("result-meta-desc-en").textContent = document.getElementById("meta-description-en").value || "-";
-            document.getElementById("result-meta-desc-cn").textContent = document.getElementById("meta-description-cn").value || "-";
-            document.getElementById("result-seo-keywords-en").textContent = document.getElementById("seo-keywords-en").value || "-";
-            document.getElementById("result-seo-keywords-cn").textContent = document.getElementById("seo-keywords-cn").value || "-";
+            document.getElementById("result-meta-title-en").textContent = _safe("meta-title-en") || "-";
+            document.getElementById("result-meta-title-cn").textContent = _safe("meta-title-cn") || "-";
+            document.getElementById("result-meta-desc-en").textContent = _safe("meta-description-en") || "-";
+            document.getElementById("result-meta-desc-cn").textContent = _safe("meta-description-cn") || "-";
+            document.getElementById("result-seo-keywords-en").textContent = _safe("seo-keywords-en") || "-";
+            document.getElementById("result-seo-keywords-cn").textContent = _safe("seo-keywords-cn") || "-";
         }
 
         // ==================== 复制功能 ====================
@@ -3049,11 +3043,7 @@ function autoCalcBasicCBM() {
                 { field: "sku", label: "SKU", required: true },
                 { field: "category", label: "类目", required: true },
                 { field: "html-description", label: "产品描述", required: true },
-                { field: "selling-price", label: "售价", required: true },
-                { field: "weight", label: "重量", required: false },
-                { field: "length", label: "长度", required: false },
-                { field: "width", label: "宽度", required: false },
-                { field: "height", label: "高度", required: false }
+                { field: "selling-price", label: "售价", required: true }
             ];
             var issues = [];
             var warnings = [];
@@ -3071,12 +3061,14 @@ function autoCalcBasicCBM() {
                 issues.push("&#10060; <strong>产品图片</strong> — 未上传任何图片");
             }
             // 检查定价
-            var price = parseFloat(document.getElementById("selling-price").value);
+            var _priceEl = document.getElementById("selling-price");
+            var price = _priceEl ? parseFloat(_priceEl.value) : NaN;
             if (price && price < 5) {
                 warnings.push("&#9888;&#65039; <strong>售价</strong> — AUD $" + price.toFixed(2) + " 低于$5，可能不划算");
             }
             // 检查CBM
-            var cbm = document.getElementById("basic-cbm").value;
+            var _cbmEl = document.getElementById("basic-cbm");
+            var cbm = _cbmEl ? _cbmEl.value : "";
             if (cbm && parseFloat(cbm) > 0.1) {
                 warnings.push("&#9888;&#65039; <strong>CBM</strong> — " + cbm + " m³ 体积较大，运费可能偏高");
             }
@@ -3117,7 +3109,8 @@ function autoCalcBasicCBM() {
         // ==================== v5.4 HTML标签剥离工具 ====================
                 // ==================== 导出JSON ====================
         function exportToJSON() {
-            const data = { productNameEN: document.getElementById("product-name-en").value, productNameCN: document.getElementById("product-name-cn").value, sku: document.getElementById("sku").value, ean: document.getElementById("ean").value || "(N/A)", brand: document.getElementById("brand").value, categoryEN: document.getElementById("category").value, categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: document.getElementById("quantity").value, weight: document.getElementById("weight").value, dimensions: { length: document.getElementById("length").value, width: document.getElementById("width").value, height: document.getElementById("height").value }, cbm: document.getElementById("basic-cbm").value || "", price: document.getElementById("selling-price").value, colors: document.getElementById("selected-colors").value, sizes: document.getElementById("selected-sizes").value, mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: document.getElementById("html-description").value, metaTitleEN: document.getElementById("meta-title-en").value, metaTitleCN: document.getElementById("meta-title-cn").value, metaDescriptionEN: document.getElementById("meta-description-en").value, metaDescriptionCN: document.getElementById("meta-description-cn").value, seoKeywordsEN: document.getElementById("seo-keywords-en").value, seoKeywordsCN: document.getElementById("seo-keywords-cn").value };
+            var _v = function(id) { var el = document.getElementById(id); return el ? el.value : ""; };
+            const data = { productNameEN: _v("product-name-en"), productNameCN: _v("product-name-cn"), sku: _v("sku"), ean: _v("ean") || "(N/A)", brand: _v("brand"), categoryEN: _v("category"), categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: _v("quantity"), weight: _v("weight"), dimensions: { length: _v("length"), width: _v("width"), height: _v("height") }, cbm: _v("basic-cbm") || "", price: _v("selling-price"), colors: _v("selected-colors"), sizes: _v("selected-sizes"), mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: _v("html-description"), metaTitleEN: _v("meta-title-en"), metaTitleCN: _v("meta-title-cn"), metaDescriptionEN: _v("meta-description-en"), metaDescriptionCN: _v("meta-description-cn"), seoKeywordsEN: _v("seo-keywords-en"), seoKeywordsCN: _v("seo-keywords-cn") };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a"); a.href = url; a.download = "dropshipzone-listing-v5.1.json"; a.click();
@@ -3129,33 +3122,114 @@ function autoCalcBasicCBM() {
         let batchProducts = [];
         let batchProductIdCounter = 1;
 
+        // V7.4: 批量添加产品 — 自动按变体矩阵展开（每个子SKU一行）
         function addBatchProduct() {
+            var sku = (document.getElementById("sku") && document.getElementById("sku").value || "").trim();
+            var name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
+            if (!sku) { showNotification("请先填写SKU", "error"); return; }
+
+            // 读取公共字段
+            var _ean = (document.getElementById("ean") || {}).value || "N/A";
+            var _desc = (document.getElementById("html-description") || {}).value || "";
+            var _brand = (document.getElementById("brand") || {}).value || "";
+            var _weight = (document.getElementById("weight") || {}).value || "";
+            var _length = (document.getElementById("length") || {}).value || "";
+            var _width = (document.getElementById("width") || {}).value || "";
+            var _height = (document.getElementById("height") || {}).value || "";
+            var _cbm = (document.getElementById("basic-cbm") || {}).value || "";
+            var _price = (document.getElementById("selling-price") || {}).value || "";
+            var _rrpInput = document.getElementById("rrp-price");
+            var _rrp = _rrpInput ? (_rrpInput.value || "") : "";
+            var _stock = (document.getElementById("quantity") || {}).value || "";
+            var _images = uploadedImageUrls.join(",") || "";
+            var _zones = getDefaultShippingTemplate();
+
+            // 如果变体矩阵有数据 → 展开为多个子SKU产品
+            if (_ttMatrixData.length > 0) {
+                var basePrice = parseFloat(_price) || 0;
+                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.2) : "");
+                var added = 0;
+                var enabledCount = 0;
+                _ttMatrixData.forEach(function(item) { if (item.enabled !== false) enabledCount++; });
+
+                _ttMatrixData.forEach(function(item) {
+                    if (item.enabled === false) return;
+                    // 子SKU格式: Parent-Colour-Size (如 SHOE-6581-Silver-AU6-EU39)
+                    var colorCode = (typeof getColorCode === 'function') ? getColorCode(item.color) : item.color.replace(/\s+/g,'').substring(0,3).toUpperCase();
+                    var specClean = (item.spec || '').replace(/\s+/g,'');
+                    var childSku = item.childSku || (sku + '-' + colorCode + '-' + specClean);
+                    // SKU Title: 父名称 - Colour - Size
+                    var childTitle = name + ' - ' + (item.color||'') + ' - Size ' + (item.spec||'');
+
+                    var v = {
+                        id: batchProductIdCounter++,
+                        sku: childSku,
+                        skuTitle: childTitle,
+                        parentSku: sku,
+                        parentSkuTitle: name,
+                        // ⚡ Dropshipzone模板格式: Option1=Size, Option2=Colour
+                        option1Name: 'Size',
+                        option1Value: item.spec || '',
+                        option2Name: 'Colour',
+                        option2Value: item.color || '',
+                        ean: _ean,
+                        description: _desc,
+                        status: '1',
+                        brand: _brand,
+                        colour: item.color || '',
+                        weight: item.weight || _weight,
+                        length: item.length || _length,
+                        width: item.width || _width,
+                        height: item.height || _height,
+                        cbm: item.cbm || _cbm,
+                        price: item.price || _price,
+                        rrp: item.rrp || rrp,
+                        stock: item.stock || _stock,
+                        subsubcategory: selectedCategory.id || '',
+                        images: _images,
+                        zones: JSON.parse(JSON.stringify(_zones))
+                    };
+                    // 自动计算CBM
+                    var lv = parseFloat(v.length), wv = parseFloat(v.width), hv = parseFloat(v.height);
+                    if (lv > 0 && wv > 0 && hv > 0) v.cbm = (lv * wv * hv / 1000000).toFixed(6);
+                    batchProducts.push(v);
+                    added++;
+                });
+                _dirty.batch = true;
+                renderBatchProducts();
+                updateValidationSummary();
+                debouncedSaveBatchToStorage();
+                showNotification('已添加 ' + added + ' 个子SKU到批量列表（父SKU: ' + sku + '）', 'success');
+                return;
+            }
+
+            // 无变体矩阵 → 添加单个产品（parentSku指向自己）
             const product = {
                 id: batchProductIdCounter++,
-                sku: document.getElementById("sku").value || "",
-                skuTitle: document.getElementById("product-name-en").value || "",
-                parentSku: "",
-                parentSkuTitle: "",
+                sku: sku,
+                skuTitle: name,
+                parentSku: sku,
+                parentSkuTitle: name,
                 option1Name: "",
                 option1Value: "",
                 option2Name: "",
                 option2Value: "",
-                ean: document.getElementById("ean").value || "(N/A)",
-                description: document.getElementById("html-description").value || "",
+                ean: _ean,
+                description: _desc,
                 status: "1",
-                brand: document.getElementById("brand").value || "",
-                colour: document.getElementById("selected-colors").value || "",
-                weight: document.getElementById("weight").value || "",
-                length: document.getElementById("length").value || "",
-                width: document.getElementById("width").value || "",
-                height: document.getElementById("height").value || "",
-                cbm: document.getElementById("basic-cbm").value || "",
-                price: document.getElementById("selling-price").value || "",
-                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value || "") : "",
-                stock: document.getElementById("quantity").value || "",
+                brand: _brand,
+                colour: (document.getElementById("selected-colors") || {}).value || "",
+                weight: _weight,
+                length: _length,
+                width: _width,
+                height: _height,
+                cbm: _cbm,
+                price: _price,
+                rrp: _rrp,
+                stock: _stock,
                 subsubcategory: selectedCategory.id || "",
-                images: uploadedImageUrls.join(",") || "",
-                zones: getDefaultShippingTemplate()
+                images: _images,
+                zones: _zones
             };
             batchProducts.push(product);
             _dirty.batch = true;
@@ -3623,11 +3697,15 @@ function filterBatchProducts(query) {
         }
 
         function buildSingleProductObject() {
+            var _sku = (document.getElementById("sku") && document.getElementById("sku").value || "").trim();
+            var _name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
             return {
-                sku: document.getElementById("sku").value||"", skuTitle: document.getElementById("product-name-en").value||"",
-                parentSku:"", parentSkuTitle:"", option1Name:"", option1Value:"", option2Name:"", option2Value:"",
+                sku: _sku, skuTitle: _name,
+                // V7.4: 单产品也设置parentSku指向自己
+                parentSku: _sku, parentSkuTitle: _name,
+                option1Name:"", option1Value:"", option2Name:"", option2Value:"",
                 ean: document.getElementById("ean").value||"(N/A)", description: document.getElementById("html-description").value||"",
-                status:"1", brand: document.getElementById("brand").value||"", colour: document.getElementById("selected-colors").value||"",
+                status:"1", brand: document.getElementById("brand").value||"", colour: (document.getElementById("selected-colors")||{}).value||"",
                 weight: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].weight||''):'';}catch(e){return '';}})(), length: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].length||''):'';}catch(e){return '';}})(),
                 width: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].width||''):'';}catch(e){return '';}})(), height: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].height||''):'';}catch(e){return '';}})(),
                 cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(), price: document.getElementById("selling-price").value||"",
@@ -4920,7 +4998,7 @@ function filterBatchProducts(query) {
                     var colorEn = getColorEn(color);
                     sizeArr.forEach(function(size) {
                         var sizeClean = size.replace(/\s+/g,'');
-                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: colorEn || color, option2Name: 'Size', option2Value: size, ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.4修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                     });
                 });
             } else if (colorArr.length > 0) {
@@ -5445,8 +5523,9 @@ function filterBatchProducts(query) {
                     skuTitle: name + ' - ' + item.color + ' / ' + item.spec,
                     parentSku: sku,
                     parentSkuTitle: name,
-                    option1Name: 'Colour', option1Value: item.color,
-                    option2Name: 'Size', option2Value: item.spec,
+                    // ⚡ V7.4修正: Dropshipzone模板格式 Option1=Size, Option2=Colour
+                    option1Name: 'Size', option1Value: item.spec || '',
+                    option2Name: 'Colour', option2Value: item.color || '',
                     ean: '(N/A)', description: '', status: '1',
                     brand: (document.getElementById('brand') && document.getElementById('brand').value || ''),
                     colour: item.color,
@@ -5676,6 +5755,8 @@ function filterBatchProducts(query) {
             document.body.appendChild(notification);
             setTimeout(function() { notification.remove(); activeNotifications--; }, 3000);
         }
+        // 暴露到 window（供外部script和全局调用）
+        window.showNotification = showNotification;
 
         // ==================== 初始化 ====================
         window.initApp = function() {
@@ -7028,7 +7109,7 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
     (function() {
         // 应用保存的主题
         function applyTheme(theme) {
-            document.body.classList.remove('light-theme', '');
+            document.body.classList.remove('light-theme');
             if (theme === 'dark') {
                 document.body.classList.add('');
             } else if (theme === 'light') {

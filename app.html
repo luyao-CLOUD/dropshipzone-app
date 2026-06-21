@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Dropshipzone全品类上架模板 V7.0 智能版</title>
+    <title>Dropshipzone全品类上架模板 V7.4</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -761,13 +761,12 @@
             s.onerror = function() { console.warn('[DSZ] Both SheetJS CDNs failed. Will use built-in XLS writer.'); };
             document.head.appendChild(s);
         }
-    }
-            // 暴露给外部script使用
-            window.showNotification = showNotification;
+        // showNotification 将在后续 script 块中定义后暴露到 window
+            // window.showNotification = showNotification; // moved to after definition
             window.load = load;
             window.save = save;
             window.CFG = CFG;
-)();
+    })();
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
@@ -957,8 +956,7 @@ input, select, textarea {
             <div class="logo-area">
                 <div class="icon">&#128274;</div>
                 <h2>Dropshipzone 上架系统</h2>
-                <p>v6.8 · 授权账号登录</p>
-            </div>
+                            </div>
             <div class="error-msg" id="login-error"></div>
             <div id="login-mode-normal">
                 <div class="form-group">
@@ -1048,10 +1046,11 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
+    <button id="translate-toggle-btn" onclick="var tr=document.getElementById('dsz-translator');if(tr){tr.style.display=tr.style.display!=='none'?'none':'block';this.style.background=tr.style.display!=='none'?'rgba(0,122,255,0.85)':'rgba(255,255,255,0.9)';}}" title="显示/隐藏翻译框" style="position:fixed;bottom:74px;right:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
 
     <div class="container">
     <div class="header">
-            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架工具 <span style="background:rgba(0,122,255,0.08);padding:4px 14px;border-radius:8px;color:#007AFF;font-size:16px;">V7.1</span></h1>
+            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.4</span></h1>
 
 
         <!-- Header工具栏：统一右侧布局 -->
@@ -1078,15 +1077,6 @@ input, select, textarea {
             </div>
             <!-- 分隔线 -->
             <div style="width:1px;height:24px;background:rgba(0,0,0,0.08);"></div>
-            <!-- 翻译 -->
-            <button onclick="document.getElementById('dsz-translator')&&(document.getElementById('dsz-translator').style.display!=='none'?document.getElementById('dsz-translator').style.display='none':document.getElementById('dsz-translator').style.display='block')"
-                    title="显示/隐藏翻译框"
-                    style="width:36px;height:36px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;
-                           background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);cursor:pointer;
-                           font-size:16px;display:flex;align-items:center;justify-content:center;
-                           transition:all 0.2s;"
-                    onmouseover="this.style.background='rgba(0,122,255,0.08)';this.style.borderColor='rgba(0,122,255,0.2)'"
-                    onmouseout="this.style.background='rgba(255,255,255,0.85)';this.style.borderColor='rgba(0,0,0,0.08)'">&#127760;</button>
         </div>
         </div>
 
@@ -1196,6 +1186,16 @@ input, select, textarea {
                 <div class="step" id="step7"><div class="step-circle">7</div><div class="step-label" style="font-size:11px">Batch</div></div>
                 <div class="step" id="step8"><div class="step-circle">8</div><div class="step-label" style="font-size:11px">Export</div></div>
             </div>
+            <!-- V7.4 - Parent SKU / 子SKU 功能说明 -->
+            <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:16px 20px;border-radius:12px;margin-bottom:16px;box-shadow:0 4px 15px rgba(102,126,234,0.3);">
+                <div style="font-size:15px;font-weight:700;margin-bottom:8px;">🧪 V7.4 - Parent SKU / 子SKU 功能</div>
+                <div style="font-size:13px;line-height:1.7;opacity:0.95;">
+                    <b>📦 父SKU (Parent SKU)</b> = 产品级标识，同一款所有变体共享（如 DRESS-1201）<br>
+                    <b>🔖 子SKU (Child SKU)</b> = 变体级标识，自动生成 = 父SKU + 颜色 + 尺码（如 DRESS-1201-BLK-8）<br>
+                    <b>💡 使用方式：</b>在上方输入父SKU，系统自动生成子SKU，导出Excel时同时输出两列
+                </div>
+            </div>
+
             <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
                 <div class="upload-icon">&#128228;</div>
                 <h3>拖拽图片到此处，或点击上传</h3>
@@ -1262,7 +1262,135 @@ input, select, textarea {
 
     <script>
 
-                // ==================== v6.9 账号登录系统 (REWRITTEN) ====================
+        // ==================== V7.4 颜色码映射（优化版）====================
+        // 标准电商颜色码缩写（3-4字母），支持中英文
+        var DSZ_COLOR_CODE = {
+            // 中文 → 代码
+            '黑色': 'BLK', '白色': 'WHT', '红色': 'RED', '蓝色': 'BLU',
+            '绿色': 'GRN', '黄色': 'YEL', '紫色': 'PUR', '粉色': 'PNK',
+            '玫红': 'ROS', '玫瑰红': 'ROS', '棕色': 'BRN', '灰色': 'GRY',
+            '米色': 'BEG', '卡其色': 'KHK', '海军蓝': 'NVY', '藏青': 'NVY',
+            '酒红': 'BRG', '酒红色': 'BRG', '金色': 'GLD', '银色': 'SLR',
+            '咖啡色': 'COF', '咖色': 'COF', '橙色': 'ORG', '彩色': 'MLT',
+            '透明': 'CLR', '花纹': 'PRT', '印花': 'PRT', '牛仔': 'DEN',
+            '浅蓝': 'SBL', '深蓝': 'NBL', '浅粉': 'SPK', '深红': 'BOR',
+            '裸粉': 'NUK', '裸色': 'NUK', '驼色': 'CML', '银灰': 'SGR',
+            // ★ 新增多色/彩色
+            '多色': 'MLT', '多彩': 'MLT', '彩虹色': 'RBW', '扎染': 'TIE',
+            '迷彩': 'CAM', '豹纹': 'LEO', '蛇纹': 'SNA', '虎纹': 'TIG',
+            '格纹': 'PLD', '条纹': 'STR', '波点': 'DOT', '碎花': 'FLW',
+            '深灰': 'DKG', '浅灰': 'LTG', '炭灰': 'CHG', '深棕': 'DKO',
+            '浅棕': 'LTB', '红棕': 'RBN', '古铜': 'BZE', '青铜': 'BRZ',
+            '深绿': 'DKG', '墨绿': 'DKG', '浅绿': 'LTG', '荧光绿': 'NEG',
+            '荧光黄': 'NEY', '荧光橙': 'NEO', '荧光粉': 'NEP', '霓虹': 'NHO',
+            '深紫': 'DKP', '浅紫': 'LTP', '薰衣草': 'LVE', '紫罗兰': 'VIO',
+            '青色': 'CYN', '湖蓝': 'TQB', '天蓝': 'SKY', '宝蓝': 'ROY',
+            '珊瑚色': 'COR', '桃红': 'PEA', '西瓜红': 'WMR', '砖红': 'BRI',
+            '奶油色': 'CRM', '奶酪色': 'CHS', '榛果色': 'HZE', '摩卡': 'MOC',
+            '深紫蓝': 'IND', '靛蓝': 'IND', '灰蓝': 'SLB', '雾霾蓝': 'HAZ',
+            // 英文 → 代码
+            'Black': 'BLK', 'White': 'WHT', 'Red': 'RED', 'Blue': 'BLU',
+            'Green': 'GRN', 'Yellow': 'YEL', 'Purple': 'PUR', 'Pink': 'PNK',
+            'Rose': 'ROS', 'Brown': 'BRN', 'Gray': 'GRY', 'Grey': 'GRY',
+            'Beige': 'BEG', 'Khaki': 'KHK', 'Navy': 'NVY', 'Burgundy': 'BRG',
+            'Gold': 'GLD', 'Silver': 'SLR', 'Coffee': 'COF', 'Orange': 'ORG',
+            'Multi': 'MLT', 'Clear': 'CLR', 'Print': 'PRT', 'Denim': 'DEN',
+            'Light Blue': 'SBL', 'Dark Blue': 'NBL', 'Nude': 'NUK', 'Camel': 'CML',
+            'Multi-color': 'MLT', 'Rainbow': 'RBW', 'Tie-dye': 'TIE',
+            'Camouflage': 'CAM', 'Leopard': 'LEO', 'Snake': 'SNA', 'Tiger': 'TIG',
+            'Plaid': 'PLD', 'Stripe': 'STR', 'Polka Dot': 'DOT', 'Floral': 'FLW',
+            'Dark Gray': 'DKG', 'Light Gray': 'LTG', 'Charcoal': 'CHG',
+            'Dark Green': 'DKG', 'Mint Green': 'MNT', 'Neon Green': 'NEG',
+            'Neon Yellow': 'NEY', 'Neon Orange': 'NEO', 'Neon Pink': 'NEP', 'Neon': 'NHO',
+            'Lavender': 'LVE', 'Violet': 'VIO', 'Cyan': 'CYN', 'Turquoise': 'TQB',
+            'Sky Blue': 'SKY', 'Royal Blue': 'ROY', 'Coral': 'COR', 'Peach': 'PEA',
+            'Brick Red': 'BRI', 'Cream': 'CRM', 'Mocha': 'MOC', 'Indigo': 'IND',
+            'Slate Blue': 'SLB', 'Haze Blue': 'HAZ'
+        };
+
+        // 获取颜色码（自动识别中英文）
+        function getColorCode(colorName) {
+            if (!colorName || typeof colorName !== 'string') return 'UNK';
+            var c = colorName.trim();
+            // 直接匹配
+            if (DSZ_COLOR_CODE[c]) return DSZ_COLOR_CODE[c];
+            // 去除空格后匹配
+            var c2 = c.replace(/\s+/g, '');
+            for (var k in DSZ_COLOR_CODE) {
+                if (k.replace(/\s+/g, '') === c2) return DSZ_COLOR_CODE[k];
+            }
+            // 未匹配：取前3个字母大写
+            var letters = c.replace(/[^a-zA-Z]/g, '');
+            return letters.length >= 2 ? letters.substring(0, 3).toUpperCase() : c.substring(0, 3).toUpperCase();
+        }
+
+        // 获取颜色英文全称（用于导出）
+        var DSZ_COLOR_EN = {
+            '黑色': 'Black', '白色': 'White', '红色': 'Red', '蓝色': 'Blue',
+            '绿色': 'Green', '黄色': 'Yellow', '紫色': 'Purple', '粉色': 'Pink',
+            '玫红': 'Rose', '玫瑰红': 'Rose', '棕色': 'Brown', '灰色': 'Gray',
+            '米色': 'Beige', '卡其色': 'Khaki', '海军蓝': 'Navy', '藏青': 'Navy',
+            '酒红': 'Burgundy', '酒红色': 'Burgundy', '金色': 'Gold', '银色': 'Silver',
+            '咖啡色': 'Coffee', '咖色': 'Coffee', '橙色': 'Orange', '彩色': 'Multi',
+            '透明': 'Clear', '花纹': 'Print', '印花': 'Print', '牛仔': 'Denim',
+            '浅蓝': 'Light Blue', '深蓝': 'Dark Blue', '浅粉': 'Light Pink',
+            '深红': 'Burgundy', '裸粉': 'Nude', '裸色': 'Nude', '驼色': 'Camel', '银灰': 'Silver Gray',
+            // ★ 新增
+            '多色': 'Multi-color', '多彩': 'Multi-color', '彩虹色': 'Rainbow', '扎染': 'Tie-dye',
+            '迷彩': 'Camouflage', '豹纹': 'Leopard', '蛇纹': 'Snake', '虎纹': 'Tiger',
+            '格纹': 'Plaid', '条纹': 'Stripe', '波点': 'Polka Dot', '碎花': 'Floral',
+            '深灰': 'Dark Gray', '浅灰': 'Light Gray', '炭灰': 'Charcoal', '深棕': 'Dark Brown',
+            '浅棕': 'Light Brown', '红棕': 'Red Brown', '古铜': 'Bronze', '青铜': 'Bronze',
+            '深绿': 'Dark Green', '墨绿': 'Dark Green', '浅绿': 'Light Green', '荧光绿': 'Neon Green',
+            '荧光黄': 'Neon Yellow', '荧光橙': 'Neon Orange', '荧光粉': 'Neon Pink', '霓虹': 'Neon',
+            '深紫': 'Dark Purple', '浅紫': 'Light Purple', '薰衣草': 'Lavender', '紫罗兰': 'Violet',
+            '青色': 'Cyan', '湖蓝': 'Turquoise', '天蓝': 'Sky Blue', '宝蓝': 'Royal Blue',
+            '珊瑚色': 'Coral', '桃红': 'Peach', '西瓜红': 'Watermelon', '砖红': 'Brick Red',
+            '奶油色': 'Cream', '奶酪色': 'Cheese', '榛果色': 'Hazel', '摩卡': 'Mocha',
+            '深紫蓝': 'Indigo', '靛蓝': 'Indigo', '灰蓝': 'Slate Blue', '雾霾蓝': 'Haze Blue'
+        };
+        // ★ 规格/尺码 中英文映射（填写中文，输出英文）
+        var DSZ_SPEC_EN = {
+            // 服装尺码
+            '均码': 'One Size', '自由尺': 'One Size', '通用': 'One Size',
+            'XS': 'XS', 'S': 'S', 'M': 'M', 'L': 'L', 'XL': 'XL', 'XXL': 'XXL', 'XXXL': 'XXXL',
+            '小号': 'S', '中号': 'M', '大号': 'L', '加大号': 'XL',
+            '8': '8', '10': '10', '12': '12', '14': '14', '16': '16',
+            '8码': '8', '10码': '10', '12码': '12', '14码': '14', '16码': '16',
+            // 鞋码
+            '36': '36', '37': '37', '38': '38', '39': '39', '40': '40', '41': '41', '42': '42', '43': '43', '44': '44',
+            '36码': '36', '37码': '37', '38码': '38', '39码': '39', '40码': '40',
+            '41码': '41', '42码': '42', '43码': '43', '44码': '44',
+            'US6': 'US6', 'US7': 'US7', 'US8': 'US8', 'US9': 'US9',
+            // 包装规格
+            '1个装': '1 Pack', '2个装': '2 Pack', '3个装': '3 Pack', '4个装': '4 Pack', '5个装': '5 Pack',
+            '6个装': '6 Pack', '10个装': '10 Pack', '12个装': '12 Pack',
+            '一件': '1PC', '两件': '2PC', '三件': '3PC', '五件套': '5PC Set',
+            '一套': '1 Set', '两套': '2 Set', '三件套': '3PC Set',
+            // 容量/重量
+            '50ml': '50ml', '100ml': '100ml', '200ml': '200ml', '500ml': '500ml',
+            '50g': '50g', '100g': '100g', '200g': '200g', '500g': '500g',
+            // 其他
+            '标准': 'Standard', '加大': 'Plus', '加长': 'Long', '加宽': 'Wide'
+        };
+        function getSpecEn(specName) {
+            if (!specName) return '';
+            var s = specName.trim();
+            if (DSZ_SPEC_EN[s]) return DSZ_SPEC_EN[s];
+            // 如果已经是英文/数字，直接返回
+            if (/^[a-zA-Z0-9\s\-\.\/]+$/.test(s)) return s;
+            return s; // 未匹配保留原文
+        }
+        function getColorEn(colorName) {
+            if (!colorName) return '';
+            var c = colorName.trim();
+            if (DSZ_COLOR_EN[c]) return DSZ_COLOR_EN[c];
+            // 如果已经是英文，直接返回
+            if (/^[a-zA-Z\s\-]+$/.test(c)) return c;
+            return c;
+        }
+
+        // ==================== v6.9 账号登录系统 (REWRITTEN) ====================
         (function() {
             console.log('[DSZ Auth] 认证系统启动中...');
 
@@ -1850,6 +1978,7 @@ window.closeAdminPanel = function() {
             // DOM ready
             if (document.readyState === 'loading') {
                 document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() { if (typeof ttInitMatrixWatcher === 'function') ttInitMatrixWatcher(); }, 500);
                     console.log('[DSZ Auth] DOMContentLoaded 触发');
                     init();
                 });
@@ -2020,6 +2149,8 @@ window.closeAdminPanel = function() {
                         var mi = uploadedImages[mainImageIndex || 0];
                         if (mi && mi.data) { pImg.src = mi.data; pImg.style.display = 'block'; if (pMsg) pMsg.style.display = 'none'; }
                     }
+                    // [V7.4 TikTok] 刷新按规格的定价变体表
+                    if (typeof ttBuildPricingTable === 'function') ttBuildPricingTable();
                 }, 50);
             }
             /* v6.4: 脏标记驱动渲染 — 只在数据变更时才重渲染 */
@@ -2334,10 +2465,10 @@ function updateStep(step) {
             const featureLines = features.split("\n").filter(line => line.trim() !== "");
             const productName = document.getElementById("product-name-en").value || "Premium Product";
             const brand = document.getElementById("brand").value || "Premium Brand";
-            const weight = document.getElementById("weight").value || "N/A";
-            const dimL = document.getElementById("length").value || "N/A";
-            const dimW = document.getElementById("width").value || "N/A";
-            const dimH = document.getElementById("height").value || "N/A";
+            const weight = (document.getElementById("weight") || {}).value || "N/A";
+            const dimL = (document.getElementById("length") || {}).value || "N/A";
+            const dimW = (document.getElementById("width") || {}).value || "N/A";
+            const dimH = (document.getElementById("height") || {}).value || "N/A";
             let html = '<h2>Product Features</h2>\n<ul>\n';
             featureLines.forEach(feature => { html += '    <li><strong>' + feature + '</strong></li>\n'; });
             html += '</ul>\n\n<h2>Product Description</h2>\n<p>Introducing our premium ' + productName.toLowerCase() + '...</p>\n\n<h2>Key Benefits</h2>\n<ol>\n    <li><strong>High Quality:</strong> Built to last with premium materials</li>\n    <li><strong>Great Value:</strong> Competitive pricing without compromising quality</li>\n    <li><strong>Fast Shipping:</strong> Quick delivery across Australia</li>\n</ol>\n\n<h2>Specifications</h2>\n<table border="1" cellpadding="10" cellspacing="0" style="width: 100%; border-collapse: collapse;">\n    <tr style="background-color: #f8f9fa;"><th style="text-align: left; padding: 10px;">Feature</th><th style="text-align: left; padding: 10px;">Details</th></tr>\n    <tr><td style="padding: 10px;"><strong>Brand</strong></td><td style="padding: 10px;">' + brand + '</td></tr>\n    <tr style="background-color: #f8f9fa;"><td style="padding: 10px;"><strong>Weight</strong></td><td style="padding: 10px;">' + weight + ' kg</td></tr>\n    <tr><td style="padding: 10px;"><strong>Dimensions</strong></td><td style="padding: 10px;">' + dimL + ' x ' + dimW + ' x ' + dimH + ' cm</td></tr>\n</table>\n\n<h2>Package Includes</h2>\n<ul>\n    <li>1 x ' + productName + '</li>\n    <li>1 x User Manual</li>\n</ul>';
@@ -2350,9 +2481,9 @@ function updateStep(step) {
         
         var _debouncedCalcCBM = debounce(autoCalcBasicCBM, 300);
 function autoCalcBasicCBM() {
-            var l = parseFloat(document.getElementById("length").value) || 0;
-            var w = parseFloat(document.getElementById("width").value) || 0;
-            var h = parseFloat(document.getElementById("height").value) || 0;
+            var l = parseFloat((document.getElementById("length") || {}).value) || 0;
+            var w = parseFloat((document.getElementById("width") || {}).value) || 0;
+            var h = parseFloat((document.getElementById("height") || {}).value) || 0;
             var cbmEl = document.getElementById("basic-cbm");
             if (l > 0 && w > 0 && h > 0) {
                 var cbm = (l * w * h / 1000000).toFixed(6);
@@ -2598,40 +2729,42 @@ function autoCalcBasicCBM() {
 
         // ==================== 完整模板 ====================
         function updateCompleteTemplate() {
-            document.getElementById("result-name-en").textContent = document.getElementById("product-name-en").value || "-";
-            document.getElementById("result-name-cn").textContent = document.getElementById("product-name-cn").value || "-";
-            document.getElementById("result-sku").textContent = document.getElementById("sku").value || "-";
-            const eanVal = document.getElementById("ean").value || "(N/A)";
+            var _safe = function(id) { var el = document.getElementById(id); return el ? (el.value || "") : ""; };
+            document.getElementById("result-name-en").textContent = _safe("product-name-en") || "-";
+            document.getElementById("result-name-cn").textContent = _safe("product-name-cn") || "-";
+            document.getElementById("result-sku").textContent = _safe("sku") || "-";
+            const eanVal = _safe("ean") || "(N/A)";
             document.getElementById("result-ean").textContent = eanVal;
-            document.getElementById("result-brand").textContent = document.getElementById("brand").value || "-";
-            document.getElementById("result-category").textContent = document.getElementById("category").value || "-";
+            document.getElementById("result-brand").textContent = _safe("brand") || "-";
+            document.getElementById("result-category").textContent = _safe("category") || "-";
             const catPath = selectedCategory.level1 ? (selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3) : "-";
             document.getElementById("result-cat-path").textContent = catPath;
             document.getElementById("result-cat-id").textContent = selectedCategory.id || "-";
-            document.getElementById("result-quantity").textContent = document.getElementById("quantity").value || "-";
-            document.getElementById("result-weight").textContent = document.getElementById("weight").value || "-";
-            document.getElementById("result-dimensions").textContent = (document.getElementById("length").value || "-") + "\u00d7" + (document.getElementById("width").value || "-") + "\u00d7" + (document.getElementById("height").value || "-");
+            document.getElementById("result-quantity").textContent = (function(){try{return _ttMatrixData.length > 0 ? (_ttMatrixData.reduce(function(sum,item){return sum + (parseInt(item.stock)||0);},0) || "-") : "-";}catch(e){return "-";}})();
+            document.getElementById("result-weight").textContent = _safe("weight") || "-";
+            document.getElementById("result-dimensions").textContent = (_safe("length") || "-") + "\u00d7" + (_safe("width") || "-") + "\u00d7" + (_safe("height") || "-");
             // CBM auto-calc for complete template
-            var cL = parseFloat(document.getElementById("length").value) || 0;
-            var cW = parseFloat(document.getElementById("width").value) || 0;
-            var cH = parseFloat(document.getElementById("height").value) || 0;
+            var cL = parseFloat(_safe("length")) || 0;
+            var cW = parseFloat(_safe("width")) || 0;
+            var cH = parseFloat(_safe("height")) || 0;
             document.getElementById("result-cbm").textContent = (cL > 0 && cW > 0 && cH > 0) ? (cL * cW * cH / 1000000).toFixed(6) : "-";
-            document.getElementById("result-price").textContent = document.getElementById("selling-price").value || "-";
-            document.getElementById("result-colors").textContent = document.getElementById("selected-colors").value || "-";
-            document.getElementById("result-sizes").textContent = document.getElementById("selected-sizes").value || "-";
+            document.getElementById("result-price").textContent = _safe("selling-price") || "-";
+            document.getElementById("result-colors").textContent = _safe("selected-colors") || "-";
+            document.getElementById("result-sizes").textContent = _safe("selected-sizes") || "-";
             const mainImg = uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "-";
             document.getElementById("result-main-image").textContent = mainImg;
-            document.getElementById("result-html-description").innerHTML = document.getElementById("html-description").value || "<p>HTML description not generated yet.</p>";
+            var _htmlDescEl = document.getElementById("html-description");
+            document.getElementById("result-html-description").innerHTML = _htmlDescEl ? (_htmlDescEl.value || "<p>HTML description not generated yet.</p>") : "<p>HTML description not generated yet.</p>";
             let imagesList = uploadedImageUrls.length > 0 ? "<ul>" : "<p>No images uploaded</p>";
             uploadedImageUrls.forEach(url => { imagesList += "<li>" + url + "</li>"; });
             if (uploadedImageUrls.length > 0) imagesList += "</ul>";
             document.getElementById("result-all-images").innerHTML = imagesList;
-            document.getElementById("result-meta-title-en").textContent = document.getElementById("meta-title-en").value || "-";
-            document.getElementById("result-meta-title-cn").textContent = document.getElementById("meta-title-cn").value || "-";
-            document.getElementById("result-meta-desc-en").textContent = document.getElementById("meta-description-en").value || "-";
-            document.getElementById("result-meta-desc-cn").textContent = document.getElementById("meta-description-cn").value || "-";
-            document.getElementById("result-seo-keywords-en").textContent = document.getElementById("seo-keywords-en").value || "-";
-            document.getElementById("result-seo-keywords-cn").textContent = document.getElementById("seo-keywords-cn").value || "-";
+            document.getElementById("result-meta-title-en").textContent = _safe("meta-title-en") || "-";
+            document.getElementById("result-meta-title-cn").textContent = _safe("meta-title-cn") || "-";
+            document.getElementById("result-meta-desc-en").textContent = _safe("meta-description-en") || "-";
+            document.getElementById("result-meta-desc-cn").textContent = _safe("meta-description-cn") || "-";
+            document.getElementById("result-seo-keywords-en").textContent = _safe("seo-keywords-en") || "-";
+            document.getElementById("result-seo-keywords-cn").textContent = _safe("seo-keywords-cn") || "-";
         }
 
         // ==================== 复制功能 ====================
@@ -2906,15 +3039,11 @@ function autoCalcBasicCBM() {
         // ==================== v6.1 上架前检查清单 ====================
         function preFlightCheck() {
             var checks = [
-                { field: "product-name-en", label: "产品名称(EN)", required: true },
+                { field: "product-name-en", label: "父产品名称(EN)", required: true },
                 { field: "sku", label: "SKU", required: true },
                 { field: "category", label: "类目", required: true },
                 { field: "html-description", label: "产品描述", required: true },
-                { field: "selling-price", label: "售价", required: true },
-                { field: "weight", label: "重量", required: false },
-                { field: "length", label: "长度", required: false },
-                { field: "width", label: "宽度", required: false },
-                { field: "height", label: "高度", required: false }
+                { field: "selling-price", label: "售价", required: true }
             ];
             var issues = [];
             var warnings = [];
@@ -2932,12 +3061,14 @@ function autoCalcBasicCBM() {
                 issues.push("&#10060; <strong>产品图片</strong> — 未上传任何图片");
             }
             // 检查定价
-            var price = parseFloat(document.getElementById("selling-price").value);
+            var _priceEl = document.getElementById("selling-price");
+            var price = _priceEl ? parseFloat(_priceEl.value) : NaN;
             if (price && price < 5) {
                 warnings.push("&#9888;&#65039; <strong>售价</strong> — AUD $" + price.toFixed(2) + " 低于$5，可能不划算");
             }
             // 检查CBM
-            var cbm = document.getElementById("basic-cbm").value;
+            var _cbmEl = document.getElementById("basic-cbm");
+            var cbm = _cbmEl ? _cbmEl.value : "";
             if (cbm && parseFloat(cbm) > 0.1) {
                 warnings.push("&#9888;&#65039; <strong>CBM</strong> — " + cbm + " m³ 体积较大，运费可能偏高");
             }
@@ -2978,7 +3109,8 @@ function autoCalcBasicCBM() {
         // ==================== v5.4 HTML标签剥离工具 ====================
                 // ==================== 导出JSON ====================
         function exportToJSON() {
-            const data = { productNameEN: document.getElementById("product-name-en").value, productNameCN: document.getElementById("product-name-cn").value, sku: document.getElementById("sku").value, ean: document.getElementById("ean").value || "(N/A)", brand: document.getElementById("brand").value, categoryEN: document.getElementById("category").value, categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: document.getElementById("quantity").value, weight: document.getElementById("weight").value, dimensions: { length: document.getElementById("length").value, width: document.getElementById("width").value, height: document.getElementById("height").value }, cbm: document.getElementById("basic-cbm").value || "", price: document.getElementById("selling-price").value, colors: document.getElementById("selected-colors").value, sizes: document.getElementById("selected-sizes").value, mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: document.getElementById("html-description").value, metaTitleEN: document.getElementById("meta-title-en").value, metaTitleCN: document.getElementById("meta-title-cn").value, metaDescriptionEN: document.getElementById("meta-description-en").value, metaDescriptionCN: document.getElementById("meta-description-cn").value, seoKeywordsEN: document.getElementById("seo-keywords-en").value, seoKeywordsCN: document.getElementById("seo-keywords-cn").value };
+            var _v = function(id) { var el = document.getElementById(id); return el ? el.value : ""; };
+            const data = { productNameEN: _v("product-name-en"), productNameCN: _v("product-name-cn"), sku: _v("sku"), ean: _v("ean") || "(N/A)", brand: _v("brand"), categoryEN: _v("category"), categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: _v("quantity"), weight: _v("weight"), dimensions: { length: _v("length"), width: _v("width"), height: _v("height") }, cbm: _v("basic-cbm") || "", price: _v("selling-price"), colors: _v("selected-colors"), sizes: _v("selected-sizes"), mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: _v("html-description"), metaTitleEN: _v("meta-title-en"), metaTitleCN: _v("meta-title-cn"), metaDescriptionEN: _v("meta-description-en"), metaDescriptionCN: _v("meta-description-cn"), seoKeywordsEN: _v("seo-keywords-en"), seoKeywordsCN: _v("seo-keywords-cn") };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a"); a.href = url; a.download = "dropshipzone-listing-v5.1.json"; a.click();
@@ -2990,33 +3122,114 @@ function autoCalcBasicCBM() {
         let batchProducts = [];
         let batchProductIdCounter = 1;
 
+        // V7.4: 批量添加产品 — 自动按变体矩阵展开（每个子SKU一行）
         function addBatchProduct() {
+            var sku = (document.getElementById("sku") && document.getElementById("sku").value || "").trim();
+            var name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
+            if (!sku) { showNotification("请先填写SKU", "error"); return; }
+
+            // 读取公共字段
+            var _ean = (document.getElementById("ean") || {}).value || "N/A";
+            var _desc = (document.getElementById("html-description") || {}).value || "";
+            var _brand = (document.getElementById("brand") || {}).value || "";
+            var _weight = (document.getElementById("weight") || {}).value || "";
+            var _length = (document.getElementById("length") || {}).value || "";
+            var _width = (document.getElementById("width") || {}).value || "";
+            var _height = (document.getElementById("height") || {}).value || "";
+            var _cbm = (document.getElementById("basic-cbm") || {}).value || "";
+            var _price = (document.getElementById("selling-price") || {}).value || "";
+            var _rrpInput = document.getElementById("rrp-price");
+            var _rrp = _rrpInput ? (_rrpInput.value || "") : "";
+            var _stock = (document.getElementById("quantity") || {}).value || "";
+            var _images = uploadedImageUrls.join(",") || "";
+            var _zones = getDefaultShippingTemplate();
+
+            // 如果变体矩阵有数据 → 展开为多个子SKU产品
+            if (_ttMatrixData.length > 0) {
+                var basePrice = parseFloat(_price) || 0;
+                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.2) : "");
+                var added = 0;
+                var enabledCount = 0;
+                _ttMatrixData.forEach(function(item) { if (item.enabled !== false) enabledCount++; });
+
+                _ttMatrixData.forEach(function(item) {
+                    if (item.enabled === false) return;
+                    // 子SKU格式: Parent-Colour-Size (如 SHOE-6581-Silver-AU6-EU39)
+                    var colorCode = (typeof getColorCode === 'function') ? getColorCode(item.color) : item.color.replace(/\s+/g,'').substring(0,3).toUpperCase();
+                    var specClean = (item.spec || '').replace(/\s+/g,'');
+                    var childSku = item.childSku || (sku + '-' + colorCode + '-' + specClean);
+                    // SKU Title: 父名称 - Colour - Size
+                    var childTitle = name + ' - ' + (item.color||'') + ' - Size ' + (item.spec||'');
+
+                    var v = {
+                        id: batchProductIdCounter++,
+                        sku: childSku,
+                        skuTitle: childTitle,
+                        parentSku: sku,
+                        parentSkuTitle: name,
+                        // ⚡ Dropshipzone模板格式: Option1=Size, Option2=Colour
+                        option1Name: 'Size',
+                        option1Value: item.spec || '',
+                        option2Name: 'Colour',
+                        option2Value: item.color || '',
+                        ean: _ean,
+                        description: _desc,
+                        status: '1',
+                        brand: _brand,
+                        colour: item.color || '',
+                        weight: item.weight || _weight,
+                        length: item.length || _length,
+                        width: item.width || _width,
+                        height: item.height || _height,
+                        cbm: item.cbm || _cbm,
+                        price: item.price || _price,
+                        rrp: item.rrp || rrp,
+                        stock: item.stock || _stock,
+                        subsubcategory: selectedCategory.id || '',
+                        images: _images,
+                        zones: JSON.parse(JSON.stringify(_zones))
+                    };
+                    // 自动计算CBM
+                    var lv = parseFloat(v.length), wv = parseFloat(v.width), hv = parseFloat(v.height);
+                    if (lv > 0 && wv > 0 && hv > 0) v.cbm = (lv * wv * hv / 1000000).toFixed(6);
+                    batchProducts.push(v);
+                    added++;
+                });
+                _dirty.batch = true;
+                renderBatchProducts();
+                updateValidationSummary();
+                debouncedSaveBatchToStorage();
+                showNotification('已添加 ' + added + ' 个子SKU到批量列表（父SKU: ' + sku + '）', 'success');
+                return;
+            }
+
+            // 无变体矩阵 → 添加单个产品（parentSku指向自己）
             const product = {
                 id: batchProductIdCounter++,
-                sku: document.getElementById("sku").value || "",
-                skuTitle: document.getElementById("product-name-en").value || "",
-                parentSku: "",
-                parentSkuTitle: "",
+                sku: sku,
+                skuTitle: name,
+                parentSku: sku,
+                parentSkuTitle: name,
                 option1Name: "",
                 option1Value: "",
                 option2Name: "",
                 option2Value: "",
-                ean: document.getElementById("ean").value || "(N/A)",
-                description: document.getElementById("html-description").value || "",
+                ean: _ean,
+                description: _desc,
                 status: "1",
-                brand: document.getElementById("brand").value || "",
-                colour: document.getElementById("selected-colors").value || "",
-                weight: document.getElementById("weight").value || "",
-                length: document.getElementById("length").value || "",
-                width: document.getElementById("width").value || "",
-                height: document.getElementById("height").value || "",
-                cbm: document.getElementById("basic-cbm").value || "",
-                price: document.getElementById("selling-price").value || "",
-                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value || "") : "",
-                stock: document.getElementById("quantity").value || "",
+                brand: _brand,
+                colour: (document.getElementById("selected-colors") || {}).value || "",
+                weight: _weight,
+                length: _length,
+                width: _width,
+                height: _height,
+                cbm: _cbm,
+                price: _price,
+                rrp: _rrp,
+                stock: _stock,
                 subsubcategory: selectedCategory.id || "",
-                images: uploadedImageUrls.join(",") || "",
-                zones: getDefaultShippingTemplate()
+                images: _images,
+                zones: _zones
             };
             batchProducts.push(product);
             _dirty.batch = true;
@@ -3355,6 +3568,24 @@ function filterBatchProducts(query) {
         // ==================== v6.9 Excel导出 (XLSX/XLS, 永不回退CSV) ====================
         function exportBatchToExcel() {
             if (batchProducts.length === 0) { showNotification("批量列表为空，无法导出", "error"); return; }
+
+            // [V7.4测试版] Parent SKU 统计
+            try {
+                var _parentSkus = {};
+                var _totalVariants = 0;
+                batchProducts.forEach(function(p) {
+                    var _psk = p.parentSku || p.sku || '(无)';
+                    if (!_parentSkus[_psk]) _parentSkus[_psk] = 0;
+                    _parentSkus[_psk]++;
+                    _totalVariants++;
+                });
+                var _msg = '[V7.4测试版] Parent SKU 统计\n\n';
+                _msg += '父SKU数量: ' + Object.keys(_parentSkus).length + '\n';
+                _msg += '子SKU(变体)总数: ' + _totalVariants + '\n';
+                for (var k in _parentSkus) { _msg += '  • ' + k + ' → ' + _parentSkus[k] + ' 个变体\n'; }
+                alert(_msg);
+            } catch(e) { console.warn('[V7.4] Parent SKU统计:', e); }
+
             var headers = getFullExportHeaders();
             var aoa = [headers];
             batchProducts.forEach(function(p) { aoa.push(buildProductExportRow(p)); });
@@ -3420,6 +3651,14 @@ function filterBatchProducts(query) {
 
         function exportSingleToExcel() {
             var p = buildSingleProductObject();
+
+            // [V7.4测试版] Parent SKU 提示
+            try {
+                var _psk = p.parentSku || p.sku || '(无)';
+                var _childSkus = (p.variants || []).length;
+                alert('[V7.4测试版] 单个产品导出\n\n父SKU: ' + _psk + '\n子SKU(变体)数: ' + _childSkus);
+            } catch(e) { console.warn('[V7.4] Single Parent SKU:', e); }
+
             var headers = getFullExportHeaders();
             var aoa = [headers, buildProductExportRow(p)];
 
@@ -3458,15 +3697,19 @@ function filterBatchProducts(query) {
         }
 
         function buildSingleProductObject() {
+            var _sku = (document.getElementById("sku") && document.getElementById("sku").value || "").trim();
+            var _name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
             return {
-                sku: document.getElementById("sku").value||"", skuTitle: document.getElementById("product-name-en").value||"",
-                parentSku:"", parentSkuTitle:"", option1Name:"", option1Value:"", option2Name:"", option2Value:"",
+                sku: _sku, skuTitle: _name,
+                // V7.4: 单产品也设置parentSku指向自己
+                parentSku: _sku, parentSkuTitle: _name,
+                option1Name:"", option1Value:"", option2Name:"", option2Value:"",
                 ean: document.getElementById("ean").value||"(N/A)", description: document.getElementById("html-description").value||"",
-                status:"1", brand: document.getElementById("brand").value||"", colour: document.getElementById("selected-colors").value||"",
-                weight: document.getElementById("weight").value||"", length: document.getElementById("length").value||"",
-                width: document.getElementById("width").value||"", height: document.getElementById("height").value||"",
-                cbm: document.getElementById("basic-cbm").value||"", price: document.getElementById("selling-price").value||"",
-                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value||"") : "", stock: document.getElementById("quantity").value||"",
+                status:"1", brand: document.getElementById("brand").value||"", colour: (document.getElementById("selected-colors")||{}).value||"",
+                weight: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].weight||''):'';}catch(e){return '';}})(), length: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].length||''):'';}catch(e){return '';}})(),
+                width: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].width||''):'';}catch(e){return '';}})(), height: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].height||''):'';}catch(e){return '';}})(),
+                cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(), price: document.getElementById("selling-price").value||"",
+                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value||"") : "", stock: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].stock||''):'';}catch(e){return '';}})(),
                 subsubcategory: selectedCategory.id||"", images: uploadedImageUrls.join(",")||"",
                 zones: getDefaultShippingTemplate()
             };
@@ -3685,7 +3928,7 @@ function filterBatchProducts(query) {
         function loadApiKey() { const model = selectedAIModel === "doubao+deepseek" ? "deepseek" : selectedAIModel; const saved = localStorage.getItem("dsz_ai_api_key_" + model); if (saved) { document.getElementById("ai-api-key").value = saved; } else { const pre = document.getElementById("ai-api-key").value.trim(); if (pre) { localStorage.setItem("dsz_ai_api_key_" + model, pre); } } }
         function saveDoubaoKey() { const key = document.getElementById("ai-api-key-doubao").value.trim(); if (!key) { showNotification("请输入豆包API Key", "error"); return; } localStorage.setItem("dsz_ai_api_key_doubao", key); showNotification("豆包 API Key 已保存到本地", "success"); }
         function clearDoubaoKey() { localStorage.removeItem("dsz_ai_api_key_doubao"); document.getElementById("ai-api-key-doubao").value = ""; showNotification("豆包 API Key 已清除", "info"); }
-        function loadDoubaoKey() { const saved = localStorage.getItem("dsz_ai_api_key_doubao"); if (saved) { const el = document.getElementById("ai-api-key-doubao"); if(el) el.value = saved; } }
+        function loadDoubaoKey() { const saved = localStorage.getItem("dsz_ai_api_key_doubao"); if (saved) { const el = document.getElementById("ai-api-key-doubao"); if(el) el.value = saved; } else { const el = document.getElementById("ai-api-key-doubao"); if(el) { const pre = el.value.trim(); if(pre) localStorage.setItem("dsz_ai_api_key_doubao", pre); } } }
 
 
         function updateMainImagePreview() {
@@ -4741,25 +4984,33 @@ function filterBatchProducts(query) {
             var basePrice = parseFloat(document.getElementById('selling-price').value) || 0;
             var rrpInput = document.getElementById('rrp-price');
             var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
-            var weight = document.getElementById('weight').value || '';
-            var len = document.getElementById('length').value || '';
-            var w = document.getElementById('width').value || '';
-            var h = document.getElementById('height').value || '';
-            var cbm = (len && w && h) ? ((parseFloat(len)*parseFloat(w)*parseFloat(h))/1000000).toFixed(6) : '';
+            // [V7.4 TikTok] 尺寸/重量/库存从变体矩阵中获取，此处留空
+            var weight = '';
+            var len = '';
+            var w = '';
+            var h = '';
+            var cbm = '';
+            var stock = '';
             var variants = [];
             if (colorArr.length > 0 && sizeArr.length > 0) {
                 colorArr.forEach(function(color) {
+                    var colorCode = getColorCode(color);
+                    var colorEn = getColorEn(color);
                     sizeArr.forEach(function(size) {
-                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + color.replace(/\s+/g,'') + '-' + size.replace(/\s+/g,''), skuTitle: name + ' - ' + color + ' / ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: color, option2Name: 'Size', option2Value: size, ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: document.getElementById('quantity').value || '', subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                        var sizeClean = size.replace(/\s+/g,'');
+                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.4修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                     });
                 });
             } else if (colorArr.length > 0) {
                 colorArr.forEach(function(color) {
-                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + color.replace(/\s+/g,''), skuTitle: name + ' - ' + color, parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: color, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: document.getElementById('quantity').value || '', subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                    var colorCode = getColorCode(color);
+                    var colorEn = getColorEn(color);
+                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode, skuTitle: name + ' - ' + (colorEn || color), parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: colorEn || color, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                 });
             } else {
                 sizeArr.forEach(function(size) {
-                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + size.replace(/\s+/g,''), skuTitle: name + ' - ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Size', option1Value: size, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: '', weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: document.getElementById('quantity').value || '', subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                    var sizeClean = size.replace(/\s+/g,'');
+                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + sizeClean, skuTitle: name + ' - ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Size', option1Value: size, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: '', weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                 });
             }
             variants.forEach(function(v) { batchProducts.push(v); });
@@ -4770,7 +5021,552 @@ function filterBatchProducts(query) {
             showNotification("Generated " + variants.length + " variants!", "success");
         }
 
-        // ==================== v5.1 CBM + RRP Auto-calc ====================
+        // ==================== V7.4-TT: TikTok风格变体矩阵 ====================
+        var _ttMatrixData = [];  // [{color, colorCode, spec, childSku, length, width, height, weight, stock, enabled}]
+        var _ttBatchMenuOpen = false;
+
+        // 关闭批量菜单（点击外部）
+        document.addEventListener('click', function(e) {
+            if (_ttBatchMenuOpen && !e.target.closest('#tt-batch-menu') && !e.target.closest('[onclick*="ttToggleBatchMenu"]')) {
+                ttHideBatchMenu();
+            }
+        });
+
+        function ttToggleBatchMenu() {
+            var menu = document.getElementById('tt-batch-menu');
+            if (!menu) return;
+            if (menu.style.display === 'block') { ttHideBatchMenu(); }
+            else { menu.style.display = 'block'; _ttBatchMenuOpen = true; }
+        }
+        function ttHideBatchMenu() {
+            var menu = document.getElementById('tt-batch-menu');
+            if (menu) { menu.style.display = 'none'; _ttBatchMenuOpen = false; }
+        }
+
+        // === 颜色行管理 ===
+        function ttAddColorRow() {
+            var container = document.getElementById('tt-color-rows');
+            if (!container) return;
+            var rows = container.querySelectorAll('.tt-color-row');
+            var idx = rows.length;
+            var row = document.createElement('div');
+            row.className = 'tt-color-row';
+            row.setAttribute('data-idx', idx);
+            row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
+            row.innerHTML = '<select class="form-control tt-color-select" onchange="ttRebuildMatrix()" style="flex:1;">'
+                + document.querySelector('.tt-color-select').innerHTML
+                + '</select>'
+                + '<button class="btn btn-sm" onclick="ttRemoveColorRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除颜色">&times;</button>';
+            container.appendChild(row);
+            ttUpdateRemoveButtons();
+        }
+        function ttRemoveColorRow(btn) {
+            var container = document.getElementById('tt-color-rows');
+            var rows = container.querySelectorAll('.tt-color-row');
+            if (rows.length <= 1) return;
+            btn.closest('.tt-color-row').remove();
+            ttUpdateRemoveButtons();
+            ttRebuildMatrix();
+        }
+        function ttAddSpecRow() {
+            var container = document.getElementById('tt-spec-rows');
+            if (!container) return;
+            var rows = container.querySelectorAll('.tt-spec-row');
+            var idx = rows.length;
+            var row = document.createElement('div');
+            row.className = 'tt-spec-row';
+            row.setAttribute('data-idx', idx);
+            row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
+            row.innerHTML = '<input type="text" class="form-control tt-spec-input" placeholder="如 8, 10, 12" oninput="ttRebuildMatrix()" style="flex:1;">'
+                + '<button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除规格">&times;</button>';
+            container.appendChild(row);
+            ttUpdateRemoveButtons();
+        }
+        function ttRemoveSpecRow(btn) {
+            var container = document.getElementById('tt-spec-rows');
+            var rows = container.querySelectorAll('.tt-spec-row');
+            if (rows.length <= 1) return;
+            btn.closest('.tt-spec-row').remove();
+            ttUpdateRemoveButtons();
+            ttRebuildMatrix();
+        }
+        function ttUpdateRemoveButtons() {
+            var colorRows = document.querySelectorAll('#tt-color-rows .tt-color-row');
+            var specRows = document.querySelectorAll('#tt-spec-rows .tt-spec-row');
+            colorRows.forEach(function(r, i) {
+                var btn = r.querySelector('button');
+                if (btn) btn.style.display = colorRows.length > 1 ? 'inline-block' : 'none';
+            });
+            specRows.forEach(function(r, i) {
+                var btn = r.querySelector('button');
+                if (btn) btn.style.display = specRows.length > 1 ? 'inline-block' : 'none';
+            });
+        }
+
+        // === 获取当前颜色和规格列表 ===
+        function ttGetColors() {
+            var result = [];
+            document.querySelectorAll('.tt-color-select').forEach(function(sel) {
+                var v = sel.value;
+                if (v) result.push(v);
+            });
+            return result;
+        }
+        function ttGetSpecs() {
+            var result = [];
+            document.querySelectorAll('.tt-spec-input').forEach(function(inp) {
+                var v = inp.value.trim();
+                if (v) result.push(v);
+            });
+            return result;
+        }
+
+        // === 同步隐藏字段（兼容旧系统） ===
+        function ttSyncHiddenFields() {
+            var colors = ttGetColors();
+            var specs = ttGetSpecs();
+            var hc = document.getElementById('selected-colors');
+            var hs = document.getElementById('selected-sizes');
+            if (hc) hc.value = colors.join(',');
+            if (hs) hs.value = specs.join(',');
+        }
+
+        // === 重建变体矩阵 ===
+        function ttRebuildMatrix(skipDataRebuild) {
+            var matrix = document.getElementById('tt-variant-matrix');
+            var countEl = document.getElementById('tt-variant-count');
+            if (!matrix) return;
+            ttSyncHiddenFields();
+            if (!skipDataRebuild) {
+            var colors = ttGetColors();
+            var specs = ttGetSpecs();
+            if (colors.length === 0 || specs.length === 0) {
+                matrix.innerHTML = '<p style="color:#999;text-align:center;padding:40px;">&#128269; 请先添加颜色和规格，变体将在此生成</p>';
+                if (countEl) countEl.textContent = '(0个变体)';
+                _ttMatrixData = [];
+                return;
+            }
+            var parentSku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
+            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
+            var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
+            var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
+            var defHeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].height) ? _ttMatrixData[0].height : '';
+            var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
+
+            _ttMatrixData = [];
+            colors.forEach(function(color) {
+                var colorCode = (typeof getColorCode === 'function') ? getColorCode(color) : color.replace(/\s+/g,'').substring(0,3).toUpperCase();
+                var getSpecEnFn = (typeof getSpecEn === 'function') ? getSpecEn : function(s){ return s; };
+                specs.forEach(function(spec) {
+                    var specEn = getSpecEnFn(spec);
+                    var childSku = parentSku ? parentSku + '-' + colorCode + '-' + specEn.replace(/\s+/g,'') : '';
+                    _ttMatrixData.push({
+                        color: color, colorCode: colorCode, spec: spec, specEn: specEn,
+                        childSku: childSku,
+                        length: defLength, width: defWidth, height: defHeight,
+                        weight: defWeight, stock: defStock, enabled: true
+                    });
+                });
+            });
+            } // end !skipDataRebuild
+
+            if (_ttMatrixData.length === 0) {
+                matrix.innerHTML = '<p style="color:#999;text-align:center;padding:40px;">&#128269; 请先添加颜色和规格，变体将在此生成</p>';
+                if (countEl) countEl.textContent = '(0个变体)';
+                return;
+            }
+
+            // Use defaults from the form for placeholders
+            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
+            var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
+            var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
+            var defHeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].height) ? _ttMatrixData[0].height : '';
+            var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
+
+            // Build table
+            var html = '<table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;">';
+            html += '<thead><tr style="background:#f5f6fa;position:sticky;top:0;z-index:10;">';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:30px;">#</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:100px;">&#127912; 颜色</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:90px;">&#128207; 规格</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;min-width:160px;">&#128230; 商品货号 (子SKU)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">长(cm)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">宽(cm)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">高(cm)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:70px;">重量(kg)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:80px;">📦 CBM(m³)</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:70px;">库存</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:50px;">启用</th>';
+            html += '</tr></thead><tbody>';
+
+            _ttMatrixData.forEach(function(item, i) {
+                var bg = item.enabled ? '' : 'background:#fff5f5;';
+                html += '<tr style="' + bg + (i%2===0?'':'background:#fafafa'.replace('background', bg?'background':'')) + '">';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;color:#999;">' + (i+1) + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;">' + item.color + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + item.spec + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.length) + '" placeholder="' + defLength + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'length\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.width) + '" placeholder="' + defWidth + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'width\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.height) + '" placeholder="' + defHeight + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'height\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-wt" data-idx="' + i + '" value="' + ttEsc(item.weight) + '" placeholder="' + defWeight + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'weight\',this.value)"></td>';
+                var cbmVal = (item.length && item.width && item.height) ? ((parseFloat(item.length)*parseFloat(item.width)*parseFloat(item.height))/1000000).toFixed(6) : '';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-cbm" data-idx="' + i + '" value="' + cbmVal + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;background:#f0f2ff;color:#667eea;font-weight:700;" readonly></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-stock" data-idx="' + i + '" value="' + ttEsc(item.stock) + '" placeholder="' + defStock + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'stock\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            matrix.innerHTML = html;
+            if (countEl) countEl.textContent = '(' + _ttMatrixData.length + '个变体)';
+            // [V7.4 TikTok] 矩阵变化后刷新定价表
+            if (typeof ttBuildPricingTable === 'function') ttBuildPricingTable();
+        }
+        function ttEsc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+        function ttOnMatrixChange(idx, field, value) {
+            if (idx >= 0 && idx < _ttMatrixData.length) {
+                _ttMatrixData[idx][field] = value;
+                // Auto-calc CBM when dimensions change
+                if (field === 'length' || field === 'width' || field === 'height') {
+                    var item = _ttMatrixData[idx];
+                    item.cbm = (item.length && item.width && item.height) ? ((parseFloat(item.length)*parseFloat(item.width)*parseFloat(item.height))/1000000).toFixed(6) : '';
+                    // Update the CBM cell in the table
+                    var cbmCell = document.querySelector('.tt-matrix-cbm[data-idx="' + idx + '"]');
+                    if (cbmCell) cbmCell.value = item.cbm;
+                }
+            }
+        }
+
+        // === 重新生成（保留用户编辑的子SKU） ===
+        function ttRegenerateMatrix() {
+            var colors = ttGetColors();
+            var specs = ttGetSpecs();
+            if (colors.length === 0 || specs.length === 0) return;
+            var parentSku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
+            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
+            var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
+            var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
+            var defHeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].height) ? _ttMatrixData[0].height : '';
+            var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
+
+            // Preserve existing data where color/spec matches
+            var oldData = {};
+            _ttMatrixData.forEach(function(d) { oldData[d.color + '|||' + d.spec] = d; });
+
+            _ttMatrixData = [];
+            colors.forEach(function(color) {
+                var colorCode = (typeof getColorCode === 'function') ? getColorCode(color) : color.replace(/\s+/g,'').substring(0,3).toUpperCase();
+                specs.forEach(function(spec) {
+                    var key = color + '|||' + spec;
+                    if (oldData[key]) {
+                        // Keep user-edited values
+                        oldData[key].colorCode = colorCode;
+                        _ttMatrixData.push(oldData[key]);
+                    } else {
+                        var childSku = parentSku ? parentSku + '-' + colorCode + '-' + spec.replace(/\s+/g,'') : '';
+                        _ttMatrixData.push({
+                            color: color, colorCode: colorCode, spec: spec,
+                            childSku: childSku,
+                            length: defLength, width: defWidth, height: defHeight,
+                            weight: defWeight, stock: defStock, enabled: true
+                        });
+                    }
+                });
+            });
+            ttRebuildMatrix(true);
+        }
+
+        // === 批量操作 ===
+        function ttBatchGenSku() {
+            ttHideBatchMenu();
+            var parentSku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
+            if (!parentSku) { showNotification('请先填写父SKU', 'error'); return; }
+            var colors = ttGetColors();
+            var specs = ttGetSpecs();
+            var getSpecEnFn = (typeof getSpecEn === 'function') ? getSpecEn : function(s){ return s; };
+            _ttMatrixData.forEach(function(item) {
+                var colorCode = (typeof getColorCode === 'function') ? getColorCode(item.color) : item.color.replace(/\s+/g,'').substring(0,3).toUpperCase();
+                var specEn = getSpecEnFn(item.spec);
+                item.childSku = parentSku + '-' + colorCode + '-' + specEn.replace(/\s+/g,'');
+                item.colorCode = colorCode;
+                item.specEn = specEn;
+            });
+            ttRebuildMatrix(true);
+            showNotification('已自动生成 ' + _ttMatrixData.length + ' 个子SKU', 'success');
+        }
+        function ttBatchFillWeight() {
+            ttHideBatchMenu();
+            document.getElementById('tt-batch-fill-title').textContent = '⚖ 批量填写重量';
+            document.getElementById('tt-batch-fill-body').innerHTML = '<div class="form-group"><label>统一重量(kg)</label><input type="number" id="tt-batch-fill-val" class="form-control" step="0.01" placeholder="0.5" value="0.5" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></div>';
+            document.getElementById('tt-batch-fill-modal').setAttribute('data-mode', 'weight');
+            document.getElementById('tt-batch-fill-modal').style.display = 'flex';
+        }
+        function ttBatchFillDims() {
+            ttHideBatchMenu();
+            document.getElementById('tt-batch-fill-title').textContent = '📏 批量填写尺寸';
+            document.getElementById('tt-batch-fill-body').innerHTML = '<div style="display:flex;gap:8px;"><div class="form-group" style="flex:1;"><label>长(cm)</label><input type="number" id="tt-batch-fill-l" class="form-control" step="0.1" placeholder="30" value="30" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></div><div class="form-group" style="flex:1;"><label>宽(cm)</label><input type="number" id="tt-batch-fill-w" class="form-control" step="0.1" placeholder="20" value="20" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></div><div class="form-group" style="flex:1;"><label>高(cm)</label><input type="number" id="tt-batch-fill-h" class="form-control" step="0.1" placeholder="10" value="10" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></div></div><p style="font-size:12px;color:#667eea;margin-top:8px;">📦 CBM体积将根据长×宽×高自动计算</p>';
+            document.getElementById('tt-batch-fill-modal').setAttribute('data-mode', 'dims');
+            document.getElementById('tt-batch-fill-modal').style.display = 'flex';
+        }
+        function ttBatchFillStock() {
+            ttHideBatchMenu();
+            document.getElementById('tt-batch-fill-title').textContent = '📦 批量填写库存';
+            document.getElementById('tt-batch-fill-body').innerHTML = '<div class="form-group"><label>统一库存数量</label><input type="number" id="tt-batch-fill-val" class="form-control" placeholder="1000" value="1000" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:6px;font-size:14px;"></div>';
+            document.getElementById('tt-batch-fill-modal').setAttribute('data-mode', 'stock');
+            document.getElementById('tt-batch-fill-modal').style.display = 'flex';
+        }
+
+        // === 批量填写弹窗确认/关闭 ===
+        var _ttBatchFillTarget = null;
+        // === 定价变体表（按规格/尺码定价） ===
+        // 从上方「最终售价」一键填入所有规格售价
+        function ttFillPriceFromFinal() {
+            var finalPriceEl = document.getElementById('selling-price');
+            if (!finalPriceEl || !finalPriceEl.value) {
+                showNotification('请先在上方填写最终售价', 'error');
+                return;
+            }
+            var finalPrice = parseFloat(finalPriceEl.value);
+            if (isNaN(finalPrice) || finalPrice <= 0) {
+                showNotification('最终售价无效，请检查', 'error');
+                return;
+            }
+            var priceInputs = document.querySelectorAll('.tt-pricing-spec-price');
+            var filled = 0;
+            priceInputs.forEach(function(inp) {
+                inp.value = finalPrice.toFixed(2);
+                filled++;
+                // 自动计算RRP = 售价 × 1.3
+                var rrpInp = inp.closest('tr').querySelector('.tt-pricing-spec-rrp');
+                if (rrpInp) {
+                    rrpInp.value = (finalPrice * 1.3).toFixed(2);
+                }
+            });
+            showNotification('已从最终售价 AUD $' + finalPrice.toFixed(2) + ' 填入 ' + filled + ' 个规格，RRP已自动计算（×1.3）', 'success');
+        }
+        function ttBuildPricingTable() {
+            var card = document.getElementById('tt-pricing-variant-card');
+            var tbl = document.getElementById('tt-pricing-variant-tbl');
+            if (!card || !tbl) return;
+            if (_ttMatrixData.length === 0) {
+                card.style.display = 'none';
+                return;
+            }
+            card.style.display = 'block';
+            // Group by spec (size), deduplicate
+            var specMap = {};
+            _ttMatrixData.forEach(function(item) {
+                if (!item.enabled || !item.spec) return;
+                if (!specMap[item.spec]) {
+                    specMap[item.spec] = { spec: item.spec, price: '', rrp: '', colors: [] };
+                }
+                if (specMap[item.spec].colors.indexOf(item.color) === -1) {
+                    specMap[item.spec].colors.push(item.color);
+                }
+            });
+            var specs = Object.keys(specMap).sort();
+            if (specs.length === 0) {
+                tbl.innerHTML = '<p style="color:#999;text-align:center;padding:20px;">&#128269; 未找到有效变体规格</p>';
+                return;
+            }
+            var html = '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+            html += '<thead><tr style="background:#fce4ec;">';
+            html += '<th style="padding:10px 8px;border:1px solid #f8bbd0;text-align:left;">&#128207; 规格/尺码</th>';
+            html += '<th style="padding:10px 8px;border:1px solid #f8bbd0;text-align:left;">&#127912; 涵盖颜色</th>';
+            html += '<th style="padding:10px 8px;border:1px solid #f8bbd0;text-align:center;width:120px;">售价 AUD <span style="font-size:10px;">(Price)</span></th>';
+            html += '<th style="padding:10px 8px;border:1px solid #f8bbd0;text-align:center;width:120px;">RRP AUD</th>';
+            html += '</tr></thead><tbody>';
+            specs.forEach(function(spec) {
+                var info = specMap[spec];
+                html += '<tr>';
+                html += '<td style="padding:8px;border:1px solid #fce4ec;font-weight:600;">' + spec + '</td>';
+                html += '<td style="padding:8px;border:1px solid #fce4ec;">' + info.colors.join(', ') + '</td>';
+                html += '<td style="padding:8px;border:1px solid #fce4ec;text-align:center;"><input type="number" class="tt-pricing-spec-price" data-spec="' + ttEsc(spec) + '" step="0.01" placeholder="29.99" style="width:100px;border:1px solid #ddd;border-radius:4px;padding:6px;text-align:center;font-size:13px;" oninput="ttAutoCalcRRP(this)"></td>';
+                html += '<td style="padding:8px;border:1px solid #fce4ec;text-align:center;"><input type="number" class="tt-pricing-spec-rrp" data-spec="' + ttEsc(spec) + '" step="0.01" placeholder="自动×1.3" style="width:100px;border:1px solid #ddd;border-radius:4px;padding:6px;text-align:center;font-size:13px;background:#f0f8ff;"></td>';
+                html += '</tr>';
+            });
+            html += '</tbody></table>';
+            tbl.innerHTML = html;
+        }
+        // 自动计算RRP = 售价 × 1.3
+        function ttAutoCalcRRP(priceInp) {
+            var price = parseFloat(priceInp.value);
+            if (isNaN(price) || price <= 0) return;
+            var rrpInp = priceInp.closest('tr').querySelector('.tt-pricing-spec-rrp');
+            if (rrpInp) {
+                rrpInp.value = (price * 1.3).toFixed(2);
+            }
+        }
+        function ttApplyPricingToVariants() {
+            var priceInputs = document.querySelectorAll('.tt-pricing-spec-price');
+            var rrpInputs = document.querySelectorAll('.tt-pricing-spec-rrp');
+            var specPrices = {};
+            var specRRPs = {};
+            priceInputs.forEach(function(inp) {
+                var spec = inp.getAttribute('data-spec');
+                var price = inp.value.trim();
+                if (price) specPrices[spec] = price;
+            });
+            rrpInputs.forEach(function(inp) {
+                var spec = inp.getAttribute('data-spec');
+                var rrp = inp.value.trim();
+                if (rrp) specRRPs[spec] = rrp;
+            });
+            var applied = 0;
+            _ttMatrixData.forEach(function(item) {
+                if (specPrices[item.spec]) {
+                    item.price = specPrices[item.spec];
+                    applied++;
+                }
+                // RRP: 优先用手动填写的，否则自动计算 = 售价 × 1.3
+                if (specRRPs[item.spec]) {
+                    item.rrp = specRRPs[item.spec];
+                } else if (item.price && parseFloat(item.price) > 0) {
+                    item.rrp = (parseFloat(item.price) * 1.3).toFixed(2);
+                }
+            });
+            showNotification('已应用定价到 ' + applied + ' 个变体（按规格匹配），RRP已自动计算（×1.3）', 'success');
+        }
+        function ttCopyPricingTable() {
+            var tbl = document.getElementById('tt-pricing-variant-tbl');
+            if (!tbl) return;
+            var text = '';
+            var rows = tbl.querySelectorAll('tr');
+            rows.forEach(function(row) {
+                var cells = row.querySelectorAll('th, td');
+                var line = [];
+                cells.forEach(function(cell) {
+                    var inp = cell.querySelector('input');
+                    line.push(inp ? (inp.value || '') : cell.textContent.trim());
+                });
+                text += line.join('\t') + '\n';
+            });
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(text).then(function() {
+                    showNotification('定价表已复制到剪贴板', 'success');
+                });
+            }
+        }
+        function ttCloseBatchFill() {
+            document.getElementById('tt-batch-fill-modal').style.display = 'none';
+        }
+        function ttConfirmBatchFill() {
+            var mode = document.getElementById('tt-batch-fill-modal').getAttribute('data-mode');
+            if (mode === 'weight') {
+                var val = document.getElementById('tt-batch-fill-val').value.trim();
+                if (!val) { showNotification('请输入重量', 'error'); return; }
+                _ttMatrixData.forEach(function(item) { item.weight = val; });
+                ttRebuildMatrix(true);
+                showNotification('已批量填写重量: ' + val + ' kg', 'success');
+            } else if (mode === 'dims') {
+                var l = document.getElementById('tt-batch-fill-l').value.trim();
+                var w = document.getElementById('tt-batch-fill-w').value.trim();
+                var h = document.getElementById('tt-batch-fill-h').value.trim();
+                if (!l || !w || !h) { showNotification('请完整填写长宽高', 'error'); return; }
+                _ttMatrixData.forEach(function(item) { item.length = l; item.width = w; item.height = h; item.cbm = ((parseFloat(l)*parseFloat(w)*parseFloat(h))/1000000).toFixed(6); });
+                ttRebuildMatrix(true);
+                showNotification('已批量填写尺寸: ' + l + '×' + w + '×' + h + ' cm（CBM已自动计算）', 'success');
+            } else if (mode === 'stock') {
+                var val = document.getElementById('tt-batch-fill-val').value.trim();
+                if (!val) { showNotification('请输入库存数量', 'error'); return; }
+                _ttMatrixData.forEach(function(item) { item.stock = val; });
+                ttRebuildMatrix(true);
+                showNotification('已批量填写库存: ' + val, 'success');
+            }
+            ttCloseBatchFill();
+        }
+
+        // === 应用到批量列表 ===
+        function ttApplyToBatch() {
+            // Sync hidden fields first
+            ttSyncHiddenFields();
+            var colors = ttGetColors();
+            var specs = ttGetSpecs();
+            if (colors.length === 0 || specs.length === 0) {
+                showNotification('请先添加颜色和规格', 'error');
+                return;
+            }
+            if (_ttMatrixData.length === 0) {
+                ttRebuildMatrix();
+            }
+            if (_ttMatrixData.length === 0) {
+                showNotification('没有变体数据', 'error');
+                return;
+            }
+            // Read user-edited values from the matrix
+            document.querySelectorAll('.tt-matrix-sku').forEach(function(inp) {
+                var i = parseInt(inp.getAttribute('data-idx'));
+                if (i >= 0 && i < _ttMatrixData.length) _ttMatrixData[i].childSku = inp.value;
+            });
+            document.querySelectorAll('.tt-matrix-dim').forEach(function(inp) {
+                var i = parseInt(inp.getAttribute('data-idx'));
+                if (i >= 0 && i < _ttMatrixData.length) {
+                    var field = inp.className.indexOf('dim') >= 0 ? 'generic' : '';
+                    // Actually need to read from oninput handler - let's re-read from matrix data directly
+                }
+            });
+            // Re-read all from _ttMatrixData (already up to date from oninput)
+            var sku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
+            var name = (document.getElementById('product-name-en') && document.getElementById('product-name-en').value || '').trim();
+            var basePrice = parseFloat((document.getElementById('selling-price') && document.getElementById('selling-price').value) || 0) || 0;
+            var rrpInput = document.getElementById('rrp-price');
+            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
+            var added = 0;
+            _ttMatrixData.forEach(function(item) {
+                if (!item.enabled) return;
+                var v = {
+                    id: batchProductIdCounter++,
+                    sku: item.childSku || (sku + '-' + item.colorCode + '-' + item.spec.replace(/\s+/g,'')),
+                    skuTitle: name + ' - ' + item.color + ' / ' + item.spec,
+                    parentSku: sku,
+                    parentSkuTitle: name,
+                    // ⚡ V7.4修正: Dropshipzone模板格式 Option1=Size, Option2=Colour
+                    option1Name: 'Size', option1Value: item.spec || '',
+                    option2Name: 'Colour', option2Value: item.color || '',
+                    ean: '(N/A)', description: '', status: '1',
+                    brand: (document.getElementById('brand') && document.getElementById('brand').value || ''),
+                    colour: item.color,
+                    weight: item.weight || '',
+                    length: item.length || '',
+                    width: item.width || '',
+                    height: item.height || '',
+                    cbm: item.cbm || '', 
+                    price: item.price || String(basePrice), 
+                    rrp: item.rrp || rrp,
+                    stock: item.stock || '',
+                    subsubcategory: selectedCategory && selectedCategory.id || '',
+                    images: uploadedImageUrls.join(',') || '',
+                    zones: getDefaultShippingTemplate()
+                };
+                // Auto calc CBM
+                var lv = parseFloat(v.length), wv = parseFloat(v.width), hv = parseFloat(v.height);
+                if (lv > 0 && wv > 0 && hv > 0) v.cbm = (lv * wv * hv / 1000000).toFixed(6);
+                batchProducts.push(v);
+                added++;
+            });
+            _dirty.batch = true;
+            renderBatchProducts();
+            updateValidationSummary();
+            debouncedSaveBatchToStorage();
+            showNotification('已添加 ' + added + ' 个变体到批量列表', 'success');
+            if (typeof ttBuildPricingTable === 'function') ttBuildPricingTable();
+        }
+
+        // === 初始化：监听父SKU变化重建矩阵 ===
+        function ttInitMatrixWatcher() {
+            var skuEl = document.getElementById('sku');
+            if (skuEl && !skuEl._ttWatched) {
+                skuEl._ttWatched = true;
+                skuEl.addEventListener('input', function() {
+                    if (_ttMatrixData.length > 0) ttRegenerateMatrix();
+                });
+            }
+        }
+
+        // ==================== v5.1 CBM + RRP Auto-calc ====================        // ==================== v5.1 CBM + RRP Auto-calc ====================
         function autoCalcCBM(productId) {
             var p = batchProducts.find(function(bp) { return bp.id === productId; });
             if (!p) return;
@@ -4959,6 +5755,8 @@ function filterBatchProducts(query) {
             document.body.appendChild(notification);
             setTimeout(function() { notification.remove(); activeNotifications--; }, 3000);
         }
+        // 暴露到 window（供外部script和全局调用）
+        window.showNotification = showNotification;
 
         // ==================== 初始化 ====================
         window.initApp = function() {
@@ -4970,6 +5768,15 @@ function filterBatchProducts(query) {
             loadApiKey();
             // v7.0: 默认模型是 doubao+deepseek，必须同时加载豆包 Key
             if (typeof loadDoubaoKey === 'function') loadDoubaoKey();
+            // v7.4: 初始化时设置默认AI模型的UI状态（确保豆包key行可见并加载）
+            (function() {
+                var defaultModelEl = document.querySelector(".ai-model-option.selected");
+                if (defaultModelEl && typeof selectAIModel === 'function') {
+                    var modelVal = defaultModelEl.getAttribute("onclick") || '';
+                    var mMatch = modelVal.match(/selectAIModel(['"]([^'"]+)['"])/);
+                    if (mMatch) selectAIModel(mMatch[1], defaultModelEl);
+                }
+            })();
             restoreCloudinaryConfig();
             /* v6.9: 首次加载时如果localStorage无图床配置，将HTML默认值自动保存 */
             if (!localStorage.getItem("dsz_cloud_name") && !localStorage.getItem("dsz_cloud_preset")) {
@@ -5014,13 +5821,25 @@ function filterBatchProducts(query) {
                     });
                 });
             });
-            // v7.0: 豆包API Key 自动保存（防丢失）
+            // v7.0: DeepSeek API Key 自动保存（防丢失）
+            var _dsInput = document.getElementById("ai-api-key");
+            if (_dsInput) {
+                ["input", "change"].forEach(function(evtName) {
+                    _dsInput.addEventListener(evtName, function() {
+                        var val = this.value.trim();
+                        if (val) { var m = selectedAIModel === "doubao+deepseek" ? "deepseek" : (selectedAIModel || "deepseek"); localStorage.setItem("dsz_ai_api_key_" + m, val); }
+                    });
+                });
+            }
+            // v7.0: 豆包API Key 自动保存（防丢失）+ 状态提示
             var _doubaoInput = document.getElementById("ai-api-key-doubao");
+            var _doubaoStatus = document.getElementById("doubao-save-status");
             if (_doubaoInput) {
                 ["input", "change"].forEach(function(evtName) {
                     _doubaoInput.addEventListener(evtName, function() {
                         var val = this.value.trim();
                         if (val) localStorage.setItem("dsz_ai_api_key_doubao", val);
+                        if (_doubaoStatus) { _doubaoStatus.textContent = "✎ 自动保存中..."; clearTimeout(_doubaoInput._saveTimer); _doubaoInput._saveTimer = setTimeout(function() { _doubaoStatus.textContent = "✅ 已自动保存"; setTimeout(function(){ _doubaoStatus.textContent = ""; }, 2000); }, 500); }
                     });
                 });
             }
@@ -5185,11 +6004,11 @@ function filterBatchProducts(query) {
             <div class="product-card">
                 <h3>&#128203; 基本信息</h3>
                 <div class="form-row">
-                    <div class="form-group"><label>产品名称(EN) <span class="required">*</span></label><input type="text" class="form-control" id="product-name-en" placeholder="Product Name"></div>
-                    <div class="form-group"><label>产品名称(CN)</label><input type="text" class="form-control" id="product-name-cn" placeholder="产品中文名"></div>
+                    <div class="form-group"><label>父产品名称(EN) <span class="required">*</span></label><input type="text" class="form-control" id="product-name-en" placeholder="Parent Product Name"></div>
+                    <div class="form-group"><label>父产品名称(CN)</label><input type="text" class="form-control" id="product-name-cn" placeholder="父产品中文名"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group"><label>SKU <span class="required">*</span></label><div style="display:flex;gap:8px;"><input type="text" class="form-control" id="sku" placeholder="DSZ-XXX-001" style="flex:1;"><button class="btn btn-warning" onclick="generateSKU()" style="padding:12px 15px;white-space:nowrap;font-size:13px;" title="根据类目+颜色+尺寸自动生成">&#9889; 自动生成</button></div></div>
+                    <div class="form-group"><label>父SKU (Parent SKU) <span class="required">*</span></label><div style="display:flex;gap:8px;"><input type="text" class="form-control" id="sku" placeholder="DSZ-XXX-001" style="flex:1;"><button class="btn btn-warning" onclick="generateSKU()" style="padding:12px 15px;white-space:nowrap;font-size:13px;" title="根据类目+颜色+尺寸自动生成">&#9889; 自动生成</button></div></div>
                     <div class="form-group"><label>EAN/UPC <span class="hint">默认(N/A)</span></label><input type="text" class="form-control" id="ean" placeholder="(N/A)" value="(N/A)"></div>
                 </div>
                 <div class="form-row">
@@ -5200,30 +6019,22 @@ function filterBatchProducts(query) {
                     <div class="form-group"><label>类目ID <span class="hint">自动带入</span></label><input type="text" class="form-control" id="category-id" placeholder="类目ID（自动从产品目录带入）" readonly style="background:#f0f2ff;font-weight:700;color:#667eea;border-color:#667eea;"></div>
                     <div></div>
                 </div>
-                <div class="form-row">
-                    <div class="form-group"><label>库存数量</label><input type="number" class="form-control" id="quantity" value="1000"></div>
-                    <div class="form-group"><label>重量(kg)</label><input type="number" class="form-control" id="weight" step="0.01" placeholder="0.5"></div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group"><label>长(cm)</label><input type="number" class="form-control" id="length" step="0.1" placeholder="30" oninput="_debouncedCalcCBM()"></div>
-                    <div class="form-group"><label>宽(cm)</label><input type="number" class="form-control" id="width" step="0.1" placeholder="20" oninput="_debouncedCalcCBM()"></div>
-                    <div class="form-group"><label>高(cm)</label><input type="number" class="form-control" id="height" step="0.1" placeholder="10" oninput="_debouncedCalcCBM()"></div>
-                    <div class="form-group"><label>📦 体积 CBM (m³) <span class="hint">自动计算</span></label><input type="text" class="form-control" id="basic-cbm" placeholder="自动计算" readonly style="background:#f0f2ff;font-weight:700;color:#667eea;border-color:#667eea;"></div>
-                </div>
+
             </div>
             <div class="product-card">
-                <h3>&#127912; 变体信息</h3>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label>颜色 <span class="hint">(下拉多选，页面显示中文，导出为英文)</span></label>
-                        <!-- 内置颜色下拉 -->
-                        <div style="display:flex;gap:6px;align-items:center;margin-bottom:8px;">
-                            <select class="form-control" id="color-dropdown" onchange="onColorDropdownChange(this)" style="flex:1;">
-                                <option value="">+ 选择颜色...</option>
-                                <option value="Red">红色 (Red)</option>
-                                <option value="Blue">蓝色 (Blue)</option>
+                <h3>&#127912; 变体信息 <span style="font-size:12px;color:#e91e63;font-weight:400;">(子SKU = 父SKU-颜色码-规格)</span></h3>
+
+                <!-- 颜色选择（TikTok风格多行） -->
+                <div class="form-group">
+                    <label>颜色 <span class="hint">(点击下拉选择，可添加多个)</span></label>
+                    <div id="tt-color-rows">
+                        <div class="tt-color-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
+                            <select class="form-control tt-color-select" onchange="ttRebuildMatrix()" style="flex:1;">
+                                <option value="">请选择颜色...</option>
                                 <option value="Black">黑色 (Black)</option>
                                 <option value="White">白色 (White)</option>
+                                <option value="Red">红色 (Red)</option>
+                                <option value="Blue">蓝色 (Blue)</option>
                                 <option value="Green">绿色 (Green)</option>
                                 <option value="Yellow">黄色 (Yellow)</option>
                                 <option value="Pink">粉色 (Pink)</option>
@@ -5235,21 +6046,72 @@ function filterBatchProducts(query) {
                                 <option value="Beige">米色 (Beige)</option>
                                 <option value="Gold">金色 (Gold)</option>
                                 <option value="Silver">银色 (Silver)</option>
+                                <option value="Camel">驼色 (Camel)</option>
+                                <option value="Khaki">卡其 (Khaki)</option>
+                                <option value="Burgundy">酒红 (Burgundy)</option>
+                                <option value="Ivory">象牙白 (Ivory)</option>
+                                <option value="Charcoal">炭灰 (Charcoal)</option>
+                                <option value="Lavender">薰衣草紫 (Lavender)</option>
+                                <option value="Mint">薄荷绿 (Mint)</option>
+                                <option value="Coral">珊瑚色 (Coral)</option>
+                                <option value="Teal">深青 (Teal)</option>
+                                <option value="Maroon">褐红 (Maroon)</option>
+                                <option value="Olive">橄榄绿 (Olive)</option>
+                                <option value="Cream">奶油色 (Cream)</option>
+                                <option value="Mustard">芥末黄 (Mustard)</option>
+                                <option value="Rose">玫瑰色 (Rose)</option>
+                                <option value="Sky Blue">天蓝 (Sky Blue)</option>
                             </select>
+                            <button class="btn btn-sm" onclick="ttRemoveColorRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除颜色">&times;</button>
                         </div>
-                        <!-- 自定义颜色输入 -->
-                        <div style="display:flex;gap:6px;margin-bottom:8px;align-items:center;">
-                            <input type="text" class="form-control" id="color-manual-input" placeholder="输入自定义颜色（中文或英文），回车添加" style="flex:1;" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomColor(this.value.trim());this.value='';}">
-                            <button class="btn btn-secondary" style="white-space:nowrap;padding:10px 14px;font-size:13px;" onclick="addCustomColor(document.getElementById('color-manual-input').value.trim());document.getElementById('color-manual-input').value='';">+ 添加</button>
-                        </div>
-                        <div style="font-size:11px;color:#999;margin-bottom:8px;">自定义颜色会保存到配置，下次自动恢复</div>
-                        <!-- 已选颜色标签 -->
-                        <div class="selected-colors-display" id="selected-colors-display" style="margin-top:4px;"></div>
-                        <input type="hidden" id="selected-colors" value="">
-                        <!-- 自定义颜色管理区域 -->
-                        <div id="custom-colors-display" style="margin-top:6px;"></div>
                     </div>
-                    <div class="form-group"><label>尺寸 (用逗号分隔)</label><input type="text" class="form-control" id="selected-sizes" placeholder="S, M, L, XL"></div>
+                    <button class="btn btn-sm" onclick="ttAddColorRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加颜色</button>
+                </div>
+
+                <!-- 规格选择（TikTok风格多行） -->
+                <div class="form-group">
+                    <label>规格/尺码 <span class="hint">(每行一个规格值，可添加多个)</span></label>
+                    <div id="tt-spec-rows">
+                        <div class="tt-spec-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
+                            <input type="text" class="form-control tt-spec-input" placeholder="如 S, M, L 或 8, 10, 12" oninput="ttRebuildMatrix()" style="flex:1;">
+                            <button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除规格">&times;</button>
+                        </div>
+                    </div>
+                    <button class="btn btn-sm" onclick="ttAddSpecRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加规格</button>
+                </div>
+
+                <!-- 变体矩阵表 -->
+                <div style="margin-top:16px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                        <h4 style="margin:0;font-size:15px;">&#128203; 变体清单 <span id="tt-variant-count" style="font-size:12px;color:#999;font-weight:400;">(0个变体)</span></h4>
+                        <div style="display:flex;gap:6px;">
+                            <div style="position:relative;">
+                                <button class="btn btn-sm" onclick="ttToggleBatchMenu()" style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;">&#128196; 批量填写 &#9662;</button>
+                                <div id="tt-batch-menu" style="display:none;position:absolute;top:100%;right:0;margin-top:4px;background:#fff;border:1px solid #dee2e6;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,0.12);z-index:9999;min-width:220px;overflow:hidden;">
+                                    <div class="tt-menu-item" onclick="ttBatchGenSku()" style="padding:10px 16px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:13px;">&#9989; 自动生成子SKU</div>
+                                    <div class="tt-menu-item" onclick="ttBatchFillWeight()" style="padding:10px 16px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:13px;">&#9878; 批量填写重量(kg)</div>
+                                    <div class="tt-menu-item" onclick="ttBatchFillDims()" style="padding:10px 16px;cursor:pointer;border-bottom:1px solid #f0f0f0;font-size:13px;">&#128207; 批量填写尺寸(长×宽×高cm)</div>
+                                    <div class="tt-menu-item" onclick="ttBatchFillStock()" style="padding:10px 16px;cursor:pointer;font-size:13px;">&#128230; 批量填写库存数量</div>
+                                </div>
+                            </div>
+                            <button class="btn" onclick="ttRegenerateMatrix()" style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;background:#fff;font-size:12px;cursor:pointer;">&#10227; 重新生成</button>
+                            <button class="btn btn-primary" onclick="ttApplyToBatch()" style="padding:6px 14px;font-size:12px;">&#9989; 添加到批量列表</button>
+                        </div>
+                        <!-- 批量填写弹窗（独立于菜单，避免被裁剪） -->
+                        <div id="tt-batch-fill-modal" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.4);z-index:99999;justify-content:center;align-items:center;">
+                            <div style="background:#fff;border-radius:12px;padding:24px;max-width:420px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+                                <h3 id="tt-batch-fill-title" style="margin:0 0 16px 0;font-size:16px;font-weight:700;">批量填写</h3>
+                                <div id="tt-batch-fill-body"></div>
+                                <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:16px;">
+                                    <button class="btn" onclick="ttCloseBatchFill()" style="padding:8px 20px;border:1px solid #ddd;border-radius:6px;background:#fff;cursor:pointer;">取消</button>
+                                    <button class="btn btn-primary" onclick="ttConfirmBatchFill()" style="padding:8px 20px;border-radius:6px;cursor:pointer;">确认填写</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tt-variant-matrix" style="max-height:420px;overflow:auto;border:1px solid #e9ecef;border-radius:8px;">
+                        <p style="color:#999;text-align:center;padding:40px;">&#128269; 请先添加颜色和规格，变体将在此生成</p>
+                    </div>
                 </div>
             </div>
             <div class="product-card">
@@ -5309,6 +6171,7 @@ function filterBatchProducts(query) {
                         <label>豆包 Doubao API Key <span class="hint"><a href="https://console.volcengine.com/ark/region:ark+cn-beijing/model" target="_blank" style="color:#667eea;">火山引擎方舟平台获取Key</a></span></label>
                         <div style="display:flex;gap:10px;">
                             <input type="password" class="form-control" id="ai-api-key-doubao" placeholder="输入豆包API Key" style="flex:1;">
+                            <span id="doubao-save-status" style="font-size:12px;color:#28a745;min-width:80px;text-align:center;"></span>
                             <button class="btn btn-secondary" onclick="saveDoubaoKey()" style="padding:12px 20px;">保存</button>
                             <button class="btn btn-danger" onclick="clearDoubaoKey()" style="padding:12px 20px;">清除</button>
                         </div>
@@ -5602,6 +6465,23 @@ function filterBatchProducts(query) {
                     </div>
                 </div>
             </div>
+            </div>
+
+            <!-- [V7.4 TikTok] 按规格/尺码的变体定价表 -->
+            <div class="product-card" id="tt-pricing-variant-card" style="display:none;border-left:4px solid #e91e63;">
+                <h3>💰 变体定价（按规格/尺码）<span style="font-size:12px;color:#999;font-weight:400;margin-left:8px;">同一规格所有颜色统一价</span>
+                    <button onclick="ttFillPriceFromFinal()" style="float:right;padding:6px 14px;background:#667eea;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;" title="从上方「最终售价」一键填入所有规格">⬇️ 从最终售价填入</button>
+                </h3>
+                <p style="font-size:13px;color:#666;margin-bottom:12px;">💡 定价不按颜色区分，按规格/尺码区分。如"1 Pack"所有颜色统一售价，"2 Pack"所有颜色统一售价。<br>✅ RRP AUD 将自动计算为售价的 <strong>1.3倍</strong>（售价 × 1.3）</p>
+                <div id="tt-pricing-variant-tbl">
+                    <p style="color:#999;text-align:center;padding:20px;">🔍 请先在「基本信息」中生成变体，此处将自动显示按规格的定价表</p>
+                </div>
+                <div style="margin-top:12px;display:flex;gap:8px;">
+                    <button class="btn btn-sm" onclick="ttApplyPricingToVariants()" style="padding:6px 14px;border:1px solid #e91e63;border-radius:4px;background:#fff;color:#e91e63;cursor:pointer;font-size:12px;">✅ 应用定价到变体</button>
+                    <button class="btn btn-sm" onclick="ttCopyPricingTable()" style="padding:6px 14px;border:1px solid #ddd;border-radius:4px;background:#fff;cursor:pointer;font-size:12px;">📋 复制定价表</button>
+                </div>
+            </div>
+
             <div class="form-row">
                 <button class="btn btn-secondary" onclick="switchTab('basic', document.querySelectorAll('.nav-tab')[4])">&larr; 上一步：基本信息</button>
                 <button class="btn btn-primary" onclick="switchTab('shipping', document.querySelectorAll('.nav-tab')[6])">下一步：运费区域 &rarr;</button>
@@ -6229,7 +7109,7 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
     (function() {
         // 应用保存的主题
         function applyTheme(theme) {
-            document.body.classList.remove('light-theme', '');
+            document.body.classList.remove('light-theme');
             if (theme === 'dark') {
                 document.body.classList.add('');
             } else if (theme === 'light') {
@@ -7121,5 +8001,7 @@ document.addEventListener('keydown', function(evt) {
 })();
 
 </script>
+<div style="position:fixed;bottom:8px;right:8px;background:#e74c3c;color:#fff;padding:4px 12px;border-radius:6px;font-size:11px;z-index:99999;font-weight:600;">V7.4</div>
+<div style="position:fixed;bottom:8px;right:8px;background:#e91e63;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;z-index:9999;">V7.4</div>
 </body>
 </html>
