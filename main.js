@@ -119,10 +119,8 @@ function applyPendingUpdates() {
 }
 
 // ─── HTML path resolution ───
+// 总是加载 app.html（避免 latest.html 缓存导致版本不对）
 function getHtmlPath() {
-    if (fs.existsSync(localHtmlPath)) {
-        return localHtmlPath;
-    }
     return bundledHtmlPath;
 }
 
@@ -143,8 +141,8 @@ async function checkForUpdate(mainWindow) {
 
             const htmlUrl = remote.htmlFile ? (BASE_RAW_URL + remote.htmlFile) : (BASE_RAW_URL + 'app.html');
             try {
-                await downloadFile(htmlUrl, localHtmlPath);
-                console.log('[AutoUpdate] Downloaded app.html');
+                await downloadFile(htmlUrl, bundledHtmlPath);
+                console.log('[AutoUpdate] Downloaded app.html to bundled path');
             } catch (e) {
                 console.log('[AutoUpdate] Failed to download HTML:', e.message);
             }
