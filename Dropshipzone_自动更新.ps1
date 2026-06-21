@@ -1,5 +1,6 @@
 # Dropshipzone V7.1 自动更新脚本 (PowerShell版)
-# 同时更新软件程序(main.js) + HTML(app.html) + 桌面文件
+# 同时更新软件程序(main.js) + HTML(app.html) + V1.4服装鞋类 + 桌面文件
+# 更新记录: 2026-06-21 修正V1.4文件名 + 新增全品类左侧导航版
 
 $ErrorActionPreference = "Stop"
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
@@ -29,9 +30,10 @@ $CORE_FILES = @(
     @{ Name = "version.json";   Dest = "$APP_DIR\version.json";   Desc = "版本信息" }
 )
 $DESKTOP_FILES = @(
-    @{ Name = "app.html";                              Dest = "$DESKTOP\Dropshipzone全品类上架模板_V7.1.html";   Desc = "V7.1桌面版" }
-    @{ Name = "Dropshipzone服装鞋类上架工具_V1.3.html"; Dest = "$DESKTOP\Dropshipzone服装鞋类上架工具_V1.3.html"; Desc = "V1.3服装版" }
-    @{ Name = "Dropshipzone_批量上架模板_V7.1.xlsx";    Dest = "$DESKTOP\Dropshipzone_批量上架模板_V7.1.xlsx";    Desc = "Excel模板" }
+    @{ Name = "app.html";                                           Dest = "$DESKTOP\Dropshipzone全品类上架模板_V7.1_左侧导航版.html"; Desc = "V7.1桌面版(全品类)" }
+    @{ Name = "Dropshipzone服装鞋类上架工具_V1.4.html";             Dest = "$DESKTOP\Dropshipzone服装鞋类上架工具_V1.4.html";         Desc = "V1.4服装鞋类版" }
+    @{ Name = "Dropshipzone全品类上架模板_v7.1.html";               Dest = "$DESKTOP\Dropshipzone全品类上架模板_v7.1.html";           Desc = "V7.1全品类版" }
+    @{ Name = "Dropshipzone_批量上架模板_V7.1.xlsx";                Dest = "$DESKTOP\Dropshipzone_批量上架模板_V7.1.xlsx";            Desc = "Excel模板" }
 )
 
 # ===========================
@@ -168,7 +170,7 @@ Write-Host ""
 Write-Host " 已更新文件:" -ForegroundColor White
 Write-Host "   软件  main.js + package.json + version.json" -ForegroundColor Gray
 Write-Host "   HTML  app.html" -ForegroundColor Gray
-Write-Host "   桌面  V7.1.html + V1.3.html + Excel模板" -ForegroundColor Gray
+Write-Host "   桌面  V7.1全品类.html + V1.4服装鞋类.html + Excel模板" -ForegroundColor Gray
 Write-Host ""
 Write-Host " 安装目录: $INSTALL_DIR" -ForegroundColor DarkGray
 Write-Host ""
