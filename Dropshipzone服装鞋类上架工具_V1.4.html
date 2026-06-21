@@ -174,12 +174,28 @@ var lbIdx = 0;
 
 // 颜色中英文映射表
 var COLOR_ZH_EN_MAP = {
+    // 基础色
     '红色': 'Red', '蓝色': 'Blue', '黑色': 'Black', '白色': 'White',
     '绿色': 'Green', '黄色': 'Yellow', '紫色': 'Purple', '橙色': 'Orange',
-    '粉色': 'Pink', '玫红': 'Rose', '棕色': 'Brown', '灰色': 'Gray',
+    '粉色': 'Pink', '玫红': 'Rose', '玫红色': 'Rose', '棕色': 'Brown', '灰色': 'Gray',
     '米色': 'Beige', '卡其色': 'Khaki', '海军蓝': 'Navy', '酒红色': 'Burgundy',
-    '金色': 'Gold', '银色': 'Silver', '藏青': 'Navy', '咖啡色': 'Coffee',
-    '驼色': 'Camel', '深灰': 'Charcoal'
+    '金色': 'Gold', '银色': 'Silver', '藏青': 'Navy', '藏青色': 'Navy',
+    '咖啡色': 'Coffee', '咖色': 'Coffee', '咖啡': 'Coffee',
+    '驼色': 'Camel', '深灰': 'Charcoal', '深灰色': 'Charcoal',
+    // 扩展色
+    '天蓝': 'SkyBlue', '天蓝色': 'SkyBlue', '湖蓝': 'LakeBlue', '湖蓝色': 'LakeBlue',
+    '墨绿': 'DarkGreen', '墨绿色': 'DarkGreen', '军绿': 'ArmyGreen', '军绿色': 'ArmyGreen',
+    '酒红': 'Burgundy', '酒红色': 'Burgundy',
+    '杏色': 'Apricot', '象牙白': 'Ivory', '奶油白': 'Cream',
+    '珊瑚红': 'Coral', '薄荷绿': 'Mint', '橄榄绿': 'Olive',
+    '驼色': 'Camel', '奶茶色': 'MilkyTea', '裸色': 'Nude',
+    '荧光绿': 'NeonGreen', '荧光黄': 'NeonYellow',
+    '宝蓝': 'RoyalBlue', '宝蓝色': 'RoyalBlue',
+    '暗红': 'DarkRed', '暗红色': 'DarkRed',
+    '浅灰': 'LightGray', '浅灰色': 'LightGray', '深蓝': 'DarkBlue', '深蓝色': 'DarkBlue',
+    '粉紫': 'PinkPurple', '粉紫色': 'PinkPurple', '紫罗兰': 'Violet', '薰衣草紫': 'Lavender',
+    '橘色': 'Orange', '橘黄色': 'Orange', '柠檬黄': 'Lemon',
+    '巧克力色': 'Chocolate', '古铜色': 'Bronze', '香槟金': 'Champagne'
 };
 
 function getColorDisplay(colorName) {
@@ -2179,23 +2195,26 @@ function cleanSku(s) {
 }
 // ==================== SKU 辅助函数 ====================
 function colorAbbr(color) {
-    // 先尝试英文缩写
-    var name = color.replace(/[^a-zA-Z]/g,'').substring(0,3).toUpperCase();
+    // 先将中文转为英文（关键修复！）
+    var enColor = getColorForExport(color);
+    // 取英文前3-4个大写字母作为缩写
+    var name = enColor.replace(/[^a-zA-Z]/g,'').substring(0,4).toUpperCase();
     if (name.length >= 2) return name;
-    // 中文取首字母大写
-    return color.substring(0,1).toUpperCase() + color.substring(1,2);
+    // 兜底
+    return enColor.substring(0,2).toUpperCase();
 }
 
 function padSizeForSku(size) {
     var str = String(size);
-    // 数字型码数补零
+    // 数字型码数补零（移除括号等特殊字符）
+    str = str.replace(/[\(\)\[\]\{\}\/\]/g, '');
     if (/^\d+$/.test(str) || /^\d+\.\d$/.test(str)) {
         if (str.length <= 2 && !str.includes('.')) return str.length < 2 ? '0' + str : str;
         // 半码如 31.5 -> 315
         return str.replace('.', '');
     }
-    // 字母码直接返回
-    return str;
+    // 字母码也清理特殊字符
+    return str.replace(/[^a-zA-Z0-9]/g, '');
 }
 
 function escAttr(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -2521,7 +2540,7 @@ function exportToExcel() {
 
     skuVariants.forEach(function(v) {
         var row = new Array(EXPORT_HEADERS.length).fill('');
-        row[0] = v.sku;
+        row[0] = cleanSku(v.sku);  // 强制清理：仅保留字母数字和横杠
         row[1] = v.skuTitle;
         // V1.4: 导出时Parent SKU也带性别前缀
         var category = document.getElementById('product-category').value || '';
