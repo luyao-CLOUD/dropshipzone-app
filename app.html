@@ -1046,7 +1046,7 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
-    <button id="translate-toggle-btn" onclick="var tr=document.getElementById('dsz-translator');if(tr){tr.style.display=tr.style.display!=='none'?'none':'block';this.style.background=tr.style.display!=='none'?'rgba(0,122,255,0.85)':'rgba(255,255,255,0.9)';}}" title="显示/隐藏翻译框" style="position:fixed;bottom:74px;right:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
+    <button id="translate-toggle-btn" onclick="toggleTranslatePanel()" title="显示/隐藏翻译框" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
 
     <div class="container">
     <div class="header">
@@ -7423,6 +7423,22 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
         el.textContent = '⚠️ ' + msg;
         el.style.display = 'block';
     }
+
+    // ============ 翻译按钮：显示/隐藏整个翻译面板 ============
+    window.toggleTranslatePanel = function() {
+        var panel = document.getElementById('dsz-translator');
+        var btn = document.getElementById('translate-toggle-btn');
+        if (!panel || !btn) return;
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            btn.style.background = 'rgba(0,122,255,0.85)';
+            btn.style.color = '#fff';
+        } else {
+            panel.style.display = 'none';
+            btn.style.background = 'rgba(255,255,255,0.9)';
+            btn.style.color = '#007aff';
+        }
+    };
 
     // ============ 深色模式适配 ============
     function _dszTrApplyTheme() {
