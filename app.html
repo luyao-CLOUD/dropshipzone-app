@@ -2515,9 +2515,9 @@ function autoCalcBasicCBM() {
             document.getElementById("gross-profit").textContent = "AUD $" + grossProfitAUD.toFixed(2);
             document.getElementById("net-margin").textContent = netMarginActual + "%";
             document.getElementById("selling-price").value = suggestedPriceAUD.toFixed(2);
-            // 自动填写RRP（建议售价 = 售价 × 1.2）
+            // 自动填写RRP（建议售价 = 售价 × 1.3）
             var rrpEl = document.getElementById("rrp-price");
-            if (rrpEl && !rrpEl.value) { rrpEl.value = (suggestedPriceAUD * 1.2).toFixed(2); }
+            if (rrpEl && !rrpEl.value) { rrpEl.value = (suggestedPriceAUD * 1.3).toFixed(2); }
             document.getElementById("price-result").style.display = "block";
             showNotification("定价计算完成！", "success");
         }
@@ -2528,7 +2528,7 @@ function autoCalcBasicCBM() {
             if (!priceEl || !rrpEl) return;
             var price = parseFloat(priceEl.value);
             if (!isNaN(price) && price > 0) {
-                rrpEl.value = (price * 1.2).toFixed(2);
+                rrpEl.value = (price * 1.3).toFixed(2);
                 showNotification("RRP已自动填入: AUD $" + rrpEl.value, "success");
             } else {
                 showNotification("请先填写最终售价", "error");
@@ -3147,7 +3147,7 @@ function autoCalcBasicCBM() {
             // 如果变体矩阵有数据 → 展开为多个子SKU产品
             if (_ttMatrixData.length > 0) {
                 var basePrice = parseFloat(_price) || 0;
-                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.2) : "");
+                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.3) : "");
                 var added = 0;
                 var enabledCount = 0;
                 _ttMatrixData.forEach(function(item) { if (item.enabled !== false) enabledCount++; });
@@ -3183,7 +3183,7 @@ function autoCalcBasicCBM() {
                         height: item.height || _height,
                         cbm: item.cbm || _cbm,
                         price: item.price || _price,
-                        rrp: item.rrp || rrp,
+                        rrp: item.rrp || rrp || (function(){ var p=parseFloat(item.price||_price); return p>0?(p*1.3).toFixed(2):""; })(),
                         stock: item.stock || _stock,
                         subsubcategory: selectedCategory.id || '',
                         images: _images,
@@ -3708,8 +3708,9 @@ function filterBatchProducts(query) {
                 status:"1", brand: document.getElementById("brand").value||"", colour: (document.getElementById("selected-colors")||{}).value||"",
                 weight: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].weight||''):'';}catch(e){return '';}})(), length: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].length||''):'';}catch(e){return '';}})(),
                 width: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].width||''):'';}catch(e){return '';}})(), height: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].height||''):'';}catch(e){return '';}})(),
-                cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(), price: document.getElementById("selling-price").value||"",
-                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value||"") : "", stock: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].stock||''):'';}catch(e){return '';}})(),
+                cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(),                 price: document.getElementById("selling-price").value||"",
+                rrp: (function(){ var rp=document.getElementById("rrp-price"); var pv=parseFloat(document.getElementById("selling-price")&&document.getElementById("selling-price").value||0); return (rp&&rp.value)?rp.value:(pv>0?(pv*1.3).toFixed(2):""); })(),
+                stock: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].stock||''):'';}catch(e){return '';}})(),
                 subsubcategory: selectedCategory.id||"", images: uploadedImageUrls.join(",")||"",
                 zones: getDefaultShippingTemplate()
             };
@@ -4983,7 +4984,7 @@ function filterBatchProducts(query) {
             if (colorArr.length === 0 && sizeArr.length === 0) { showNotification("Please enter at least colors or sizes", "error"); return; }
             var basePrice = parseFloat(document.getElementById('selling-price').value) || 0;
             var rrpInput = document.getElementById('rrp-price');
-            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
+            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.3).toFixed(2) : '');
             // [V7.4 TikTok] 尺寸/重量/库存从变体矩阵中获取，此处留空
             var weight = '';
             var len = '';
@@ -5513,7 +5514,7 @@ function filterBatchProducts(query) {
             var name = (document.getElementById('product-name-en') && document.getElementById('product-name-en').value || '').trim();
             var basePrice = parseFloat((document.getElementById('selling-price') && document.getElementById('selling-price').value) || 0) || 0;
             var rrpInput = document.getElementById('rrp-price');
-            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
+            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.3).toFixed(2) : '');
             var added = 0;
             _ttMatrixData.forEach(function(item) {
                 if (!item.enabled) return;
@@ -5577,7 +5578,7 @@ function filterBatchProducts(query) {
             var p = batchProducts.find(function(bp) { return bp.id === productId; });
             if (!p) return;
             var price = parseFloat(p.price);
-            if (price > 0) { p.rrp = (price * 1.2).toFixed(2); }
+            if (price > 0) { p.rrp = (price * 1.3).toFixed(2); }
         }
 
         // ==================== v5.1 Description Modal ====================
@@ -6458,10 +6459,10 @@ function filterBatchProducts(query) {
                     <div class="form-group">
                         <label>建议零售价 (AUD) <span class="hint">RRP (Incl. GST) — 导出到表格</span></label>
                         <div style="display:flex;gap:8px;align-items:center;">
-                            <input type="number" class="form-control" id="rrp-price" step="0.01" placeholder="自动=售价×1.2">
-                            <button class="btn btn-secondary" style="white-space:nowrap;padding:10px 14px;font-size:13px;" onclick="autoFillRRP()" title="自动填入售价×1.2">&#128260; 自动</button>
+                            <input type="number" class="form-control" id="rrp-price" step="0.01" placeholder="自动=售价×1.3">
+                            <button class="btn btn-secondary" style="white-space:nowrap;padding:10px 14px;font-size:13px;" onclick="autoFillRRP()" title="自动填入售价×1.3">&#128260; 自动</button>
                         </div>
-                        <div style="font-size:11px;color:#667eea;margin-top:4px;">&#128161; 建议: 售价 × 1.2（含GST）</div>
+                        <div style="font-size:11px;color:#667eea;margin-top:4px;">&#128161; 建议: 售价 × 1.3（含GST）</div>
                     </div>
                 </div>
             </div>
