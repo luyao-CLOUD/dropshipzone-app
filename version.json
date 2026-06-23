@@ -1,1 +1,14 @@
-{"version": "7.4.1", "updateDate": "2026-06-21", "description": "V7.4.1 修复 - 软件总是加载resources/app/app.html，避免latest.html缓存问题", "htmlFile": "app.html", "mainJs": "main.js", "packageJson": "package.json", "files": {"app_html": "app.html", "v7_1_html": "Dropshipzone全品类上架模板_v7.1.html", "v1_4_html": "Dropshipzone服装鞋类上架工具_V1.4.html"}, "updateNotes": "2026-06-21: V7.4.1 修复 - 1)修复软件启动加载旧版缓存问题(总是加载app.html) 2)翻译按钮功能修复(点击显示/隐藏翻译对话框) 3)翻译按钮位置调整到左下角设置上方"}
+{
+  "version": "7.4.2",
+  "updateDate": "2026-06-21",
+  "description": "V7.4.1 修复 - 软件总是加载resources/app/app.html，避免latest.html缓存问题",
+  "htmlFile": "app.html",
+  "mainJs": "main.js",
+  "packageJson": "package.json",
+  "files": {
+    "app_html": "app.html",
+    "v7_1_html": "Dropshipzone全品类上架模板_v7.1.html",
+    "v1_4_html": "Dropshipzone服装鞋类上架工具_V1.4.html"
+  },
+  "updateNotes": "2026-06-23: V7.4.2 - 变体信息颜色UI改造(自定义下拉+圆形色块)+规格输入框中英文双显+导航栏滚动修复+导出仅保留英文"
+}
