@@ -688,138 +688,27 @@
 }
 
 
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
+/* ===== V7.4 颜色选择器（原生select） ===== */
+.tt-color-select {
+    width: 300px;
+    height: 34px;
+    padding: 4px 8px;
+    font-size: 13px;
+    border: 1px solid #1A73E8;
+    border-radius: 6px;
+    background: #fff;
+    color: #303133;
+    cursor: pointer;
+    outline: none;
     display: inline-block;
 }
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 2px solid #1A73E8;
-    border-radius: 8px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
+.tt-color-select:focus {
     border-color: #1A73E8;
-    box-shadow: 0 0 0 3px rgba(26,115,232,0.12);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #1A73E8;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: none;
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #1A73E8;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: none !important;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: none;
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #1A73E8;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
+    box-shadow: 0 0 0 2px rgba(26,115,232,0.15);
 }
 .dsz-custom-input {
     display: none;
-    width: 100%;
+    width: 300px;
     min-height: 38px;
     padding: 6px 12px;
     border: 1px solid #dcdfe6;
@@ -5308,73 +5197,43 @@ function filterBatchProducts(query) {
             {value:"Denim", label:"Denim 牛仔", color:"#1565C0"}
         ];
 
-        // === V7.4 颜色行管理（自定义下拉UI） ===
-        function ttBuildColorDropdownList(listEl, currentValue) {
+        // === V7.4 颜色选择器（原生select） ===
+        function ttBuildColorSelectOptions(select) {
             var html = '';
-            html += '<div class="dsz-dropdown-item custom-entry" data-val="__custom__" onclick="ttColorOptionClick(this)">';
-            html += '<span class="dsz-item-swatch" style="background:#ccc;"></span>';
-            html += '<span class="dsz-item-label">&#9998; 自定义颜色...</span>';
-            html += '<span class="dsz-item-indicator">&#10003;</span>';
-            html += '</div>';
             DSZ_COLOR_OPTIONS.forEach(function(opt) {
-                var selClass = (opt.value === currentValue) ? ' selected' : '';
-                var swatchStyle = 'background:' + opt.color + ';';
-                html += '<div class="dsz-dropdown-item' + selClass + '" data-val="' + ttEsc(opt.value) + '" onclick="ttColorOptionClick(this)">';
-                html += '<span class="dsz-item-swatch" style="' + swatchStyle + '"></span>';
-                html += '<span class="dsz-item-label">' + ttEsc(opt.label) + '</span>';
-                html += '<span class="dsz-item-indicator">&#10003;</span>';
-                html += '</div>';
+                html += '<option value="' + ttEsc(opt.value) + '">' + ttEsc(opt.label) + '</option>';
             });
-            listEl.innerHTML = html;
+            html += '<option value="__custom__">&#9998; 自定义颜色...</option>';
+            select.innerHTML = '<option value="">-- 请选择颜色 --</option>' + html;
         }
 
-        function ttToggleColorDropdown(trigger) {
-            var wrapper = trigger.parentElement;
-            var list = wrapper.querySelector('.dsz-dropdown-list');
-            var isOpen = list.classList.contains('open');
-            document.querySelectorAll('.dsz-dropdown-list.open').forEach(function(l) { l.classList.remove('open'); });
-            document.querySelectorAll('.dsz-dropdown-trigger.open').forEach(function(t) { t.classList.remove('open'); });
-            if (!isOpen) {
-                var hiddenVal = wrapper.querySelector('.tt-color-value');
-                var currentValue = hiddenVal.value;
-                ttBuildColorDropdownList(list, currentValue);
-                list.classList.add('open');
-                trigger.classList.add('open');
-            }
-        }
-
-        function ttColorOptionClick(item) {
-            var wrapper = item.closest('.dsz-dropdown-wrapper');
-            var list = wrapper.querySelector('.dsz-dropdown-list');
-            var trigger = wrapper.querySelector('.dsz-dropdown-trigger');
-            var hiddenVal = wrapper.querySelector('.tt-color-value');
-            var dot = wrapper.querySelector('.dsz-color-dot');
-            var label = wrapper.querySelector('.dsz-trigger-label');
-            var row = wrapper.closest('.tt-color-row');
+        function ttColorSelectChange(select) {
+            var row = select.closest('.tt-color-row');
             var customInput = row.querySelector('.tt-color-custom');
             var cancelLink = row.querySelector('.tt-color-cancel');
 
-            if (item.getAttribute('data-val') === '__custom__') {
-                wrapper.style.display = 'none';
+            if (select.value === '__custom__') {
+                select.style.display = 'none';
                 customInput.style.display = 'block';
                 cancelLink.style.display = 'inline';
                 customInput.focus();
-                list.classList.remove('open');
-                trigger.classList.remove('open');
-            } else {
-                var val = item.getAttribute('data-val');
-                hiddenVal.value = val;
-                var optData = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === val; });
-                if (optData) {
-                    dot.style.background = optData.color;
-                    label.textContent = optData.label;
-                    label.classList.remove('dsz-trigger-placeholder');
-                }
-                list.classList.remove('open');
-                trigger.classList.remove('open');
             }
             ttRebuildMatrix();
         }
+
+        // 页面加载时填充所有颜色select选项
+        (function ttInitColorSelects() {
+            var doInit = function() {
+                document.querySelectorAll('.tt-color-select').forEach(function(sel) {
+                    if (sel.options.length <= 1) ttBuildColorSelectOptions(sel);
+                });
+            };
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', doInit);
+            } else {
+                doInit();
+            }
+        })();
 
         function ttAddColorRow() {
             var container = document.getElementById('tt-color-rows');
@@ -5386,20 +5245,15 @@ function filterBatchProducts(query) {
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
 
-            var wrapper = document.createElement('div');
-            wrapper.className = 'dsz-dropdown-wrapper';
-            wrapper.setAttribute('data-color-idx', idx);
-            wrapper.innerHTML = '<div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">'
-                + '<span class="dsz-color-dot" style="background:#ccc;"></span>'
-                + '<span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>'
-                + '<span class="dsz-trigger-arrow"></span></div>'
-                + '<div class="dsz-dropdown-list"></div>'
-                + '<input type="hidden" class="tt-color-value" value="">';
+            var select = document.createElement('select');
+            select.className = 'tt-color-select';
+            select.setAttribute('onchange', 'ttColorSelectChange(this)');
+            ttBuildColorSelectOptions(select);
 
             var customInput = document.createElement('input');
             customInput.type = 'text';
             customInput.className = 'dsz-custom-input tt-color-custom';
-            customInput.placeholder = '输入自定义颜色 (如: Black 黑色)';
+            customInput.placeholder = '输入颜色 如:Black 黑色';
             customInput.style.display = 'none';
             customInput.oninput = function() { ttRebuildMatrix(); };
 
@@ -5417,7 +5271,7 @@ function filterBatchProducts(query) {
             removeBtn.title = '移除颜色';
             removeBtn.onclick = function() { ttRemoveColorRow(this); };
 
-            row.appendChild(wrapper);
+            row.appendChild(select);
             row.appendChild(customInput);
             row.appendChild(cancelLink);
             row.appendChild(removeBtn);
@@ -5427,21 +5281,14 @@ function filterBatchProducts(query) {
 
         function ttColorCancelCustom(link) {
             var row = link.closest('.tt-color-row');
-            var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+            var select = row.querySelector('.tt-color-select');
             var customInput = row.querySelector('.tt-color-custom');
 
             customInput.style.display = 'none';
             customInput.value = '';
             link.style.display = 'none';
-            wrapper.style.display = 'inline-block';
-
-            var dot = wrapper.querySelector('.dsz-color-dot');
-            var label = wrapper.querySelector('.dsz-trigger-label');
-            var hiddenVal = wrapper.querySelector('.tt-color-value');
-            dot.style.background = '#ccc';
-            label.textContent = '请选择颜色...';
-            label.classList.add('dsz-trigger-placeholder');
-            hiddenVal.value = '';
+            select.style.display = 'inline-block';
+            select.value = '';
 
             ttRebuildMatrix();
         }
@@ -5463,7 +5310,7 @@ function filterBatchProducts(query) {
             row.className = 'tt-spec-row';
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-            row.innerHTML = '<input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()">'
+            row.innerHTML = '<input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">'
                 + '<button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除规格">&times;</button>';
             container.appendChild(row);
             ttUpdateRemoveButtons();
@@ -5502,16 +5349,15 @@ function filterBatchProducts(query) {
         function ttGetColorsDisplay() {
             var result = [];
             document.querySelectorAll('.tt-color-row').forEach(function(row) {
-                var wrapper = row.querySelector('.dsz-dropdown-wrapper');
                 var customInput = row.querySelector('.tt-color-custom');
                 var v = '';
                 if (customInput.style.display === 'block') {
                     v = customInput.value.trim();
-                } else if (wrapper) {
-                    var hiddenVal = wrapper.querySelector('.tt-color-value');
-                    if (hiddenVal && hiddenVal.value) {
-                        var label = wrapper.querySelector('.dsz-trigger-label');
-                        v = label ? label.textContent.trim() : hiddenVal.value;
+                } else {
+                    var sel = row.querySelector('.tt-color-select');
+                    if (sel && sel.value) {
+                        var opt = sel.selectedOptions[0];
+                        v = opt ? opt.textContent.trim() : sel.value;
                     }
                 }
                 if (v) result.push(v);
@@ -5527,11 +5373,8 @@ function filterBatchProducts(query) {
                 if (customInput.style.display === 'block') {
                     v = customInput.value.trim();
                 } else {
-                    var wrapper = row.querySelector('.dsz-dropdown-wrapper');
-                    if (wrapper) {
-                        var hiddenVal = wrapper.querySelector('.tt-color-value');
-                        if (hiddenVal && hiddenVal.value) v = hiddenVal.value;
-                    }
+                    var sel = row.querySelector('.tt-color-select');
+                    if (sel && sel.value) v = sel.value;
                 }
                 if (v) result.push(extractEnglish(v));
             });
@@ -6464,16 +6307,10 @@ function filterBatchProducts(query) {
                     <label>颜色 <span class="hint">(下拉选择或手动输入，可添加多个)</span></label>
                     <div id="tt-color-rows">
                         <div class="tt-color-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <div class="dsz-dropdown-wrapper" data-color-idx="0">
-                                <div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">
-                                    <span class="dsz-color-dot" style="background:#ccc;"></span>
-                                    <span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>
-                                    <span class="dsz-trigger-arrow"></span>
-                                </div>
-                                <div class="dsz-dropdown-list"></div>
-                                <input type="hidden" class="tt-color-value" value="">
-                            </div>
-                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入自定义颜色 (如: Black 黑色)" style="display:none;" oninput="ttRebuildMatrix()">
+                            <select class="tt-color-select" onchange="ttColorSelectChange(this)">
+                                <option value="">-- 请选择颜色 --</option>
+                            </select>
+                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入颜色 如:Black 黑色" style="display:none;" oninput="ttRebuildMatrix()">
                             <a href="javascript:void(0)" class="dsz-cancel-link tt-color-cancel" onclick="ttColorCancelCustom(this)" style="display:none;">取消</a>
                             <button class="dsz-color-remove-btn" onclick="ttRemoveColorRow(this)" style="display:none;" title="移除颜色">&times;</button>
                         </div>
@@ -6485,11 +6322,11 @@ function filterBatchProducts(query) {
 
                 <!-- 规格选择（TikTok风格多行） -->
                 <div class="form-group">
-                    <label>规格/尺码 <span class="hint">(每行一个规格值，可添加多个)</span></label>
+                    <label>规格/尺码 <span class="hint">(每行输入规格，默认英文+中文格式，导出仅保留英文)</span></label>
                     <div id="tt-spec-rows">
                         <div class="tt-spec-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()">
-                            <button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除规格">&times;</button>
+                            <input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">
+                            <button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" style="display:none;" title="移除规格">&times;</button>
                         </div>
                     </div>
                     <button class="btn btn-sm" onclick="ttAddSpecRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加规格</button>
