@@ -102,7 +102,8 @@
     backdrop-filter: blur(10px);
 }
 .btn-secondary:hover {
-    background: #f8fafc;
+    background: #e2e8f0;
+    color: #334155;
     box-shadow: 0 2px 10px rgba(100,116,139,0.12);
 }
         
@@ -114,7 +115,8 @@
     box-shadow: 0 1px 3px rgba(52, 199, 89, 0.25);
 }
 .btn-success:hover {
-    background: #f0fdf4;
+    background: #1a7f34;
+    color: #ffffff;
     box-shadow: 0 4px 16px rgba(34,197,94,0.25);
 }
         
@@ -126,7 +128,8 @@
     box-shadow: 0 1px 3px rgba(255, 59, 48, 0.25);
 }
 .btn-danger:hover {
-    background: #fef2f2;
+    background: #c0392b;
+    color: #ffffff;
     box-shadow: 0 4px 16px rgba(239,68,68,0.25);
 }
         
@@ -138,10 +141,10 @@
     box-shadow: 0 1px 3px rgba(255, 159, 10, 0.25);
 }
 .btn-warning:hover {
-    background: #fffbeb;
+    background: #e68900;
+    color: #ffffff;
     box-shadow: 0 4px 16px rgba(245,158,11,0.25);
 }
-        .btn-warning:hover { background: #e0a800; }
         .btn-copy {
     background: #ffffff;
     color: #22c55e;
@@ -632,29 +635,54 @@
 }
 
 /* ===== 玻璃质感侧边栏 Glassmorphism ===== */
-/* removed dup-sidebar */
+.sidebar-nav {
+    width: 200px;
+    min-width: 200px;
+    background: rgba(246,247,250,0.82);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border-right: 0.5px solid rgba(0,0,0,0.08);
+    padding: 12px 8px;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex-shrink: 0;
+}
 
 /* 隐藏旧的顶部导航 */
 .nav-tabs {
     display: none !important;
 }
 
-/* 新的导航项样式 */
 /* 玻璃质感导航项 */
-.sidebar-nav /* removed old nav-item */
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    margin: 2px 4px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #333333;
+    transition: all 0.2s ease;
+    background: transparent;
+    user-select: none;
+    white-space: nowrap;
+}
+
 .nav-item:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #000000;
 }
-/* removed old nav-item */
 
-
-.sidebar-nav 
-.sidebar-nav 
-
-.sidebar-nav 
-
-.sidebar-nav 
+.nav-item.active {
+    background: rgba(0,100,255,0.12);
+    color: #0064ff;
+    font-weight: 600;
+}
 
 .sidebar-nav .nav-icon {
     font-size: 19px;
@@ -667,25 +695,225 @@
 /* 内容区域 */
 .content-area {
     flex: 1;
-    padding: 28px 32px;
-    background: transparent;
-    overflow-y: auto;
-
-    flex: 1;
     padding: 25px 30px;
-    overflow-y: auto;
     background: #ffffff;
+    overflow-y: auto;
     min-width: 0;
 }
 
-/* 响应式 */
+/* 响应式 - 移动端导航切换为水平滚动标签栏 */
 @media (max-width: 900px) {
     .main-layout {
         flex-direction: column;
     }
-    /* removed dup-sidebar */
-    .sidebar-nav 
-    .sidebar-nav 
+    .sidebar-nav {
+        width: 100% !important;
+        min-width: 100% !important;
+        max-height: 56px;
+        flex-direction: row;
+        overflow-x: auto;
+        overflow-y: hidden;
+        padding: 8px 6px;
+        gap: 4px;
+        flex-shrink: 0;
+        border-right: none;
+        border-bottom: 0.5px solid rgba(0,0,0,0.08);
+    }
+    .sidebar-nav .nav-item {
+        flex-shrink: 0;
+        padding: 7px 12px;
+        margin: 0 2px;
+        font-size: 12px;
+        border-radius: 16px;
+    }
+    .sidebar-nav .nav-icon {
+        font-size: 16px;
+        width: auto;
+    }
+    .content-area {
+        padding: 16px 12px;
+    }
+}
+
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
 }
 
 </style>
@@ -776,7 +1004,6 @@
 .main-layout {
     display: flex !important;
 }
-/* removed dup-sidebar */
 .content-area {
     flex: 1 !important;
     padding: 25px 30px !important;
@@ -786,6 +1013,187 @@
 .nav-tabs {
     display: none !important;
 }
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+
 </style>
 
 
@@ -820,7 +1228,6 @@ button:hover, .btn:hover {
     }
 
 /* ========== 强制导航栏玻璃效果 =========== */
-/* removed dup-sidebar */
 
 
 
@@ -838,6 +1245,187 @@ select,
 .image-card { border-radius: 12px !important; }
 .upload-zone { border-radius: 16px !important; }
 .product-card { border-radius: 14px !important; }
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+
 </style>
 
 
@@ -935,6 +1523,187 @@ input, select, textarea {
     box-shadow: 0 12px 32px rgba(0,0,0,0.15) !important;
     z-index: 10 !important;
 }
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+
 </style>
 
 </head>
@@ -1046,11 +1815,11 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
-    <button id="translate-toggle-btn" onclick="var tr=document.getElementById('dsz-translator');if(tr){tr.style.display=tr.style.display!=='none'?'none':'block';this.style.background=tr.style.display!=='none'?'rgba(0,122,255,0.85)':'rgba(255,255,255,0.9)';}}" title="显示/隐藏翻译框" style="position:fixed;bottom:74px;right:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
+    <button id="translate-toggle-btn" onclick="toggleTranslatePanel()" title="显示/隐藏翻译框" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
 
     <div class="container">
     <div class="header">
-            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.4</span></h1>
+            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.4 (2026-06-21)</span></h1>
 
 
         <!-- Header工具栏：统一右侧布局 -->
@@ -2515,9 +3284,9 @@ function autoCalcBasicCBM() {
             document.getElementById("gross-profit").textContent = "AUD $" + grossProfitAUD.toFixed(2);
             document.getElementById("net-margin").textContent = netMarginActual + "%";
             document.getElementById("selling-price").value = suggestedPriceAUD.toFixed(2);
-            // 自动填写RRP（建议售价 = 售价 × 1.2）
+            // 自动填写RRP（建议售价 = 售价 × 1.3）
             var rrpEl = document.getElementById("rrp-price");
-            if (rrpEl && !rrpEl.value) { rrpEl.value = (suggestedPriceAUD * 1.2).toFixed(2); }
+            if (rrpEl && !rrpEl.value) { rrpEl.value = (suggestedPriceAUD * 1.3).toFixed(2); }
             document.getElementById("price-result").style.display = "block";
             showNotification("定价计算完成！", "success");
         }
@@ -2528,7 +3297,7 @@ function autoCalcBasicCBM() {
             if (!priceEl || !rrpEl) return;
             var price = parseFloat(priceEl.value);
             if (!isNaN(price) && price > 0) {
-                rrpEl.value = (price * 1.2).toFixed(2);
+                rrpEl.value = (price * 1.3).toFixed(2);
                 showNotification("RRP已自动填入: AUD $" + rrpEl.value, "success");
             } else {
                 showNotification("请先填写最终售价", "error");
@@ -2733,7 +3502,7 @@ function autoCalcBasicCBM() {
             document.getElementById("result-name-en").textContent = _safe("product-name-en") || "-";
             document.getElementById("result-name-cn").textContent = _safe("product-name-cn") || "-";
             document.getElementById("result-sku").textContent = _safe("sku") || "-";
-            const eanVal = _safe("ean") || "(N/A)";
+            const eanVal = _safe("ean") || "N/A";
             document.getElementById("result-ean").textContent = eanVal;
             document.getElementById("result-brand").textContent = _safe("brand") || "-";
             document.getElementById("result-category").textContent = _safe("category") || "-";
@@ -3110,7 +3879,7 @@ function autoCalcBasicCBM() {
                 // ==================== 导出JSON ====================
         function exportToJSON() {
             var _v = function(id) { var el = document.getElementById(id); return el ? el.value : ""; };
-            const data = { productNameEN: _v("product-name-en"), productNameCN: _v("product-name-cn"), sku: _v("sku"), ean: _v("ean") || "(N/A)", brand: _v("brand"), categoryEN: _v("category"), categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: _v("quantity"), weight: _v("weight"), dimensions: { length: _v("length"), width: _v("width"), height: _v("height") }, cbm: _v("basic-cbm") || "", price: _v("selling-price"), colors: _v("selected-colors"), sizes: _v("selected-sizes"), mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: _v("html-description"), metaTitleEN: _v("meta-title-en"), metaTitleCN: _v("meta-title-cn"), metaDescriptionEN: _v("meta-description-en"), metaDescriptionCN: _v("meta-description-cn"), seoKeywordsEN: _v("seo-keywords-en"), seoKeywordsCN: _v("seo-keywords-cn") };
+            const data = { productNameEN: _v("product-name-en"), productNameCN: _v("product-name-cn"), sku: _v("sku"), ean: _v("ean") || "N/A", brand: _v("brand"), categoryEN: _v("category"), categoryCN: selectedCategory.level3, categoryPathCN: selectedCategory.level1 + " > " + selectedCategory.level2 + " > " + selectedCategory.level3, categoryId: selectedCategory.id, quantity: _v("quantity"), weight: _v("weight"), dimensions: { length: _v("length"), width: _v("width"), height: _v("height") }, cbm: _v("basic-cbm") || "", price: _v("selling-price"), colors: _v("selected-colors"), sizes: _v("selected-sizes"), mainImage: uploadedImageUrls.length > 0 ? uploadedImageUrls[mainImageIndex] : "", additionalImages: uploadedImageUrls, htmlDescription: _v("html-description"), metaTitleEN: _v("meta-title-en"), metaTitleCN: _v("meta-title-cn"), metaDescriptionEN: _v("meta-description-en"), metaDescriptionCN: _v("meta-description-cn"), seoKeywordsEN: _v("seo-keywords-en"), seoKeywordsCN: _v("seo-keywords-cn") };
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a"); a.href = url; a.download = "dropshipzone-listing-v5.1.json"; a.click();
@@ -3147,7 +3916,7 @@ function autoCalcBasicCBM() {
             // 如果变体矩阵有数据 → 展开为多个子SKU产品
             if (_ttMatrixData.length > 0) {
                 var basePrice = parseFloat(_price) || 0;
-                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.2) : "");
+                var rrp = _rrp || (basePrice > 0 ? String(basePrice * 1.3) : "");
                 var added = 0;
                 var enabledCount = 0;
                 _ttMatrixData.forEach(function(item) { if (item.enabled !== false) enabledCount++; });
@@ -3183,7 +3952,7 @@ function autoCalcBasicCBM() {
                         height: item.height || _height,
                         cbm: item.cbm || _cbm,
                         price: item.price || _price,
-                        rrp: item.rrp || rrp,
+                        rrp: item.rrp || rrp || (function(){ var p=parseFloat(item.price||_price); return p>0?(p*1.3).toFixed(2):""; })(),
                         stock: item.stock || _stock,
                         subsubcategory: selectedCategory.id || '',
                         images: _images,
@@ -3520,7 +4289,7 @@ function filterBatchProducts(query) {
         }
 
         function buildProductExportRow(p) {
-            var core = [p.sku,p.skuTitle,p.parentSku,p.parentSkuTitle,p.option1Name,p.option1Value,p.option2Name,p.option2Value,p.ean||"(N/A)",p.description||"",p.status||"1",p.brand,p.colour,p.weight,p.length,p.width,p.height,p.cbm,p.price,p.rrp,p.stock,p.subsubcategory,p.images];
+            var core = [p.sku,p.skuTitle,p.parentSku,p.parentSkuTitle,p.option1Name,p.option1Value,p.option2Name,p.option2Value,p.ean||"N/A",p.description||"",p.status||"1",p.brand,p.colour,p.weight,p.length,p.width,p.height,p.cbm,p.price,p.rrp,p.stock,p.subsubcategory,p.images];
             var zones = SHIPPING_ZONE_COLUMNS.map(function(z){return p.zones?(p.zones[z.col]||""):"";});
             return core.concat(zones);
         }
@@ -3704,12 +4473,13 @@ function filterBatchProducts(query) {
                 // V7.4: 单产品也设置parentSku指向自己
                 parentSku: _sku, parentSkuTitle: _name,
                 option1Name:"", option1Value:"", option2Name:"", option2Value:"",
-                ean: document.getElementById("ean").value||"(N/A)", description: document.getElementById("html-description").value||"",
+                ean: document.getElementById("ean").value||"N/A", description: document.getElementById("html-description").value||"",
                 status:"1", brand: document.getElementById("brand").value||"", colour: (document.getElementById("selected-colors")||{}).value||"",
                 weight: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].weight||''):'';}catch(e){return '';}})(), length: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].length||''):'';}catch(e){return '';}})(),
                 width: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].width||''):'';}catch(e){return '';}})(), height: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].height||''):'';}catch(e){return '';}})(),
-                cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(), price: document.getElementById("selling-price").value||"",
-                rrp: document.getElementById("rrp-price") ? (document.getElementById("rrp-price").value||"") : "", stock: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].stock||''):'';}catch(e){return '';}})(),
+                cbm: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].cbm||''):'';}catch(e){return '';}})(),                 price: document.getElementById("selling-price").value||"",
+                rrp: (function(){ var rp=document.getElementById("rrp-price"); var pv=parseFloat(document.getElementById("selling-price")&&document.getElementById("selling-price").value||0); return (rp&&rp.value)?rp.value:(pv>0?(pv*1.3).toFixed(2):""); })(),
+                stock: (function(){try{return _ttMatrixData[0]?(_ttMatrixData[0].stock||''):'';}catch(e){return '';}})(),
                 subsubcategory: selectedCategory.id||"", images: uploadedImageUrls.join(",")||"",
                 zones: getDefaultShippingTemplate()
             };
@@ -3749,18 +4519,24 @@ function filterBatchProducts(query) {
                         var coreKeyMap = { "SKU":"sku","SKU Title":"skuTitle","Parent SKU":"parentSku","Parent SKU Title":"parentSkuTitle","Option1 Name":"option1Name","Option1 Value":"option1Value","Option2 Name":"option2Name","Option2 Value":"option2Value","EAN Code":"ean","Description":"description","Status":"status","Brand Name":"brand","Colour":"colour","Package Weight(kg)":"weight","Package Length(cm)":"length","Package Width(cm)":"width","Package Height(cm)":"height","Package CBM(m3)":"cbm","Price (Incl. GST)":"price","RRP (Incl. GST)":"rrp","Stock":"stock","Sub-subcategory":"subsubcategory","Images":"images" };
                         var zoneColKeys = {};
                         SHIPPING_ZONE_COLUMNS.forEach(function(z){ zoneColKeys[z.col] = true; });
+                        // v7.4-fix: Match zone columns by position (col index),
+                        // since the XLSX template has duplicate header names
+                        var zoneKeys = Object.keys(jsonData[0] || {});
+                        var zoneColMap = {};
+                        zoneKeys.forEach(function(hdr, pos) {
+                            var zIdx = pos - 23;  // first 23 cols are core fields
+                            if (zIdx >= 0 && zIdx < SHIPPING_ZONE_COLUMNS.length) {
+                                zoneColMap[hdr] = SHIPPING_ZONE_COLUMNS[zIdx].col;
+                            }
+                        });
                         batchProducts = [];
                         jsonData.forEach(function(row) {
                             var product = { id: batchProductIdCounter++, zones: {} };
-                            // Build header-to-col-index map from the first row's keys
                             Object.keys(row).forEach(function(k) {
                                 var key = coreKeyMap[k];
                                 if (key) { product[key] = String(row[k]||'').trim(); }
-                            });
-                            // Parse zone columns by position (SheetJS uses header names as keys)
-                            Object.keys(row).forEach(function(k, idx) {
-                                if (idx >= 23 && SHIPPING_ZONE_COLUMNS[idx - 23]) {
-                                    var zCol = SHIPPING_ZONE_COLUMNS[idx - 23].col;
+                                var zCol = zoneColMap[k];
+                                if (zCol) {
                                     var val = String(row[k]||'').trim();
                                     if (val) product.zones[zCol] = val;
                                 }
@@ -3780,6 +4556,30 @@ function filterBatchProducts(query) {
                 handleCSVImport(file);
             }
         }
+// v7.4-fix: CSV行解析器，正确处理引号包裹字段中的逗号
+        function parseCSVLine(line) {
+            var result = [];
+            var current = '';
+            var inQuotes = false;
+            for (var i = 0; i < line.length; i++) {
+                var ch = line[i];
+                if (ch === '"') {
+                    if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
+                        current += '"';
+                        i++;
+                    } else {
+                        inQuotes = !inQuotes;
+                    }
+                } else if (ch === ',' && !inQuotes) {
+                    result.push(current);
+                    current = '';
+                } else {
+                    current += ch;
+                }
+            }
+            result.push(current);
+            return result;
+        }
         function handleCSVImport(file) {
             const status = document.getElementById("import-status");
             status.textContent = "Reading CSV file...";
@@ -3793,14 +4593,15 @@ function filterBatchProducts(query) {
                     var coreKeyMap = { "SKU":"sku","SKU Title":"skuTitle","Parent SKU":"parentSku","Parent SKU Title":"parentSkuTitle","Option1 Name":"option1Name","Option1 Value":"option1Value","Option2 Name":"option2Name","Option2 Value":"option2Value","EAN Code":"ean","Description":"description","Status":"status","Brand Name":"brand","Colour":"colour","Package Weight(kg)":"weight","Package Length(cm)":"length","Package Width(cm)":"width","Package Height(cm)":"height","Package CBM(m3)":"cbm","Price (Incl. GST)":"price","RRP (Incl. GST)":"rrp","Stock":"stock","Sub-subcategory":"subsubcategory","Images":"images" };
                     batchProducts = [];
                     for (var i = 1; i < lines.length; i++) {
-                        var values = lines[i].split(",");
+                        // v7.4-fix: proper CSV parsing that handles quoted commas
+                        var values = parseCSVLine(lines[i]);
                         var product = { id: batchProductIdCounter++, zones: {} };
                         headers.forEach(function(h, idx) {
                             var key = coreKeyMap[h];
-                            if (key) { product[key] = values[idx] ? values[idx].trim().replace(/^"|"$/g, '') : ""; }
+                            if (key) { product[key] = values[idx] ? values[idx].trim() : ""; }
                             if (idx >= 23 && SHIPPING_ZONE_COLUMNS[idx - 23]) {
                                 var zCol = SHIPPING_ZONE_COLUMNS[idx - 23].col;
-                                product.zones[zCol] = values[idx] ? values[idx].trim().replace(/^"|"$/g, '') : "";
+                                product.zones[zCol] = values[idx] ? values[idx].trim() : "";
                             }
                         });
                         batchProducts.push(product);
@@ -4146,7 +4947,10 @@ function filterBatchProducts(query) {
             try {
                 const parsed = JSON.parse(jsonStr);
                 return { title: parsed.title || parsed.productTitle || "Premium Product", sku: parsed.sku || "", bullets: Array.isArray(parsed.bullets) ? parsed.bullets.join("\n") : (parsed.bullets || ""), description: parsed.description || parsed.htmlDescription || "", keywords: parsed.keywords || parsed.seoKeywords || "", tips: Array.isArray(parsed.tips) ? parsed.tips.join("\n") : (parsed.tips || "") };
-            } catch (e) { return { title: text.substring(0, 80), bullets: text, description: text, keywords: "", tips: "" }; }
+            } catch (e) {
+                console.warn('[DSZ] AI response parse failed:', e.message, 'Raw text length:', text.length);
+                return { title: "Premium Product", sku: "", bullets: "AI response parse failed. Please retry.", description: "<p>Failed to parse AI response. Raw: " + text.substring(0, 200).replace(/</g,'&lt;') + "...</p>", keywords: "", tips: "Please retry generation" };
+            }
         }
         const RETURNS_POLICY_HTML = '<h2>Returns, Refunds and Replacements</h2>' +
             '<p>Products that are received faulty, damaged, or not as described are eligible for a return, refund, or replacement in accordance with the Australian Consumer Law (ACL). We are committed to ensuring all products meet the standards of quality and reliability expected by our customers. However, please note that we do not accept returns or provide refunds for change of mind. We encourage you to carefully consider your purchase to ensure it meets your needs and expectations.</p>' +
@@ -4983,7 +5787,7 @@ function filterBatchProducts(query) {
             if (colorArr.length === 0 && sizeArr.length === 0) { showNotification("Please enter at least colors or sizes", "error"); return; }
             var basePrice = parseFloat(document.getElementById('selling-price').value) || 0;
             var rrpInput = document.getElementById('rrp-price');
-            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
+            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.3).toFixed(2) : '');
             // [V7.4 TikTok] 尺寸/重量/库存从变体矩阵中获取，此处留空
             var weight = '';
             var len = '';
@@ -4998,19 +5802,19 @@ function filterBatchProducts(query) {
                     var colorEn = getColorEn(color);
                     sizeArr.forEach(function(size) {
                         var sizeClean = size.replace(/\s+/g,'');
-                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.4修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.4修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: 'N/A', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                     });
                 });
             } else if (colorArr.length > 0) {
                 colorArr.forEach(function(color) {
                     var colorCode = getColorCode(color);
                     var colorEn = getColorEn(color);
-                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode, skuTitle: name + ' - ' + (colorEn || color), parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: colorEn || color, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode, skuTitle: name + ' - ' + (colorEn || color), parentSku: sku, parentSkuTitle: name, option1Name: 'Colour', option1Value: colorEn || color, option2Name: '', option2Value: '', ean: 'N/A', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                 });
             } else {
                 sizeArr.forEach(function(size) {
                     var sizeClean = size.replace(/\s+/g,'');
-                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + sizeClean, skuTitle: name + ' - ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Size', option1Value: size, option2Name: '', option2Value: '', ean: '(N/A)', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: '', weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                    variants.push({ id: batchProductIdCounter++, sku: sku + '-' + sizeClean, skuTitle: name + ' - ' + size, parentSku: sku, parentSkuTitle: name, option1Name: 'Size', option1Value: size, option2Name: '', option2Value: '', ean: 'N/A', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: '', weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                 });
             }
             variants.forEach(function(v) { batchProducts.push(v); });
@@ -5043,7 +5847,143 @@ function filterBatchProducts(query) {
             if (menu) { menu.style.display = 'none'; _ttBatchMenuOpen = false; }
         }
 
-        // === 颜色行管理 ===
+        // ==================== V7.4 颜色选择器数据 ====================
+        var DSZ_COLOR_OPTIONS = [
+            {value:"Black", label:"Black 黑色", color:"#000000"},
+            {value:"White", label:"White 白色", color:"#FFFFFF"},
+            {value:"Red", label:"Red 红色", color:"#E74C3C"},
+            {value:"Blue", label:"Blue 蓝色", color:"#3498DB"},
+            {value:"Green", label:"Green 绿色", color:"#27AE60"},
+            {value:"Yellow", label:"Yellow 黄色", color:"#F1C40F"},
+            {value:"Pink", label:"Pink 粉色", color:"#FF69B4"},
+            {value:"Purple", label:"Purple 紫色", color:"#9B59B6"},
+            {value:"Gray", label:"Gray 灰色", color:"#808080"},
+            {value:"Navy", label:"Navy 深蓝", color:"#000080"},
+            {value:"Brown", label:"Brown 棕色", color:"#8B4513"},
+            {value:"Orange", label:"Orange 橙色", color:"#FF8C00"},
+            {value:"Beige", label:"Beige 米色", color:"#F5F5DC"},
+            {value:"Gold", label:"Gold 金色", color:"#FFD700"},
+            {value:"Silver", label:"Silver 银色", color:"#C0C0C0"},
+            {value:"Camel", label:"Camel 驼色", color:"#C19A6B"},
+            {value:"Khaki", label:"Khaki 卡其", color:"#C3B091"},
+            {value:"Burgundy", label:"Burgundy 酒红", color:"#800020"},
+            {value:"Ivory", label:"Ivory 象牙白", color:"#FFFFF0"},
+            {value:"Charcoal", label:"Charcoal 炭灰", color:"#36454F"},
+            {value:"Lavender", label:"Lavender 薰衣草紫", color:"#E6E6FA"},
+            {value:"Mint", label:"Mint 薄荷绿", color:"#98FF98"},
+            {value:"Coral", label:"Coral 珊瑚色", color:"#FF7F50"},
+            {value:"Teal", label:"Teal 深青", color:"#008080"},
+            {value:"Maroon", label:"Maroon 褐红", color:"#800000"},
+            {value:"Olive", label:"Olive 橄榄绿", color:"#808000"},
+            {value:"Cream", label:"Cream 奶油色", color:"#FFFDD0"},
+            {value:"Mustard", label:"Mustard 芥末黄", color:"#E1AD01"},
+            {value:"Rose", label:"Rose 玫瑰色", color:"#FF007F"},
+            {value:"Sky Blue", label:"Sky Blue 天蓝", color:"#87CEEB"},
+            {value:"Royal Blue", label:"Royal Blue 宝蓝", color:"#4169E1"},
+            {value:"Turquoise", label:"Turquoise 湖蓝", color:"#40E0D0"},
+            {value:"Slate Blue", label:"Slate Blue 灰蓝", color:"#6A5ACD"},
+            {value:"Cyan", label:"Cyan 青色", color:"#00FFFF"},
+            {value:"Indigo", label:"Indigo 靛蓝", color:"#4B0082"},
+            {value:"Dark Green", label:"Dark Green 深绿", color:"#006400"},
+            {value:"Light Green", label:"Light Green 浅绿", color:"#90EE90"},
+            {value:"Neon Green", label:"Neon Green 荧光绿", color:"#39FF14"},
+            {value:"Neon Yellow", label:"Neon Yellow 荧光黄", color:"#E5FF00"},
+            {value:"Neon Orange", label:"Neon Orange 荧光橙", color:"#FF5F1F"},
+            {value:"Neon Pink", label:"Neon Pink 荧光粉", color:"#FF10F0"},
+            {value:"Dark Gray", label:"Dark Gray 深灰", color:"#555555"},
+            {value:"Light Gray", label:"Light Gray 浅灰", color:"#D3D3D3"},
+            {value:"Dark Brown", label:"Dark Brown 深棕", color:"#4A3728"},
+            {value:"Light Brown", label:"Light Brown 浅棕", color:"#B5651D"},
+            {value:"Bronze", label:"Bronze 古铜", color:"#CD7F32"},
+            {value:"Peach", label:"Peach 桃色", color:"#FFCBA4"},
+            {value:"Mocha", label:"Mocha 摩卡", color:"#967969"},
+            {value:"Nude", label:"Nude 裸色", color:"#F5DEB3"},
+            {value:"Clear", label:"Clear 透明", color:"transparent"},
+            {value:"Camouflage", label:"Camouflage 迷彩", color:"#78866B"},
+            {value:"Multi", label:"Multi 彩色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
+            {value:"Multi-color", label:"Multi-color 多色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
+            {value:"Rainbow", label:"Rainbow 彩虹色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
+            {value:"Tie-dye", label:"Tie-dye 扎染", color:"#9B59B6"},
+            {value:"Leopard", label:"Leopard 豹纹", color:"#D4A574"},
+            {value:"Snake", label:"Snake 蛇纹", color:"#6B8E23"},
+            {value:"Tiger", label:"Tiger 虎纹", color:"#E67E22"},
+            {value:"Plaid", label:"Plaid 格纹", color:"#C0392B"},
+            {value:"Stripe", label:"Stripe 条纹", color:"#2C3E50"},
+            {value:"Polka Dot", label:"Polka Dot 波点", color:"#E74C3C"},
+            {value:"Floral", label:"Floral 碎花", color:"#E91E63"},
+            {value:"Print", label:"Print 印花", color:"#8E44AD"},
+            {value:"Denim", label:"Denim 牛仔", color:"#1565C0"}
+        ];
+
+        // === 颜色行管理（V7.4 自定义下拉UI） ===
+        function ttBuildColorDropdownList(listEl, currentValue) {
+            var html = '';
+            // V7.4: 自定义颜色放在最顶部
+            html += '<div class="dsz-dropdown-item custom-entry" data-val="__custom__" onclick="ttColorOptionClick(this)">';
+            html += '<span class="dsz-item-swatch" style="background:#ccc;"></span>';
+            html += '<span class="dsz-item-label">✏️ 自定义颜色...</span>';
+            html += '<span class="dsz-item-indicator">&#10003;</span>';
+            html += '</div>';
+            DSZ_COLOR_OPTIONS.forEach(function(opt) {
+                var selClass = (opt.value === currentValue) ? ' selected' : '';
+                var swatchStyle = 'background:' + opt.color + ';';
+                html += '<div class="dsz-dropdown-item' + selClass + '" data-val="' + ttEsc(opt.value) + '" onclick="ttColorOptionClick(this)">';
+                html += '<span class="dsz-item-swatch" style="' + swatchStyle + '"></span>';
+                html += '<span class="dsz-item-label">' + ttEsc(opt.label) + '</span>';
+                html += '<span class="dsz-item-indicator">&#10003;</span>';
+                html += '</div>';
+            });
+            listEl.innerHTML = html;
+        }
+
+        function ttToggleColorDropdown(trigger) {
+            var wrapper = trigger.parentElement;
+            var list = wrapper.querySelector('.dsz-dropdown-list');
+            var isOpen = list.classList.contains('open');
+            document.querySelectorAll('.dsz-dropdown-list.open').forEach(function(l) { l.classList.remove('open'); });
+            document.querySelectorAll('.dsz-dropdown-trigger.open').forEach(function(t) { t.classList.remove('open'); });
+            if (!isOpen) {
+                var hiddenVal = wrapper.querySelector('.tt-color-value');
+                var currentValue = hiddenVal.value;
+                ttBuildColorDropdownList(list, currentValue);
+                list.classList.add('open');
+                trigger.classList.add('open');
+            }
+        }
+
+        function ttColorOptionClick(item) {
+            var wrapper = item.closest('.dsz-dropdown-wrapper');
+            var list = wrapper.querySelector('.dsz-dropdown-list');
+            var trigger = wrapper.querySelector('.dsz-dropdown-trigger');
+            var hiddenVal = wrapper.querySelector('.tt-color-value');
+            var dot = wrapper.querySelector('.dsz-color-dot');
+            var label = wrapper.querySelector('.dsz-trigger-label');
+            var row = wrapper.closest('.tt-color-row');
+            var customInput = row.querySelector('.tt-color-custom');
+            var cancelLink = row.querySelector('.tt-color-cancel');
+
+            if (item.getAttribute('data-val') === '__custom__') {
+                wrapper.style.display = 'none';
+                customInput.style.display = 'block';
+                cancelLink.style.display = 'inline';
+                customInput.focus();
+                list.classList.remove('open');
+                trigger.classList.remove('open');
+            } else {
+                var val = item.getAttribute('data-val');
+                hiddenVal.value = val;
+                var optData = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === val; });
+                if (optData) {
+                    dot.style.background = optData.color;
+                    label.textContent = optData.label;
+                    label.classList.remove('dsz-trigger-placeholder');
+                }
+                list.classList.remove('open');
+                trigger.classList.remove('open');
+            }
+            ttRebuildMatrix();
+        }
+
         function ttAddColorRow() {
             var container = document.getElementById('tt-color-rows');
             if (!container) return;
@@ -5053,13 +5993,65 @@ function filterBatchProducts(query) {
             row.className = 'tt-color-row';
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-            row.innerHTML = '<select class="form-control tt-color-select" onchange="ttRebuildMatrix()" style="flex:1;">'
-                + document.querySelector('.tt-color-select').innerHTML
-                + '</select>'
-                + '<button class="btn btn-sm" onclick="ttRemoveColorRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除颜色">&times;</button>';
+
+            var wrapper = document.createElement('div');
+            wrapper.className = 'dsz-dropdown-wrapper';
+            wrapper.setAttribute('data-color-idx', idx);
+            wrapper.innerHTML = '<div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">'
+                + '<span class="dsz-color-dot" style="background:#ccc;"></span>'
+                + '<span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>'
+                + '<span class="dsz-trigger-arrow"></span></div>'
+                + '<div class="dsz-dropdown-list"></div>'
+                + '<input type="hidden" class="tt-color-value" value="">';
+
+            var customInput = document.createElement('input');
+            customInput.type = 'text';
+            customInput.className = 'dsz-custom-input tt-color-custom';
+            customInput.placeholder = '输入自定义颜色 (如: Black 黑色)';
+            customInput.style.display = 'none';
+            customInput.oninput = function() { ttRebuildMatrix(); };
+
+            var cancelLink = document.createElement('a');
+            cancelLink.href = 'javascript:void(0)';
+            cancelLink.className = 'dsz-cancel-link tt-color-cancel';
+            cancelLink.innerText = '取消';
+            cancelLink.style.display = 'none';
+            cancelLink.onclick = function() { ttColorCancelCustom(this); };
+
+            var removeBtn = document.createElement('button');
+            removeBtn.className = 'dsz-color-remove-btn';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.style.display = 'none';
+            removeBtn.title = '移除颜色';
+            removeBtn.onclick = function() { ttRemoveColorRow(this); };
+
+            row.appendChild(wrapper);
+            row.appendChild(customInput);
+            row.appendChild(cancelLink);
+            row.appendChild(removeBtn);
             container.appendChild(row);
             ttUpdateRemoveButtons();
         }
+
+        function ttColorCancelCustom(link) {
+            var row = link.closest('.tt-color-row');
+            var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+            var customInput = row.querySelector('.tt-color-custom');
+
+            customInput.style.display = 'none';
+            customInput.value = '';
+            link.style.display = 'none';
+            wrapper.style.display = 'inline-block';
+            var dot = wrapper.querySelector('.dsz-color-dot');
+            var label = wrapper.querySelector('.dsz-trigger-label');
+            var hiddenVal = wrapper.querySelector('.tt-color-value');
+            dot.style.background = '#ccc';
+            label.textContent = '请选择颜色...';
+            label.classList.add('dsz-trigger-placeholder');
+            hiddenVal.value = '';
+            ttRebuildMatrix();
+        }
+
         function ttRemoveColorRow(btn) {
             var container = document.getElementById('tt-color-rows');
             var rows = container.querySelectorAll('.tt-color-row');
@@ -5068,6 +6060,13 @@ function filterBatchProducts(query) {
             ttUpdateRemoveButtons();
             ttRebuildMatrix();
         }
+
+        document.addEventListener('click', function(e) {
+            if (!e.target.closest('.dsz-dropdown-wrapper')) {
+                document.querySelectorAll('.dsz-dropdown-list.open').forEach(function(l) { l.classList.remove('open'); });
+                document.querySelectorAll('.dsz-dropdown-trigger.open').forEach(function(t) { t.classList.remove('open'); });
+            }
+        });
         function ttAddSpecRow() {
             var container = document.getElementById('tt-spec-rows');
             if (!container) return;
@@ -5077,7 +6076,7 @@ function filterBatchProducts(query) {
             row.className = 'tt-spec-row';
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-            row.innerHTML = '<input type="text" class="form-control tt-spec-input" placeholder="如 8, 10, 12" oninput="ttRebuildMatrix()" style="flex:1;">'
+            row.innerHTML = '<input type="text" class="form-control tt-spec-input" placeholder="如 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">'
                 + '<button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除规格">&times;</button>';
             container.appendChild(row);
             ttUpdateRemoveButtons();
@@ -5103,16 +6102,70 @@ function filterBatchProducts(query) {
             });
         }
 
+        // V7.4 从双语字符串提取英文部分（用于导出时剥离中文）
+        function extractEnglish(str) {
+            if (!str) return '';
+            var match = str.match(/^([a-zA-Z0-9\s\-\.\/]+)/);
+            return match ? match[1].trim() : str.trim();
+        }
+
         // === 获取当前颜色和规格列表 ===
         function ttGetColors() {
             var result = [];
-            document.querySelectorAll('.tt-color-select').forEach(function(sel) {
-                var v = sel.value;
+            document.querySelectorAll('.tt-color-row').forEach(function(row) {
+                var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+                var customInput = row.querySelector('.tt-color-custom');
+                var hiddenVal = wrapper ? wrapper.querySelector('.tt-color-value') : null;
+                var v = '';
+                if (wrapper && wrapper.style.display === 'none' && customInput && customInput.value.trim()) {
+                    v = extractEnglish(customInput.value.trim());
+                } else if (wrapper && wrapper.style.display !== 'none' && hiddenVal && hiddenVal.value) {
+                    v = hiddenVal.value.trim();
+                } else if (!wrapper) {
+                    var sel = row.querySelector('.tt-color-select');
+                    var ci = row.querySelector('.tt-color-custom');
+                    if (ci && ci.style.display === 'block') {
+                        v = extractEnglish(ci.value.trim());
+                    } else if (sel && sel.value && sel.value !== '__custom__') {
+                        v = sel.value.trim();
+                    }
+                }
+                if (v) result.push(v);
+            });
+            return result;
+        }
+
+        // 获取颜色双语显示值
+        function ttGetColorsDisplay() {
+            var result = [];
+            document.querySelectorAll('.tt-color-row').forEach(function(row) {
+                var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+                var customInput = row.querySelector('.tt-color-custom');
+                var v = '';
+                if (wrapper && wrapper.style.display === 'none' && customInput && customInput.value.trim()) {
+                    v = customInput.value.trim();
+                } else if (wrapper && wrapper.style.display !== 'none') {
+                    var hiddenVal = wrapper.querySelector('.tt-color-value');
+                    if (hiddenVal && hiddenVal.value) {
+                        var optData = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === hiddenVal.value; });
+                        v = optData ? optData.label : hiddenVal.value;
+                    }
+                }
                 if (v) result.push(v);
             });
             return result;
         }
         function ttGetSpecs() {
+            var result = [];
+            document.querySelectorAll('.tt-spec-input').forEach(function(inp) {
+                var v = inp.value.trim();
+                if (v) result.push(extractEnglish(v));
+            });
+            return result;
+        }
+
+        // 获取规格原始双语值（用于矩阵显示）
+        function ttGetSpecsDisplay() {
             var result = [];
             document.querySelectorAll('.tt-spec-input').forEach(function(inp) {
                 var v = inp.value.trim();
@@ -5155,14 +6208,19 @@ function filterBatchProducts(query) {
             var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
 
             _ttMatrixData = [];
-            colors.forEach(function(color) {
+            var colorsDisplay = (typeof ttGetColorsDisplay === 'function') ? ttGetColorsDisplay() : colors;
+            var specsDisplay = (typeof ttGetSpecsDisplay === 'function') ? ttGetSpecsDisplay() : specs;
+            colors.forEach(function(color, ci) {
                 var colorCode = (typeof getColorCode === 'function') ? getColorCode(color) : color.replace(/\s+/g,'').substring(0,3).toUpperCase();
                 var getSpecEnFn = (typeof getSpecEn === 'function') ? getSpecEn : function(s){ return s; };
-                specs.forEach(function(spec) {
+                specs.forEach(function(spec, si) {
                     var specEn = getSpecEnFn(spec);
                     var childSku = parentSku ? parentSku + '-' + colorCode + '-' + specEn.replace(/\s+/g,'') : '';
+                    var colorDisplayVal = (colorsDisplay && colorsDisplay[ci]) ? colorsDisplay[ci] : color;
+                    var specDisplayVal = (specsDisplay && specsDisplay[si]) ? specsDisplay[si] : spec;
                     _ttMatrixData.push({
                         color: color, colorCode: colorCode, spec: spec, specEn: specEn,
+                        colorDisplay: colorDisplayVal, specDisplay: specDisplayVal,
                         childSku: childSku,
                         length: defLength, width: defWidth, height: defHeight,
                         weight: defWeight, stock: defStock, enabled: true
@@ -5205,8 +6263,8 @@ function filterBatchProducts(query) {
                 var bg = item.enabled ? '' : 'background:#fff5f5;';
                 html += '<tr style="' + bg + (i%2===0?'':'background:#fafafa'.replace('background', bg?'background':'')) + '">';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;color:#999;">' + (i+1) + '</td>';
-                html += '<td style="padding:4px 6px;border:1px solid #eee;">' + item.color + '</td>';
-                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + item.spec + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;">' + (item.colorDisplay || item.color) + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + (item.specDisplay || item.spec) + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.length) + '" placeholder="' + defLength + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'length\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.width) + '" placeholder="' + defWidth + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'width\',this.value)"></td>';
@@ -5444,10 +6502,14 @@ function filterBatchProducts(query) {
                 });
                 text += line.join('\t') + '\n';
             });
-            if (navigator.clipboard) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(function() {
                     showNotification('定价表已复制到剪贴板', 'success');
+                }).catch(function() {
+                    showNotification('复制失败，请手动复制', 'error');
                 });
+            } else {
+                showNotification('复制失败，请手动复制表格内容', 'error');
             }
         }
         function ttCloseBatchFill() {
@@ -5513,7 +6575,7 @@ function filterBatchProducts(query) {
             var name = (document.getElementById('product-name-en') && document.getElementById('product-name-en').value || '').trim();
             var basePrice = parseFloat((document.getElementById('selling-price') && document.getElementById('selling-price').value) || 0) || 0;
             var rrpInput = document.getElementById('rrp-price');
-            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.2).toFixed(2) : '');
+            var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.3).toFixed(2) : '');
             var added = 0;
             _ttMatrixData.forEach(function(item) {
                 if (!item.enabled) return;
@@ -5526,7 +6588,7 @@ function filterBatchProducts(query) {
                     // ⚡ V7.4修正: Dropshipzone模板格式 Option1=Size, Option2=Colour
                     option1Name: 'Size', option1Value: item.spec || '',
                     option2Name: 'Colour', option2Value: item.color || '',
-                    ean: '(N/A)', description: '', status: '1',
+                    ean: 'N/A', description: '', status: '1',
                     brand: (document.getElementById('brand') && document.getElementById('brand').value || ''),
                     colour: item.color,
                     weight: item.weight || '',
@@ -5577,7 +6639,7 @@ function filterBatchProducts(query) {
             var p = batchProducts.find(function(bp) { return bp.id === productId; });
             if (!p) return;
             var price = parseFloat(p.price);
-            if (price > 0) { p.rrp = (price * 1.2).toFixed(2); }
+            if (price > 0) { p.rrp = (price * 1.3).toFixed(2); }
         }
 
         // ==================== v5.1 Description Modal ====================
@@ -6009,7 +7071,7 @@ function filterBatchProducts(query) {
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>父SKU (Parent SKU) <span class="required">*</span></label><div style="display:flex;gap:8px;"><input type="text" class="form-control" id="sku" placeholder="DSZ-XXX-001" style="flex:1;"><button class="btn btn-warning" onclick="generateSKU()" style="padding:12px 15px;white-space:nowrap;font-size:13px;" title="根据类目+颜色+尺寸自动生成">&#9889; 自动生成</button></div></div>
-                    <div class="form-group"><label>EAN/UPC <span class="hint">默认(N/A)</span></label><input type="text" class="form-control" id="ean" placeholder="(N/A)" value="(N/A)"></div>
+                    <div class="form-group"><label>EAN/UPC <span class="hint">默认N/A</span></label><input type="text" class="form-control" id="ean" placeholder="N/A" value="N/A"></div>
                 </div>
                 <div class="form-row">
                     <div class="form-group"><label>品牌</label><input type="text" class="form-control" id="brand" placeholder="Brand Name"></div>
@@ -6024,57 +7086,38 @@ function filterBatchProducts(query) {
             <div class="product-card">
                 <h3>&#127912; 变体信息 <span style="font-size:12px;color:#e91e63;font-weight:400;">(子SKU = 父SKU-颜色码-规格)</span></h3>
 
-                <!-- 颜色选择（TikTok风格多行） -->
+                <!-- 颜色选择（V7.4自定义下拉UI） -->
                 <div class="form-group">
-                    <label>颜色 <span class="hint">(点击下拉选择，可添加多个)</span></label>
+                    <label>颜色 <span class="hint">(下拉选择或手动输入，可添加多个)</span></label>
                     <div id="tt-color-rows">
                         <div class="tt-color-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <select class="form-control tt-color-select" onchange="ttRebuildMatrix()" style="flex:1;">
-                                <option value="">请选择颜色...</option>
-                                <option value="Black">黑色 (Black)</option>
-                                <option value="White">白色 (White)</option>
-                                <option value="Red">红色 (Red)</option>
-                                <option value="Blue">蓝色 (Blue)</option>
-                                <option value="Green">绿色 (Green)</option>
-                                <option value="Yellow">黄色 (Yellow)</option>
-                                <option value="Pink">粉色 (Pink)</option>
-                                <option value="Purple">紫色 (Purple)</option>
-                                <option value="Gray">灰色 (Gray)</option>
-                                <option value="Navy">深蓝 (Navy)</option>
-                                <option value="Brown">棕色 (Brown)</option>
-                                <option value="Orange">橙色 (Orange)</option>
-                                <option value="Beige">米色 (Beige)</option>
-                                <option value="Gold">金色 (Gold)</option>
-                                <option value="Silver">银色 (Silver)</option>
-                                <option value="Camel">驼色 (Camel)</option>
-                                <option value="Khaki">卡其 (Khaki)</option>
-                                <option value="Burgundy">酒红 (Burgundy)</option>
-                                <option value="Ivory">象牙白 (Ivory)</option>
-                                <option value="Charcoal">炭灰 (Charcoal)</option>
-                                <option value="Lavender">薰衣草紫 (Lavender)</option>
-                                <option value="Mint">薄荷绿 (Mint)</option>
-                                <option value="Coral">珊瑚色 (Coral)</option>
-                                <option value="Teal">深青 (Teal)</option>
-                                <option value="Maroon">褐红 (Maroon)</option>
-                                <option value="Olive">橄榄绿 (Olive)</option>
-                                <option value="Cream">奶油色 (Cream)</option>
-                                <option value="Mustard">芥末黄 (Mustard)</option>
-                                <option value="Rose">玫瑰色 (Rose)</option>
-                                <option value="Sky Blue">天蓝 (Sky Blue)</option>
-                            </select>
-                            <button class="btn btn-sm" onclick="ttRemoveColorRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除颜色">&times;</button>
+                            <div class="dsz-dropdown-wrapper" data-color-idx="0">
+                                <div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">
+                                    <span class="dsz-color-dot" style="background:#ccc;"></span>
+                                    <span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>
+                                    <span class="dsz-trigger-arrow"></span>
+                                </div>
+                                <div class="dsz-dropdown-list">
+                                </div>
+                                <input type="hidden" class="tt-color-value" value="">
+                            </div>
+                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入自定义颜色 (如: Black 黑色)" style="display:none;">
+                            <a href="javascript:void(0)" class="dsz-cancel-link tt-color-cancel" onclick="ttColorCancelCustom(this)" style="display:none;">取消</a>
+                            <button class="dsz-color-remove-btn" onclick="ttRemoveColorRow(this)" style="display:none;" title="移除颜色">&times;</button>
                         </div>
                     </div>
-                    <button class="btn btn-sm" onclick="ttAddColorRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加颜色</button>
+                    <div style="display:flex;gap:6px;margin-top:6px;">
+                        <button class="btn btn-sm" onclick="ttAddColorRow()" style="border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加颜色</button>
+                    </div>
                 </div>
 
-                <!-- 规格选择（TikTok风格多行） -->
+                <!-- 规格/尺码选择（V7.4双语格式） -->
                 <div class="form-group">
-                    <label>规格/尺码 <span class="hint">(每行一个规格值，可添加多个)</span></label>
+                    <label>规格/尺码 <span class="hint">(每行输入规格，默认英文+中文格式，导出仅保留英文)</span></label>
                     <div id="tt-spec-rows">
                         <div class="tt-spec-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <input type="text" class="form-control tt-spec-input" placeholder="如 S, M, L 或 8, 10, 12" oninput="ttRebuildMatrix()" style="flex:1;">
-                            <button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除规格">&times;</button>
+                            <input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">
+                            <button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" style="display:none;" title="移除规格">&times;</button>
                         </div>
                     </div>
                     <button class="btn btn-sm" onclick="ttAddSpecRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加规格</button>
@@ -6402,6 +7445,187 @@ function filterBatchProducts(query) {
     color: #1d1d1f;
 }
 
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+
 </style>
             <div class="info-box">
                 <strong>第6步：</strong> 计算建议售价，确保合理利润空间。上方大主图可截图用1688插件搜同款。
@@ -6458,10 +7682,10 @@ function filterBatchProducts(query) {
                     <div class="form-group">
                         <label>建议零售价 (AUD) <span class="hint">RRP (Incl. GST) — 导出到表格</span></label>
                         <div style="display:flex;gap:8px;align-items:center;">
-                            <input type="number" class="form-control" id="rrp-price" step="0.01" placeholder="自动=售价×1.2">
-                            <button class="btn btn-secondary" style="white-space:nowrap;padding:10px 14px;font-size:13px;" onclick="autoFillRRP()" title="自动填入售价×1.2">&#128260; 自动</button>
+                            <input type="number" class="form-control" id="rrp-price" step="0.01" placeholder="自动=售价×1.3">
+                            <button class="btn btn-secondary" style="white-space:nowrap;padding:10px 14px;font-size:13px;" onclick="autoFillRRP()" title="自动填入售价×1.3">&#128260; 自动</button>
                         </div>
-                        <div style="font-size:11px;color:#667eea;margin-top:4px;">&#128161; 建议: 售价 × 1.2（含GST）</div>
+                        <div style="font-size:11px;color:#667eea;margin-top:4px;">&#128161; 建议: 售价 × 1.3（含GST）</div>
                     </div>
                 </div>
             </div>
@@ -6547,7 +7771,7 @@ function filterBatchProducts(query) {
                     <tr><td>Product Name (EN)</td><td id="result-name-en">-</td><td><button class="btn btn-copy" onclick="copyText('result-name-en')">复制</button></td></tr>
                     <tr><td>Product Name (CN)</td><td id="result-name-cn">-</td><td><button class="btn btn-copy" onclick="copyText('result-name-cn')">复制</button></td></tr>
                     <tr><td>SKU</td><td id="result-sku">-</td><td><button class="btn btn-copy" onclick="copyText('result-sku')">复制</button></td></tr>
-                    <tr><td>EAN</td><td id="result-ean" class="ean-default-na">(N/A)</td><td><button class="btn btn-copy" onclick="copyText('result-ean')">复制</button></td></tr>
+                    <tr><td>EAN</td><td id="result-ean" class="ean-default-na">N/A</td><td><button class="btn btn-copy" onclick="copyText('result-ean')">复制</button></td></tr>
                     <tr><td>Brand</td><td id="result-brand">-</td><td><button class="btn btn-copy" onclick="copyText('result-brand')">复制</button></td></tr>
                     <tr><td>Category (EN)</td><td id="result-category">-</td><td><button class="btn btn-copy" onclick="copyText('result-category')">复制</button></td></tr>
                     <tr><td>Category Path (CN)</td><td id="result-cat-path">-</td><td><button class="btn btn-copy" onclick="copyText('result-cat-path')">复制</button></td></tr>
@@ -6882,9 +8106,17 @@ window.copySettingsInviteCode = function() {
 function fallbackCopy(text) {
     var tmp = document.createElement('textarea');
     tmp.value = text;
+    tmp.style.position = 'fixed';
+    tmp.style.left = '-9999px';
+    tmp.style.top = '-9999px';
     document.body.appendChild(tmp);
+    tmp.focus();
     tmp.select();
-    document.execCommand('copy');
+    try {
+        document.execCommand('copy');
+    } catch(e) {
+        console.warn('[DSZ] fallbackCopy failed:', e);
+    }
     document.body.removeChild(tmp);
     _showNotification('激活码已复制', 'success');
 }
@@ -6927,7 +8159,7 @@ window.renderAdminUserList = function() {
         html += '<tr>' +
             '<td>' + escapeHtml(u) + '</td>' +
             '<td>' + (info.regTime ? new Date(info.regTime).toLocaleString() : '-') + '</td>' +
-            '<td><button class="btn btn-sm btn-danger" onclick="adminDeleteUser(\'' + escapeHtml(u) + '\')">删除</button></td>' +
+            '<td><button class="btn btn-sm btn-danger" data-username="' + escapeHtml(u) + '" onclick="adminDeleteUser(this.getAttribute(\'data-username\'))">删除</button></td>' +
             '</tr>';
     }
     tbody.innerHTML = html || '<tr><td colspan="3" style="text-align:center;color:#999;">暂无用户</td></tr>';
@@ -7424,6 +8656,22 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
         el.style.display = 'block';
     }
 
+    // ============ 翻译按钮：显示/隐藏整个翻译面板 ============
+    window.toggleTranslatePanel = function() {
+        var panel = document.getElementById('dsz-translator');
+        var btn = document.getElementById('translate-toggle-btn');
+        if (!panel || !btn) return;
+        if (panel.style.display === 'none') {
+            panel.style.display = 'block';
+            btn.style.background = 'rgba(0,122,255,0.85)';
+            btn.style.color = '#fff';
+        } else {
+            panel.style.display = 'none';
+            btn.style.background = 'rgba(255,255,255,0.9)';
+            btn.style.color = '#007aff';
+        }
+    };
+
     // ============ 深色模式适配 ============
     function _dszTrApplyTheme() {
         var isDark = document.body.classList.contains('');
@@ -7484,6 +8732,187 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
         
 <!-- Apple Glass Force v5 -->
 <style id="<!-- Apple Glass Force v6 -->
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+
 </style>
 
 <!-- ========== Apple Glass v7 完整版 ========== -->
@@ -7858,6 +9287,187 @@ input:focus, select:focus, textarea:focus {
 /* 侧边栏也下移 */
 .sidebar-nav {
     padding-top: 46px !important;
+}
+
+
+/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
+.dsz-dropdown-wrapper {
+    position: relative;
+    width: 320px;
+    display: inline-block;
+}
+.dsz-dropdown-trigger {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    background: #fff;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    font-size: 13px;
+    transition: border-color 0.2s;
+    position: relative;
+}
+.dsz-dropdown-trigger:hover {
+    border-color: #c0c4cc;
+}
+.dsz-dropdown-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+}
+.dsz-dropdown-trigger .dsz-trigger-arrow {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 6px solid #909399;
+    transition: transform 0.2s;
+}
+.dsz-dropdown-trigger.open .dsz-trigger-arrow {
+    transform: translateY(-50%) rotate(180deg);
+}
+.dsz-color-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-trigger-label {
+    flex: 1;
+    color: #303133;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dsz-trigger-placeholder {
+    color: #c0c4cc;
+}
+.dsz-dropdown-list {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e4e7ed;
+    border-radius: 6px;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 260px;
+    overflow-y: auto;
+}
+.dsz-dropdown-list.open {
+    display: block;
+}
+.dsz-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #303133;
+    transition: background 0.15s, color 0.15s;
+}
+.dsz-dropdown-item:hover {
+    background: #f0f2ff;
+}
+.dsz-dropdown-item.selected {
+    background: #667eea;
+    color: #fff;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    display: inline-block;
+}
+.dsz-dropdown-item .dsz-item-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    border: 1px solid rgba(0,0,0,0.1);
+}
+.dsz-dropdown-item .dsz-item-label {
+    flex: 1;
+}
+.dsz-dropdown-item .dsz-item-indicator {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.dsz-dropdown-item.selected .dsz-item-indicator {
+    background: #fff;
+    color: #667eea;
+    text-align: center;
+    line-height: 18px;
+    font-size: 11px;
+    font-weight: 700;
+}
+.dsz-dropdown-item.custom-entry {
+    color: #667eea;
+    border-top: 1px solid #f0f0f0;
+    font-style: italic;
+}
+.dsz-custom-input {
+    display: none;
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+}
+.dsz-custom-input:focus {
+    border-color: #667eea;
+}
+.dsz-color-remove-btn {
+    background: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    font-size: 16px;
+    color: #999;
+    flex-shrink: 0;
+    height: 34px;
+    line-height: 1;
+}
+.dsz-color-remove-btn:hover {
+    color: #f44336;
+    border-color: #f44336;
+}
+.dsz-cancel-link {
+    font-size: 12px;
+    color: #667eea;
+    cursor: pointer;
+    text-decoration: underline;
+    flex-shrink: 0;
+}
+.dsz-spec-input {
+    width: 320px;
+    min-height: 38px;
+    padding: 6px 12px;
+    border: 1px solid #dcdfe6;
+    border-radius: 6px;
+    font-size: 13px;
+    outline: none;
+    flex: none;
+}
+.dsz-spec-input:focus {
+    border-color: #667eea;
+    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
 }
 
 </style>
