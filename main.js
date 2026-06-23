@@ -193,7 +193,7 @@ async function checkForUpdate(mainWindow) {
 let mainWindow;
 
 function createWindow() {
-    const hadPending = applyPendingUpdates();
+    const hadPending = false; // [V7.4.2] 禁用自动更新 - applyPendingUpdates();
 
     // Windows 11 风格圆角无框窗口
     mainWindow = new BrowserWindow({
@@ -248,19 +248,19 @@ function createWindow() {
         }
     });
 
-    // Auto-update after load
+    // [V7.4.2] 禁用自动更新
     mainWindow.webContents.on('did-finish-load', () => {
-        checkForUpdate(mainWindow);
+        // checkForUpdate(mainWindow);
         
-        if (hadPending) {
-            dialog.showMessageBox(mainWindow, {
-                type: 'info',
-                title: '📦 软件程序已更新',
-                message: '检测到并已应用程序更新',
-                detail: '软件程序文件(main.js, package.json)已更新到最新版本。\n当前运行的是更新后的代码。',
-                buttons: ['确定']
-            });
-        }
+        // if (hadPending) {
+        //     dialog.showMessageBox(mainWindow, {
+        //         type: 'info',
+        //         title: '📦 软件程序已更新',
+        //         message: '检测到并已应用程序更新',
+        //         detail: '软件程序文件(main.js, package.json)已更新到最新版本。\n当前运行的是更新后的代码。',
+        //         buttons: ['确定']
+        //     });
+        // }
     });
 
     // mainWindow.webContents.openDevTools();
