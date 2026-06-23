@@ -1,7 +1,7 @@
 {
-  "version": "7.4.2",
-  "updateDate": "2026-06-21",
-  "description": "V7.4.1 修复 - 软件总是加载resources/app/app.html，避免latest.html缓存问题",
+  "version": "7.4.3",
+  "updateDate": "2026-06-23",
+  "description": "V7.4.3 UI修复 - 下拉框蓝色边框+三角箭头+品牌蓝#1A73E8配色",
   "htmlFile": "app.html",
   "mainJs": "main.js",
   "packageJson": "package.json",
@@ -10,5 +10,5 @@
     "v7_1_html": "Dropshipzone全品类上架模板_v7.1.html",
     "v1_4_html": "Dropshipzone服装鞋类上架工具_V1.4.html"
   },
-  "updateNotes": "2026-06-23: V7.4.2 - 变体信息颜色UI改造(自定义下拉+圆形色块)+规格输入框中英文双显+导航栏滚动修复+导出仅保留英文"
+  "updateNotes": "2026-06-23: V7.4.3 - 下拉框蓝色实线圆角边框+三角箭头图标+品牌蓝#1A73E8配色+去除勾选标记+实心颜色圆+下拉面板模式"
 }
