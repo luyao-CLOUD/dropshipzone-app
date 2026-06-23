@@ -690,11 +690,11 @@
 
 /* ===== V7.4 颜色选择器（原生select） ===== */
 .tt-color-select {
-    width: 300px;
-    height: 34px;
-    padding: 4px 8px;
-    font-size: 13px;
-    border: 1px solid #1A73E8;
+    width: 320px;
+    height: 40px;
+    padding: 8px 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
     border-radius: 6px;
     background: #fff;
     color: #303133;
@@ -708,12 +708,12 @@
 }
 .dsz-custom-input {
     display: none;
-    width: 300px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
+    width: 320px;
+    height: 40px;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
     border-radius: 6px;
-    font-size: 13px;
+    font-size: 14px;
     outline: none;
 }
 .dsz-custom-input:focus {
@@ -725,15 +725,35 @@
     border-radius: 4px;
     padding: 4px 10px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     color: #999;
     flex-shrink: 0;
     height: 34px;
     line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
 }
 .dsz-color-remove-btn:hover {
     color: #f44336;
     border-color: #f44336;
+    background: #fff5f5;
+}
+/* ===== V7.4 颜色圆点 ===== */
+.tt-color-dot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid #e0e0e0;
+    flex-shrink: 0;
+    background: #f5f5f5;
+    transition: border-color 0.2s;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+.tt-color-dot.active {
+    border-color: #999;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.15), 0 0 0 2px rgba(26,115,232,0.15);
 }
 .dsz-cancel-link {
     font-size: 12px;
@@ -5199,11 +5219,10 @@ function filterBatchProducts(query) {
 
         // === V7.4 颜色选择器（原生select） ===
         function ttBuildColorSelectOptions(select) {
-            var html = '';
+            var html = '<option value="__custom__">&#9998; 自定义颜色...</option>';
             DSZ_COLOR_OPTIONS.forEach(function(opt) {
                 html += '<option value="' + ttEsc(opt.value) + '">' + ttEsc(opt.label) + '</option>';
             });
-            html += '<option value="__custom__">&#9998; 自定义颜色...</option>';
             select.innerHTML = '<option value="">-- 请选择颜色 --</option>' + html;
         }
 
@@ -5211,12 +5230,27 @@ function filterBatchProducts(query) {
             var row = select.closest('.tt-color-row');
             var customInput = row.querySelector('.tt-color-custom');
             var cancelLink = row.querySelector('.tt-color-cancel');
+            var colorDot = row.querySelector('.tt-color-dot');
 
             if (select.value === '__custom__') {
                 select.style.display = 'none';
                 customInput.style.display = 'block';
                 cancelLink.style.display = 'inline';
                 customInput.focus();
+                if (colorDot) { colorDot.style.background = '#f5f5f5'; colorDot.classList.remove('active'); }
+            } else if (select.value) {
+                if (colorDot) {
+                    var found = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === select.value; });
+                    if (found) {
+                        colorDot.style.background = found.color;
+                        colorDot.classList.add('active');
+                    } else {
+                        colorDot.style.background = '#f5f5f5';
+                        colorDot.classList.remove('active');
+                    }
+                }
+            } else {
+                if (colorDot) { colorDot.style.background = '#f5f5f5'; colorDot.classList.remove('active'); }
             }
             ttRebuildMatrix();
         }
@@ -5245,8 +5279,13 @@ function filterBatchProducts(query) {
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
 
+            var colorDot = document.createElement('div');
+            colorDot.className = 'tt-color-dot';
+            colorDot.setAttribute('data-color', '');
+
             var select = document.createElement('select');
             select.className = 'tt-color-select';
+            select.style.cssText = 'width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#303133;cursor:pointer;outline:none;';
             select.setAttribute('onchange', 'ttColorSelectChange(this)');
             ttBuildColorSelectOptions(select);
 
@@ -5254,8 +5293,28 @@ function filterBatchProducts(query) {
             customInput.type = 'text';
             customInput.className = 'dsz-custom-input tt-color-custom';
             customInput.placeholder = '输入颜色 如:Black 黑色';
-            customInput.style.display = 'none';
-            customInput.oninput = function() { ttRebuildMatrix(); };
+            customInput.style.cssText = 'display:none;width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;';
+            customInput.oninput = function() {
+                ttRebuildMatrix();
+                var cr = this.closest('.tt-color-row');
+                if (cr) {
+                    var cd = cr.querySelector('.tt-color-dot');
+                    if (cd) {
+                        var val = this.value.trim();
+                        var found = DSZ_COLOR_OPTIONS.find(function(o) {
+                            return o.value.toLowerCase() === val.toLowerCase() ||
+                                   o.label.toLowerCase().indexOf(val.toLowerCase()) >= 0;
+                        });
+                        if (found) {
+                            cd.style.background = found.color;
+                            cd.classList.add('active');
+                        } else {
+                            cd.style.background = '#f5f5f5';
+                            cd.classList.remove('active');
+                        }
+                    }
+                }
+            };
 
             var cancelLink = document.createElement('a');
             cancelLink.href = 'javascript:void(0)';
@@ -5266,11 +5325,12 @@ function filterBatchProducts(query) {
 
             var removeBtn = document.createElement('button');
             removeBtn.className = 'dsz-color-remove-btn';
-            removeBtn.innerHTML = '&times;';
+            removeBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>';
             removeBtn.style.display = 'none';
             removeBtn.title = '移除颜色';
             removeBtn.onclick = function() { ttRemoveColorRow(this); };
 
+            row.appendChild(colorDot);
             row.appendChild(select);
             row.appendChild(customInput);
             row.appendChild(cancelLink);
@@ -5283,12 +5343,15 @@ function filterBatchProducts(query) {
             var row = link.closest('.tt-color-row');
             var select = row.querySelector('.tt-color-select');
             var customInput = row.querySelector('.tt-color-custom');
+            var colorDot = row.querySelector('.tt-color-dot');
 
             customInput.style.display = 'none';
             customInput.value = '';
             link.style.display = 'none';
             select.style.display = 'inline-block';
             select.value = '';
+
+            if (colorDot) { colorDot.style.background = '#f5f5f5'; colorDot.classList.remove('active'); }
 
             ttRebuildMatrix();
         }
@@ -5311,7 +5374,7 @@ function filterBatchProducts(query) {
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
             row.innerHTML = '<input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">'
-                + '<button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除规格">&times;</button>';
+                + '<button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" title="移除规格"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></button>';
             container.appendChild(row);
             ttUpdateRemoveButtons();
         }
@@ -6307,12 +6370,13 @@ function filterBatchProducts(query) {
                     <label>颜色 <span class="hint">(下拉选择或手动输入，可添加多个)</span></label>
                     <div id="tt-color-rows">
                         <div class="tt-color-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <select class="tt-color-select" onchange="ttColorSelectChange(this)">
+                            <div class="tt-color-dot" data-color=""></div>
+                            <select class="tt-color-select" onchange="ttColorSelectChange(this)" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;background:#fff;color:#303133;cursor:pointer;outline:none;">
                                 <option value="">-- 请选择颜色 --</option>
                             </select>
-                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入颜色 如:Black 黑色" style="display:none;" oninput="ttRebuildMatrix()">
+                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入颜色 如:Black 黑色" style="display:none;width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;" oninput="ttRebuildMatrix()">
                             <a href="javascript:void(0)" class="dsz-cancel-link tt-color-cancel" onclick="ttColorCancelCustom(this)" style="display:none;">取消</a>
-                            <button class="dsz-color-remove-btn" onclick="ttRemoveColorRow(this)" style="display:none;" title="移除颜色">&times;</button>
+                            <button class="dsz-color-remove-btn" onclick="ttRemoveColorRow(this)" style="display:none;" title="移除颜色"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></button>
                         </div>
                     </div>
                     <div style="display:flex;gap:6px;margin-top:6px;">
@@ -6326,7 +6390,7 @@ function filterBatchProducts(query) {
                     <div id="tt-spec-rows">
                         <div class="tt-spec-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
                             <input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">
-                            <button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" style="display:none;" title="移除规格">&times;</button>
+                            <button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" style="display:none;" title="移除规格"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></button>
                         </div>
                     </div>
                     <button class="btn btn-sm" onclick="ttAddSpecRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加规格</button>
