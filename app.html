@@ -7940,15 +7940,13 @@ function exportToExcel() {
         row[1] = v.skuTitle;
 
 
-        // V1.4: 导出时Parent SKU也带性别前缀
+        // V1.4: 导出时Parent SKU也带性别前缀（先剥离旧前缀再添加）
 
 
         var category = document.getElementById('product-category').value || '';
 
 
         var genderPrefix = '';
-
-
         if (category.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
 
 
@@ -7961,15 +7959,19 @@ function exportToExcel() {
         var cleanParent = cleanSku(parentSku);
 
 
+        // 先移除任何已有的M-/W-/K-性别前缀
+        var gpList = ['M-', 'W-', 'K-'];
+        for (var gpi = 0; gpi < gpList.length; gpi++) {
+            if (cleanParent.indexOf(gpList[gpi]) === 0) {
+                cleanParent = cleanParent.substring(gpList[gpi].length);
+                break;
+            }
+        }
+
+
         var parentSkuWithPrefix = cleanParent;
-
-
-        if (genderPrefix && cleanParent && cleanParent.indexOf(genderPrefix) !== 0) {
-
-
+        if (genderPrefix && cleanParent) {
             parentSkuWithPrefix = genderPrefix + cleanParent;
-
-
         }
 
 
