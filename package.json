@@ -1,6 +1,39 @@
 {
   "name": "dropshipzone-desktop",
-  "version": "7.1.0",
-  "description": "Dropshipzone 全品类上架模板 V7.1 桌面版",
-  "main": "main.js"
+  "version": "7.5.0",
+  "description": "Dropshipzone 全品类上架模板 V7.5 桌面版",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win portable",
+    "dist": "electron-builder --win portable --publish always"
+  },
+  "author": "Dropshipzone",
+  "build": {
+    "appId": "com.dropshipzone.template-builder",
+    "productName": "Dropshipzone模板工具",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable"
+    },
+    "portable": {
+      "artifactName": "Dropshipzone模板工具.exe"
+    },
+    "files": [
+      "main.js",
+      "app.html",
+      "version.json",
+      "*.html",
+      "*.xlsx",
+      "node_modules/**/*",
+      "!node_modules/**/*.map",
+      "!node_modules/**/docs/**"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.0"
+  }
 }
