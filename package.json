@@ -30,10 +30,18 @@
       "node_modules/**/*",
       "!node_modules/**/*.map",
       "!node_modules/**/docs/**"
-    ]
+    ],
+    "publish": {
+      "provider": "github",
+      "owner": "luyao-CLOUD",
+      "repo": "dropshipzone-app"
+    }
   },
   "devDependencies": {
     "electron": "^28.0.0",
     "electron-builder": "^24.9.0"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9"
   }
 }

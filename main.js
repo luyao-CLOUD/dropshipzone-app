@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const { autoUpdater } = require('electron-updater');
 
 const HTML_FILE = 'app.html';
 const bundledHtmlPath = path.join(__dirname, HTML_FILE);
@@ -67,6 +68,8 @@ function createWindow() {
 
 app.on('ready', () => {
     createWindow();
+    // 自动更新检查
+    autoUpdater.checkForUpdatesAndNotify().catch(() => {});
 });
 
 app.on('window-all-closed', () => {
