@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 
 <html lang="zh-CN">
@@ -328,7 +328,7 @@ body { background: #ffffff; min-height: 100vh; font-family: ... }
 }
 
 
-.sidebar-nav { width: 180px; min-width: 180px; background: #fafbfd; border-right: 1px solid #e8ecf0; padding: 12px 0; border-radius: 14px 0 0 14px; }
+.sidebar-nav { width: 180px; min-width: 180px; background: #fafbfd; border-right: 1px solid #e8ecf0; padding: 12px 0; border-radius: 14px 0 0 14px; position: sticky; top: 0; align-self: flex-start; z-index: 100; max-height: 100vh; overflow-y: auto; }
 
 
 .nav-tabs {
@@ -2211,31 +2211,31 @@ body.eye-protection .btn-secondary {
 <div class="nav-tabs" id="nav-tabs">
 
 
-<button class="nav-tab active" onclick="switchTab('tab-images')">🖼️ 图片管理</button>
+<button class="nav-tab active" onclick="window.switchTab('tab-images')">🖼️ 图片管理</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-category')">📁 类目选择</button>
+<button class="nav-tab" onclick="window.switchTab('tab-category')">📁 类目选择</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-variants')">🎨 颜色码数</button>
+<button class="nav-tab" onclick="window.switchTab('tab-variants')">🎨 颜色码数</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-ai')">🤖 AI文案</button>
+<button class="nav-tab" onclick="window.switchTab('tab-ai')">🤖 AI文案</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-seo')">🔍 SEO优化</button>
+<button class="nav-tab" onclick="window.switchTab('tab-seo')">🔍 SEO优化</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-basic')">📋 基本信息</button>
+<button class="nav-tab" onclick="window.switchTab('tab-basic')">📋 基本信息</button>
 
 
-<button class="nav-tab" onclick="switchTab('tab-sizechart')">📏 尺码表</button>
+<button class="nav-tab" onclick="window.switchTab('tab-sizechart')">📏 尺码表</button>
 
 
 
 
 
-<button class="nav-tab" onclick="switchTab('tab-export')">📤 导出上架</button>
+<button class="nav-tab" onclick="window.switchTab('tab-export')">📤 导出上架</button>
 
 
 </div>
@@ -2371,6 +2371,12 @@ body.eye-protection .btn-secondary {
 </div>
 
 
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-category')">下一步：类目选择 →</button>
+</div>
+
 </div>
 
 
@@ -2412,6 +2418,12 @@ body.eye-protection .btn-secondary {
 
 </div>
 
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-variants')">下一步：颜色码数 →</button>
+</div>
 
 </div>
 
@@ -2594,7 +2606,7 @@ body.eye-protection .btn-secondary {
 <div id="ai-keywords-en" style="min-height:30px;"></div>
 
 
-<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('seo-keywords-en','ai-keywords-en')">应用到SEO关键词(EN)</button></div>
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('seo-keywords-en','ai-keywords-en')">应用到SEO关键词(EN)</button><button class="btn btn-sm btn-primary" style="margin-left:4px;" onclick="document.getElementById('product-name-en').value=keywordsToProductName(document.getElementById('ai-keywords-en').textContent);showNotification('已应用到产品名称(EN)','success')">应用到产品名称(EN)</button></div>
 
 
 </div>
@@ -2629,6 +2641,11 @@ body.eye-protection .btn-secondary {
 
 </div>
 
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-seo')">下一步：SEO优化 →</button>
+</div>
 
 </div>
 
@@ -2755,6 +2772,11 @@ body.eye-protection .btn-secondary {
 
 </div>
 
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-basic')">下一步：基本信息 →</button>
+</div>
 
 </div>
 
@@ -2913,7 +2935,7 @@ body.eye-protection .btn-secondary {
 <label>EAN Code (可选)</label>
 
 
-<input type="text" class="form-control" id="ean-code" placeholder="EAN barcode">
+<input type="text" class="form-control" id="ean-code" placeholder="EAN barcode" value="N/A">
 
 
 </div>
@@ -2949,6 +2971,11 @@ body.eye-protection .btn-secondary {
 <button class="btn btn-sm btn-secondary" onclick="updateDescriptionPreview()">刷新预览</button>
 
 
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-sizechart')">下一步：尺码表 →</button>
+</div>
+
 </div>
 
 
@@ -2970,7 +2997,7 @@ body.eye-protection .btn-secondary {
 当前品类: <strong id="current-category-display">女装服装</strong>
 
 
-<button class="btn btn-sm btn-warning" style="margin-left:10px;" onclick="switchTab('tab-basic')">切换品类</button>
+<button class="btn btn-sm btn-warning" style="margin-left:10px;" onclick="window.switchTab('tab-basic')">切换品类</button>
 
 
 <span style="float:right;">共 <strong id="total-variants-count">0</strong> 个变体</span>
@@ -3267,6 +3294,11 @@ body.eye-protection .btn-secondary {
 <div id="variant-summary" style="margin:15px 0;"></div>
 
 
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-ai')">下一步：AI文案 →</button>
+</div>
+
 </div>
 
 
@@ -3452,6 +3484,11 @@ body.eye-protection .btn-secondary {
 
 </div>
 
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-export')">下一步：导出上架 →</button>
+</div>
 
 </div>
 
@@ -5712,18 +5749,21 @@ function rebuildVariantsFromSelection() {
             var cleanParent = cleanSku(parentSku);
 
 
-            // 添加性别前缀（如果还没有）
+            // 先移除任何已有的M-/W-/K-性别前缀，再添加品类对应的前缀
+
+
+            var genderPrefixes = ['M-', 'W-', 'K-'];
+            for (var gp = 0; gp < genderPrefixes.length; gp++) {
+                if (cleanParent.indexOf(genderPrefixes[gp]) === 0) {
+                    cleanParent = cleanParent.substring(genderPrefixes[gp].length);
+                    break;
+                }
+            }
 
 
             var cleanParentWithPrefix = cleanParent;
-
-
-            if (genderPrefix && cleanParent && cleanParent.indexOf(genderPrefix) !== 0) {
-
-
+            if (genderPrefix && cleanParent) {
                 cleanParentWithPrefix = genderPrefix + cleanParent;
-
-
             }
 
 
@@ -6332,6 +6372,22 @@ function autoGenParentSku() {
 
 
     prefix = map[cat] || 'PROD';
+
+
+    // V1.5: 按品类添加性别前缀（M-/W-/K-）
+
+
+    var genderPrefix = '';
+
+
+    // kids 品类 map 值已内置 K- 前缀（KSHOE/KID），不再重复添加
+    if (cat.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
+
+
+    else if (cat.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
+
+
+    prefix = genderPrefix + prefix;
 
     // V1.5: 防重复逻辑 - 读取已生成历史，生成时检查
     var usedSkus = _loadUsedSkus();
@@ -7018,18 +7074,22 @@ function renderGallery() {
 
 
     setTimeout(bindImagePreview, 80);
+}
 
 
 
 
 
 function setMainImage(index) { mainImageIndex = index; renderGallery(); showNotification('已设为主图', 'success'); }
+window.setMainImage = setMainImage;
 
 
 function copyImageUrl(index) { var url = uploadedImages[index].url; navigator.clipboard.writeText(url).then(function() { showNotification('已复制: ' + url, 'success'); }); }
+window.copyImageUrl = copyImageUrl;
 
 
 function deleteImage(index) { uploadedImages.splice(index, 1); if (mainImageIndex >= uploadedImages.length) mainImageIndex = 0; renderGallery(); showNotification('已删除图片', 'info'); }
+window.deleteImage = deleteImage;
 
 
 function copyAllImageUrls() { var urls = uploadedImages.map(function(img){return img.url;}).join(','); navigator.clipboard.writeText(urls).then(function(){showNotification('已复制 '+uploadedImages.length+'个URL','success');}); }
@@ -7076,7 +7136,9 @@ function loadApiKey() {
     var r = _restoreWithFallback('deepseek_key', 'deepseek-key');
     console.log('[DSZ] loadApiKey result:', r, 'value=', (document.getElementById('deepseek-key')||{}).value ? '(已填入)' : '(空)');
 }
-window.imgDragEnd = imgDragEnd;
+window.imgDragStart = imgDragStart;
+window.imgDragOver = imgDragOver;
+window.imgDrop = imgDrop;
 window.imgDragEnd = imgDragEnd;
 
 function saveApiKey() {
@@ -7360,18 +7422,17 @@ function renderAiImageThumbnails() {
         container.innerHTML = '<span style="color:#999;font-size:13px;">请先在图片管理中心上传图片</span>';
         return;
     }
-    var html = '';
-    uploadedImages.forEach(function(img, i) {
-        var isSelected = (window._aiSelectedImageIndex === i);
-        var borderStyle = isSelected ? 'border:3px solid #667eea;' : 'border:1px solid #e0e0e0;';
-        var imgSrc = img.dataUrl || img.url || '';
-        html += '<div class="ai-thumb-item" onclick="selectAiThumbnail(' + i + ')" style="width:60px;height:60px;overflow:hidden;border-radius:6px;cursor:pointer;' + borderStyle + 'flex-shrink:0;position:relative;">';
-        html += '<img src="' + imgSrc + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span style=font-size:10px;color:#999>图</span>\'">';
-        if (isSelected) {
-            html += '<div style="position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#667eea;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;">✓</div>';
-        }
-        html += '</div>';
-    });
+    // 只显示主图
+    var img = uploadedImages[mainImageIndex] || uploadedImages[0];
+    var isSelected = (window._aiSelectedImageIndex === (mainImageIndex || 0));
+    var borderStyle = isSelected ? 'border:3px solid #667eea;' : 'border:1px solid #e0e0e0;';
+    var imgSrc = img.dataUrl || img.url || '';
+    var html = '<div class="ai-thumb-item" onclick="selectAiThumbnail(' + (mainImageIndex || 0) + ')" style="width:160px;height:160px;overflow:hidden;border-radius:6px;cursor:pointer;' + borderStyle + 'flex-shrink:0;position:relative;">';
+    html += '<img src="' + imgSrc + '" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="event.stopPropagation();openLightbox(\'' + imgSrc.replace(/'/g, "\\'") + '\',[\'' + imgSrc.replace(/'/g, "\\'") + '\'],0)" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span style=font-size:10px;color:#999>图</span>\'">';
+    if (isSelected) {
+        html += '<div style="position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#667eea;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;">✓</div>';
+    }
+    html += '</div>';
     container.innerHTML = html;
 }
 
@@ -7407,6 +7468,7 @@ function selectAiThumbnail(index) {
     renderAiImageThumbnails();
     document.getElementById('ai-clear-img-btn').style.display = 'inline-flex';
 }
+window.selectAiThumbnail = selectAiThumbnail;
 
 function showAiImagePreview(src) {
     var preview = document.getElementById('ai-image-preview');
@@ -7500,6 +7562,7 @@ switchTab = function(tabName) {
         setTimeout(function() { renderAiImageThumbnails(); }, 100);
     }
 };
+window.switchTab = switchTab;
 
 function applyToField(fieldId,sourceId){var text=document.getElementById(sourceId).textContent;var field=document.getElementById(fieldId);if(field){field.value=text;showNotification('已应用到 '+fieldId,'success');}}
 
@@ -7765,6 +7828,7 @@ function updateExportSummary() {
 
 
 }
+window.updateExportSummary = updateExportSummary;
 window.generateSizeChart = generateSizeChart;
 
 
@@ -8107,9 +8171,10 @@ async function doTranslate(){
 
 
 }
-
+window.doTranslate = doTranslate;
 
 function copyTransResult(){var text=document.getElementById('trans-result').textContent;navigator.clipboard.writeText(text).then(function(){showNotification('已复制','success');});}
+window.copyTransResult = copyTransResult;
 
 
 
@@ -8143,33 +8208,6 @@ setTimeout(function() { renderCategoryTree(); }, 500);
 
 
 initApp();
-
-
-
-
-
-    var c = document.getElementById('lb-counter');
-
-
-    if (c && lbImgs.length > 1) {
-
-
-        c.textContent = (lbIdx + 1) + ' / ' + lbImgs.length;
-
-
-        c.style.display = 'block';
-
-
-    } else if (c) {
-
-
-        c.style.display = 'none';
-
-
-    }
-
-
-}
 
 
 
@@ -8379,10 +8417,18 @@ window.insertSizeChartToDescription = insertSizeChartToDescription;
 window.copySizeChartHTML = copySizeChartHTML;
 window.calcCBM = calcCBM;
 window.doTranslate = doTranslate;
+window.copyTransResult = copyTransResult;
 window.setMainImage = setMainImage;
 window.copyImageUrl = copyImageUrl;
 window.deleteImage = deleteImage;
+window.selectAiThumbnail = selectAiThumbnail;
+window.updateExportSummary = updateExportSummary;
+window.clearAiImageSelection = clearAiImageSelection;
 window.addKeyword = addKeyword;
+window.selectColorOption = selectColorOption;
+window.showCustomColorInput = showCustomColorInput;
+window.toggleColorDropdown = toggleColorDropdown;
+window.confirmCustomColor = confirmCustomColor;
 
 // ==================== V1.5 全局错误处理 & 安全包装 ====================
 // 1. 全局错误捕获 - 防止单个错误导致整个页面崩溃
