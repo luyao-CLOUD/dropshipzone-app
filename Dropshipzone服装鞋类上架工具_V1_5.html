@@ -1,0 +1,8630 @@
+﻿<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+
+
+<head>
+
+
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+
+
+<meta http-equiv="Pragma" content="no-cache">
+
+
+<meta http-equiv="Expires" content="0">
+
+
+<meta charset="UTF-8">
+
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>Dropshipzone服装鞋类上架工具 V1.5.1</title>
+
+
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+
+
+
+
+
+<style>
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+
+body { background: #ffffff; min-height: 100vh; font-family: ... }
+
+
+.container { max-width: 1200px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 20px rgba(0,0,0,0.1); transition: background 0.3s; }
+
+
+.header { background: #ffffff; border-bottom: 1px solid rgba(200,210,228,0.5); color: #2d3748; padding: 25px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+
+
+.header h1 { font-size: 24px; margin-bottom: 5px; }
+
+
+.header h1 span { font-size: 16px; opacity: 0.9; }
+
+
+.header_p_temp{ font-size: 13px; opacity: 0.85; }
+
+
+.header-actions { display: flex; gap: 10px; align-items: center; }
+
+
+.btn {
+
+
+    padding: 9px 20px;
+
+
+    border: 1.5px solid #e2e8f0;
+
+
+    border-radius: 10px;
+
+
+    cursor: pointer;
+
+
+    font-size: 13px;
+
+
+    font-weight: 600;
+
+
+    transition: all 0.25s;
+
+
+    background: #ffffff;
+
+
+    color: #4a5568;
+
+
+    display: inline-flex;
+
+
+    align-items: center;
+
+
+    gap: 6px;
+
+
+}
+
+
+.btn-primary {
+
+
+    background: #ffffff;
+
+
+    color: #667eea;
+
+
+    border-color: #667eea;
+
+
+}
+
+
+.btn-primary:hover {
+
+
+    background: #f0f4ff;
+
+
+    border-color: #5a6fd6;
+
+
+    box-shadow: 0 3px 12px rgba(102,126,234,0.18);
+
+
+}
+
+
+.btn-success {
+
+
+    background: #ffffff;
+
+
+    color: #38a169;
+
+
+    border-color: #38a169;
+
+
+}
+
+
+.btn-success:hover {
+
+
+    background: #f0fff4;
+
+
+    border-color: #2f855a;
+
+
+    box-shadow: 0 3px 12px rgba(56,161,105,0.15);
+
+
+}
+
+
+.btn-warning {
+
+
+    background: #ffffff;
+
+
+    color: #d69e2e;
+
+
+    border-color: #d69e2e;
+
+
+}
+
+
+.btn-warning:hover {
+
+
+    background: #fffff0;
+
+
+    border-color: #b7791f;
+
+
+    box-shadow: 0 3px 12px rgba(214,158,46,0.15);
+
+
+}
+
+
+.btn-danger {
+
+
+    background: #ffffff;
+
+
+    color: #e53e3e;
+
+
+    border-color: #e53e3e;
+
+
+}
+
+
+.btn-danger:hover {
+
+
+    background: #fff5f5;
+
+
+    border-color: #c53030;
+
+
+    box-shadow: 0 3px 12px rgba(229,62,62,0.15);
+
+
+}
+
+
+/* 浅色次要按钮 */
+
+
+.btn-secondary {
+
+
+    background: #ffffff;
+
+
+    color: #718096;
+
+
+    border-color: #a0aec0;
+
+
+}
+
+
+.btn-secondary:hover {
+
+
+    background: #f7fafc;
+
+
+    border-color: #718096;
+
+
+    box-shadow: 0 3px 12px rgba(113,128,150,0.12);
+
+
+}
+
+
+.btn-sm { padding: 2px 6px; font-size: 10px; }
+
+
+/* 浅色信息按钮 */
+
+
+.btn-info {
+
+
+    background: #ffffff;
+
+
+    color: #38b2ac;
+
+
+    border-color: #38b2ac;
+
+
+}
+
+
+.btn-info:hover {
+
+
+    background: #e6fffa;
+
+
+    border-color: #2c9b96;
+
+
+    box-shadow: 0 3px 12px rgba(56,178,172,0.15);
+
+
+}
+
+
+.nav-tabs { display: flex; background: #f8f9fa; border-bottom: 2px solid #e9ecef; overflow-x: auto; flex-wrap: nowrap; }
+
+
+.nav-tab { padding: 12px 20px; cursor: pointer; border: none; background: none; font-size: 14px; font-weight: 500; color: #666; white-space: nowrap; border-bottom: 3px solid transparent; transition: all 0.2s; }
+
+
+.nav-tab:hover { background: #e9ecef; color: #333; }
+
+
+.nav-tab.active { color: #667eea; border-bottom-color: #667eea; background: #fff; font-weight: 600; }
+
+
+.tab-content { padding: 30px; display: none; }
+
+
+.tab-content.active { display: block; }
+
+
+/* ===== 左侧垂直导航布局 ===== */
+
+
+.main-layout {
+
+
+    display: flex;
+
+
+    align-items: stretch;
+
+
+    min-height: calc(100vh - 200px);
+
+
+}
+
+
+.sidebar-nav { width: 180px; min-width: 180px; background: #fafbfd; border-right: 1px solid #e8ecf0; padding: 12px 0; border-radius: 14px 0 0 14px; position: sticky; top: 0; align-self: flex-start; z-index: 100; max-height: 100vh; overflow-y: auto; }
+
+
+.nav-tabs {
+
+
+    display: flex !important;
+
+
+    flex-direction: column !important;
+
+
+    gap: 2px !important;
+
+
+    background: none !important;
+
+
+    border-bottom: none !important;
+
+
+    border-right: none !important;
+
+
+    overflow-x: visible !important;
+
+
+    overflow-y: auto !important;
+
+
+    padding: 0 !important;
+
+
+    flex-wrap: nowrap !important;
+
+
+}
+
+
+.nav-tab {
+
+
+    padding: 13px 22px !important;
+
+
+    text-align: left !important;
+
+
+    border-radius: 0 24px 24px 0 !important;
+
+
+    border-bottom: none !important;
+
+
+    border-right: 4px solid transparent !important;
+
+
+    margin: 1px 0 1px 0 !important;
+
+
+    white-space: nowrap !important;
+
+
+    font-size: 14px !important;
+
+
+    color: #5a657a !important;
+
+
+    background: transparent !important;
+
+
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1) !important;
+
+
+    position: relative !important;
+
+
+    letter-spacing: 0.3px;
+
+
+}
+
+
+.nav-tab:hover {
+
+
+    background: #ffffff !important;
+
+
+    color: #667eea !important;
+
+
+    border-right-color: rgba(102,126,234,0.35) !important;
+
+
+}
+
+
+.nav-tab.active {
+
+
+    background: rgba(102,126,234,0.04) !important;
+
+
+    color: #4c63d2 !important;
+
+
+    font-weight: 700 !important;
+
+
+    border-right-color: #667eea !important;
+
+
+    box-shadow: inset 0 0 20px rgba(102,126,234,0.06), 4px 0 16px rgba(102,126,234,0.08) !important;
+
+
+}
+
+
+.content-area {
+
+
+    flex: 1;
+
+
+    min-width: 0;
+
+
+    padding: 28px 36px;
+
+
+    overflow-x: hidden;
+
+
+}
+
+
+.content-area > .tab-content {
+
+
+    animation: fadeSlideIn 0.3s ease;
+
+
+}
+
+
+@keyframes fadeSlideIn {
+
+
+    from { opacity: 0; transform: translateX(12px); }
+
+
+    to { opacity: 1; transform: translateX(0); }
+
+
+}
+
+
+
+
+
+
+
+
+.form-group { margin-bottom: 18px; }
+
+
+.form-group label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 14px; color: #555; }
+
+
+.form-control { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; transition: border-color 0.2s; }
+
+
+.form-control:focus { outline: none; border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.1); }
+
+
+textarea.form-control { resize: vertical; min-height: 80px; }
+
+
+.form-row { display: flex; gap: 15px; flex-wrap: wrap; }
+
+
+.form-row > .form-group { flex: 1; min-width: 200px; }
+
+
+.info-box { background: #e7f4ff; border-left: 4px solid #2196f3; padding: 12px 16px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; }
+
+
+.warning-box { background: #fff3cd; border-left: 4px solid #ffc107; padding: 12px 16px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; }
+
+
+.success-box { background: #d4edda; border-left: 4px solid #28a745; padding: 12px 16px; border-radius: 4px; margin-bottom: 15px; font-size: 13px; }
+
+
+table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+
+
+table th, table td { padding: 10px 12px; text-align: left; border: 1px solid #e0e0e0; font-size: 13px; }
+
+
+table th { background: #f8f9fa; font-weight: 600; color: #555; }
+
+
+table tr:hover td { background: #f5f5f5; }
+
+
+.size-pill { display: inline-block; padding: 8px 18px; margin: 6px; border-radius: 10px; cursor: pointer; font-size: 13px; font-weight: 500; border: 2px solid #e0e0e0; background: #f8f9fa; transition: all 0.2s; user-select: none; }
+
+
+.size-pill:hover { border-color: #667eea; }
+
+
+.size-pill.selected { background: #667eea; color: #2d3748; border-color: #667eea; }
+
+
+.upload-zone { border: 2px dashed #ccc; border-radius: 8px; padding: 40px; text-align: center; cursor: pointer; transition: all 0.2s; background: #fafafa; }
+
+
+.upload-zone:hover { border-color: #667eea; background: #f0f4ff; }
+
+
+.image-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+
+
+.image-card { border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; position: relative; cursor: move; }
+
+
+.image-card img { width: 100%; height: auto; min-height: 80px; max-height: 160px; object-fit: contain; background: #f8f9f9; padding: 4px; }
+
+
+.image-card .main-badge { position: absolute; top: 5px; left: 5px; background: #28a745; color: #2d3748; padding: 2px 8px; border-radius: 4px; font-size: 11px; }
+
+
+.image-card .actions { padding: 4px 2px; display: flex; gap: 3px; justify-content: center; }
+
+
+.image-card.dragging { opacity: 0.5; }
+
+
+.image-card.drag-over { border-color: #667eea; border-width: 3px; }
+
+
+.preview-box { border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-top: 15px; background: #fafafa; min-height: 100px; }
+
+
+.result-box { background: #f8f9fa; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 15px; }
+
+
+.result-box h4 { margin-bottom: 8px; color: #667eea; }
+
+
+.result-box .result-actions { margin-top: 10px; }
+
+
+.footer { background: #333; color: #aaa; padding: 20px 30px; text-align: center; font-size: 13px; }
+
+
+.variant-table input, .variant-table select { width: 100%; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+
+
+.variant-table input:focus, .variant-table select:focus { outline: none; border-color: #667eea; }
+
+
+.size-chart-table { width: 100%; border-collapse: collapse; margin: 15px 0; }
+
+
+.size-chart-table th { background: #667eea; color: #2d3748; padding: 10px; text-align: center; font-size: 13px; }
+
+
+.size-chart-table td { padding: 8px 10px; text-align: center; border: 1px solid #e0e0e0; font-size: 13px; }
+
+
+.size-chart-table tr:nth-child(even) td { background: #f8f9fa; }
+
+
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+
+
+
+
+/* ===== V1.3 类目选择样式 ===== */
+
+
+.category-tree { max-height: 500px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; background: #fafafa; }
+
+
+.category-tree-item { padding: 8px 12px; cursor: pointer; border-radius: 4px; margin: 2px 0; transition: all 0.2s; }
+
+
+.category-tree-item:hover { background: #e6f7ff; }
+
+
+.category-tree-item.selected { background: #1890ff; color: #2d3748; font-weight: 600; }
+
+
+.category-tree-group { margin-bottom: 15px; }
+
+
+.category-tree-group-title { font-weight: 700; color: #333; padding: 8px 12px; background: #e9ecef; border-radius: 4px; margin-bottom: 5px; }
+
+
+/* ===== V1.2 新增样式 — TEMU风格 ===== */
+
+
+
+
+
+/* 商品属性区域 */
+
+
+.attr-section { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 20px; margin-bottom: 20px; }
+
+
+.attr-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+
+
+.attr-section-title { font-size: 16px; font-weight: 700; color: #dc3545; display: flex; align-items: center; gap: 6px; }
+
+
+.attr-count { font-size: 12px; color: #999; font-weight: 400; }
+
+
+.attr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+
+
+.attr-grid .form-group { margin-bottom: 0; }
+
+
+.attr-grid .form-group label { font-size: 13px; }
+
+
+.attr-grid .form-group label .required-mark { color: #dc3545; margin-left: 2px; }
+
+
+
+
+
+/* 颜色输入区域（TEMU风格） */
+
+
+.color-input-area { margin: 15px 0; }
+
+
+.color-input-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+
+
+.color-input-row input[type="text"] { flex: 1; max-width: 400px; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+
+
+.color-input-row input[type="text"]:focus { border-color: #667eea; outline: none; }
+/* V1.5.2: 视觉区分 input+datalist 与 select — 虚线边框 + 浅色背景 + 编辑图标 */
+.color-input-row input[type="text"][list] {
+    border-style: dashed;
+    background-color: #f8fafc;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7'/%3E%3Cpath d='M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 32px;
+}
+
+
+.color-dot { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #ddd; flex-shrink: 0; }
+
+
+.color-delete-btn { color: #1890ff; cursor: pointer; font-size: 14px; padding: 4px 12px; border: none; background: none; }
+
+
+.color-delete-btn:hover { color: #dc3545; }
+
+
+.add-color-link { color: #1890ff; cursor: pointer; font-size: 14px; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+
+
+.add-color-link:hover { color: #40a9ff; }
+
+
+
+
+
+/* 尺码复选框网格（TEMU风格） */
+
+
+.size-type-tabs {
+
+
+    display: flex;
+
+
+    gap: 12px;
+
+
+    margin-bottom: 20px;
+
+
+    flex-wrap: wrap;
+
+
+}
+
+
+.size-type-tab { padding: 6px 16px; border: 1px solid #ddd; border-radius: 10px; cursor: pointer; font-size: 13px; background: #fff; transition: all 0.2s; user-select: none; }
+
+
+.size-type-tab.active { background: #1890ff; color: #2d3748; border-color: #1890ff; }
+
+
+.size-type-tab:hover:not(.active) { border-color: #1890ff; color: #1890ff; }
+
+
+.size-check-grid {
+
+
+    display: grid;
+
+
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+
+
+    gap: 14px;
+
+
+    margin-bottom: 20px;
+
+
+}
+
+
+.size-check-item {
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    gap: 8px;
+
+
+    padding: 12px 18px;
+
+
+    margin: 0;
+
+
+    border: 2px solid #e2e8f0;
+
+
+    border-radius: 10px;
+
+
+    cursor: pointer;
+
+
+    font-size: 14px;
+
+
+    font-weight: 500;
+
+
+    transition: all 0.15s ease;
+
+
+    user-select: none;
+
+
+    white-space: nowrap;
+
+
+    background: #ffffff;
+
+
+}
+
+
+.size-check-item input[type="checkbox"] {
+
+
+    appearance: none;
+
+
+    -webkit-appearance: none;
+
+
+    width: 18px;
+
+
+    height: 18px;
+
+
+    border: 2px solid #cbd5e0;
+
+
+    border-radius: 5px;
+
+
+    cursor: pointer;
+
+
+    transition: all 0.2s;
+
+
+    flex-shrink: 0;
+
+
+}
+
+
+.size-check-item input[type="checkbox"]:checked {
+
+
+    background: #667eea;
+
+
+    border-color: #667eea;
+
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath fill='%23fff' d='M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z'/%3E%3C/svg%3E");
+
+
+    background-size: 14px;
+
+
+    background-position: center;
+
+
+    background-repeat: no-repeat;
+
+
+}
+
+
+
+
+
+
+
+
+.size-check-item:hover {
+
+
+    border-color: #667eea;
+
+
+    background: #f7fafc;
+
+
+    transform: translateY(-1px);
+
+
+    box-shadow: 0 2px 8px rgba(102,126,234,0.12);
+
+
+}
+
+
+.size-check-item.checked {
+
+
+    background: linear-gradient(135deg, #667eea, #764ba2);
+
+
+    color: #ffffff !important;
+
+
+    border-color: transparent;
+
+
+    font-weight: 600;
+
+
+    box-shadow: 0 3px 12px rgba(102,126,234,0.25);
+
+
+}
+
+
+.size-check-item input[type="checkbox"] { accent-color: #1890ff; cursor: pointer; }
+
+
+.hot-badge { background: #ffc107; color: #333; font-size: 10px; padding: 1px 5px; border-radius: 3px; font-weight: 700; margin-left: 4px; }
+
+
+.select-all-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 13px; }
+
+
+.select-all-row input[type="checkbox"] { accent-color: #1890ff; cursor: pointer; }
+
+
+.size-hint-text { font-size: 13px; color: #faad14; background: #fffbe6; padding: 10px 15px; border-radius: 6px; border: 1px solid #ffe58f; margin-bottom: 15px; }
+
+
+
+
+
+/* 变体SKU表格（TEMU风格V1.2） */
+
+
+.sku-table-tabs { display: flex; gap: 4px; margin-bottom: 10px; border-bottom: 2px solid #e0e0e0; padding-bottom: 0; }
+
+
+.sku-table-tab { padding: 8px 16px; cursor: pointer; border: none; background: none; font-size: 13px; font-weight: 500; color: #666; border-bottom: 2px solid transparent; margin-bottom: -2px; }
+
+
+.sku-table-tab.active { color: #1890ff; border-bottom-color: #1890ff; font-weight: 600; }
+
+
+.sku-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+
+
+.sku-table th { background: #fafafa; font-weight: 600; color: #555; padding: 10px 8px; white-space: nowrap; font-size: 12px; }
+
+
+.sku-table td { padding: 10px 8px; border: 1px solid #e0e0e0; vertical-align: middle; }
+
+
+.sku-table tr:hover td { background: #fafafa; }
+
+
+.sku-table .color-cell { font-weight: 600; background: #f5f5f5; }
+
+
+.sku-table .size-cell { font-weight: 500; text-align: center; }
+
+
+.sku-table .dim-input-group { display: flex; gap: 3px; align-items: center; }
+
+
+.sku-table .dim-input-group input { width: 50px; padding: 3px 5px; border: 1px solid #ddd; border-radius: 3px; font-size: 12px; text-align: center; }
+
+
+.sku-table .dim-input-group span { font-size: 11px; color: #999; }
+
+
+.sku-table .weight-input { width: 60px; padding: 3px 5px; border: 1px solid #ddd; border-radius: 3px; font-size: 12px; text-align: center; }
+
+
+.sku-table .price-input { width: 70px; padding: 3px 5px; border: 1px solid #ddd; border-radius: 3px; font-size: 12px; }
+
+
+.sku-table .stock-input { width: 55px; padding: 3px 5px; border: 1px solid #ddd; border-radius: 3px; font-size: 12px; text-align: center; }
+
+
+.sku-table select.attr-select { padding: 3px 5px; font-size: 12px; }
+
+
+
+
+
+/* 批量填充区域 */
+
+
+.batch-fill-bar { display: flex; gap: 10px; align-items: center; background: #f0f4ff; padding: 10px 15px; border-radius: 6px; margin: 10px 0; flex-wrap: wrap; }
+
+
+.batch-fill-bar label { font-size: 13px; font-weight: 600; color: #555; }
+
+
+.batch-fill-bar input { width: 80px; padding: 4px 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; }
+
+
+
+
+
+#dsz-translator { position: fixed; left: calc(100vw - 380px); top: calc(100vh - 200px); width: 360px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 99999; overflow: hidden; transition: box-shadow 0.3s; }
+#dsz-translator.dragging { box-shadow: 0 8px 30px rgba(0,0,0,0.25); transition: none; }
+
+
+#dsz-translator .trans-header { background: #ffffff; color: #2d3748; padding: 10px 15px; cursor: grab; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; user-select: none; -webkit-user-select: none; touch-action: none; }
+#dsz-translator .trans-header:active { cursor: grabbing; }
+
+
+#dsz-translator.hidden { display: none; }
+#dsz-translator .trans-body { padding: 15px; display: block; }
+#dsz-translator.collapsed .trans-body { display: none; }
+.trans-close { cursor: pointer; font-size: 18px; color: #a0aec0; padding: 0 4px; line-height: 1; transition: color 0.2s; }
+.trans-close:hover { color: #e53e3e; }
+
+
+#dsz-translator textarea { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 6px; font-size: 13px; resize: vertical; min-height: 60px; margin-bottom: 8px; }
+
+
+#dsz-translator select { padding: 6px; border: 1px solid #ddd; border-radius: 4px; font-size: 13px; margin-bottom: 8px; }
+
+
+#dsz-translator .trans-result { background: #f0f4ff; padding: 10px; border-radius: 6px; font-size: 13px; min-height: 40px; margin-top: 8px; white-space: pre-wrap; }
+
+
+
+
+
+/* 暗色模式 */
+
+
+.container {
+
+
+    max-width: 1280px !important;
+
+
+    margin: 20px auto !important;
+
+
+    border-radius: 16px !important;
+
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.08) !important;
+
+
+}
+
+
+
+
+
+.btn-primary {
+
+
+    background: #ffffff !important;
+
+
+    box-shadow: 0 4px 12px rgba(57,73,171,0.3) !important;
+
+
+}
+
+
+.btn-primary:hover {
+
+
+    transform: translateY(-1px) !important;
+
+
+    box-shadow: 0 6px 20px rgba(57,73,171,0.4) !important;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===== Premium UI V1.4 ===== */
+
+
+.header { background: #ffffff; padding: 24px 36px; position: relative; border-bottom: 1px solid rgba(200,210,228,0.5); }
+
+
+.header::before {
+
+
+    content: '';
+
+
+    position: absolute;
+
+
+    top: -50%;
+
+
+    right: -20%;
+
+
+    width: 500px;
+
+
+    height: 500px;
+
+
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+
+
+    pointer-events: none;
+
+
+}
+
+
+.container {
+
+
+    max-width: 1280px !important;
+
+
+    margin: 20px auto !important;
+
+
+    border-radius: 16px !important;
+
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 4px 20px rgba(0,0,0,0.08) !important;
+
+
+}
+
+
+
+
+
+.btn-primary {
+
+
+    background: #ffffff !important;
+
+
+    box-shadow: 0 4px 12px rgba(57,73,171,0.3) !important;
+
+
+}
+
+
+.btn-primary:hover {
+
+
+    transform: translateY(-1px) !important;
+
+
+    box-shadow: 0 6px 20px rgba(57,73,171,0.4) !important;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===== 图片悬停放大预览 ===== */
+
+
+.image-card {
+
+
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+
+}
+
+
+.image-card:hover {
+
+
+    transform: translateY(-6px) scale(1.02) !important;
+
+
+    box-shadow: 0 12px 32px rgba(0,0,0,0.15) !important;
+
+
+    z-index: 10 !important;
+
+
+}
+
+
+.image-card img {
+
+
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+
+    cursor: zoom-in;
+
+
+}
+
+
+.image-card:hover img {
+
+
+    transform: scale(1.2);
+
+
+}
+
+
+
+
+
+/* 图片灯箱预览 */
+
+
+.img-lightbox {
+
+
+    display: none;
+
+
+    position: fixed;
+
+
+    top: 0; left: 0; right: 0; bottom: 0;
+
+
+    background: rgba(0,0,0,0.85);
+
+
+    z-index: 99999;
+
+
+    justify-content: center;
+
+
+    align-items: center;
+
+
+    cursor: zoom-out;
+
+
+    animation: lightboxFadeIn 0.25s ease;
+
+
+}
+
+
+.img-lightbox.active {
+
+
+    display: flex;
+
+
+}
+
+
+.img-lightbox img {
+
+
+    max-width: 88vw;
+
+
+    max-height: 88vh;
+
+
+    border-radius: 12px;
+
+
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+
+
+    animation: lightboxZoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+
+}
+
+
+@keyframes lightboxFadeIn {
+
+
+    from { opacity: 0; }
+
+
+    to { opacity: 1; }
+
+
+}
+
+
+@keyframes lightboxZoomIn {
+
+
+    from { transform: scale(0.85); opacity: 0; }
+
+
+    to { transform: scale(1); opacity: 1; }
+
+
+}
+
+
+.lightbox-close {
+
+
+    position: absolute;
+
+
+    top: 20px;
+
+
+    right: 28px;
+
+
+    background: rgba(255,255,255,0.15);
+
+
+    color: #fff;
+
+
+    border: none;
+
+
+    font-size: 32px;
+
+
+    width: 48px;
+
+
+    height: 48px;
+
+
+    border-radius: 50%;
+
+
+    cursor: pointer;
+
+
+    display: flex;
+
+
+    align-items: center;
+
+
+    justify-content: center;
+
+
+    transition: all 0.2s;
+
+
+    backdrop-filter: blur(4px);
+
+
+}
+
+
+.lightbox-close:hover {
+
+
+    background: rgba(255,255,255,0.3);
+
+
+    transform: rotate(90deg);
+
+
+}
+
+
+.lightbox-nav {
+
+
+    position: absolute;
+
+
+    top: 50%;
+
+
+    transform: translateY(-50%);
+
+
+    background: rgba(255,255,255,0.12);
+
+
+    color: #fff;
+
+
+    border: none;
+
+
+    font-size: 28px;
+
+
+    width: 48px;
+
+
+    height: 64px;
+
+
+    cursor: pointer;
+
+
+    transition: all 0.2s;
+
+
+    backdrop-filter: blur(4px);
+
+
+}
+
+
+.lightbox-nav:hover {
+
+
+    background: rgba(255,255,255,0.25);
+
+
+}
+
+
+.lightbox-prev {
+
+
+    left: 12px;
+
+
+    border-radius: 0 12px 12px 0;
+
+
+}
+
+
+.lightbox-next {
+
+
+    right: 12px;
+
+
+    border-radius: 12px 0 0 12px;
+
+
+}
+
+
+.lightbox-counter {
+
+
+    position: absolute;
+
+
+    bottom: 24px;
+
+
+    left: 50%;
+
+
+    transform: translateX(-50%);
+
+
+    background: rgba(0,0,0,0.5);
+
+
+    color: #fff;
+
+
+    padding: 6px 18px;
+
+
+    border-radius: 10px;
+
+
+    font-size: 14px;
+
+
+    backdrop-filter: blur(4px);
+
+
+}
+
+
+
+
+
+
+
+
+    /* 强制纯白背景覆盖 */
+
+
+    body { background: #ffffff !important; }
+
+
+    .container { background: #ffffff !important; }
+
+
+    .sidebar-nav { background: #f8f9fc !important; }
+
+
+    .content-area { background: #ffffff !important; }
+
+
+    .header { background: #ffffff !important; border-bottom: 1px solid #e0e8f0 !important; }
+
+
+    .header h1 { color: #1a202c !important; }
+
+
+    .header p { color: #5a657d !important; }
+
+/* ===== V1.5.3: 自定义颜色下拉框 ===== */
+.color-select-wrapper {
+    position: relative;
+    flex: 1;
+    max-width: 350px;
+    user-select: none;
+}
+.color-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    min-height: 38px;
+    transition: border-color 0.2s;
+    gap: 6px;
+}
+.color-select-trigger:hover {
+    border-color: #667eea;
+}
+.color-select-trigger.open {
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+}
+.color-select-trigger-text {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.color-select-trigger-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+.color-select-arrow {
+    font-size: 10px;
+    color: #94a3b8;
+    margin-left: auto;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+.color-select-trigger.open .color-select-arrow {
+    transform: rotate(180deg);
+}
+.color-select-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    margin-top: 4px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    max-height: 280px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+.color-select-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    transition: background 0.15s;
+}
+.color-select-option:hover {
+    background: #f0f4ff;
+}
+.color-select-option.selected {
+    background: #667eea;
+    color: #fff;
+}
+.color-option-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,0,0,0.15);
+    flex-shrink: 0;
+}
+.color-select-option-custom {
+    border-top: 1px solid #e2e8f0;
+    margin-top: 2px;
+    padding-top: 11px;
+    color: #667eea;
+    font-weight: 600;
+}
+.color-custom-input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    margin-top: 2px;
+}
+.color-custom-input-row input {
+    flex: 1;
+    padding: 6px 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 13px;
+}
+.color-custom-input-row button {
+    padding: 5px 12px;
+    border: 1px solid #667eea;
+    border-radius: 4px;
+    background: #667eea;
+    color: #fff;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+    /* V1.5.1: AI图片选择和流程指示条样式 */
+    .ai-thumb-item {
+        transition: transform 0.15s, box-shadow 0.15s;
+    }
+    .ai-thumb-item:hover {
+        transform: scale(1.08);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .ai-flow-indicator {
+        user-select: none;
+    }
+    .flow-dot {
+        box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    }
+
+    </style>
+
+
+
+
+
+<!-- V1.4 强制浅色按钮样式 -->
+
+
+<style>
+
+
+/* 强制所有按钮应用浅色系统 */
+
+
+.btn, button[class*="btn"] {
+
+
+    background: #ffffff !important;
+
+
+    color: #4a5568 !important;
+
+
+    border: 1.5px solid #e2e8f0 !important;
+
+
+    border-radius: 10px !important;
+
+
+    padding: 9px 20px;
+
+
+}
+
+
+.btn-primary {
+
+
+    color: #667eea !important;
+
+
+    border-color: #667eea !important;
+
+
+}
+
+
+.btn-success {
+
+
+    color: #38a169 !important;
+
+
+    border-color: #38a169 !important;
+
+
+}
+
+
+.btn-danger {
+
+
+    color: #e53e3e !important;
+
+
+    border-color: #e53e3e !important;
+
+
+}
+
+
+.btn-warning {
+
+
+    color: #d69e2e !important;
+
+
+    border-color: #d69e2e !important;
+
+
+}
+
+
+.btn-secondary, .btn-info {
+
+
+    color: #718096 !important;
+
+
+    border-color: #a0aec0 !important;
+
+
+}
+
+
+.btn:hover {
+
+
+    transform: translateY(-1px);
+
+
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08) !important;
+
+
+}
+
+
+
+
+
+/* ========== 护眼模式（替代深色模式）========== */
+
+
+body.eye-protection {
+
+
+    background: #F4F1EB !important;
+
+
+    color: #2D3A2E !important;
+
+
+}
+
+
+body.eye-protection .sidebar-nav {
+
+
+    background: #EDE9DF !important;
+
+
+    border-right-color: rgba(45,58,46,0.08) !important;
+
+
+}
+
+
+body.eye-protection .sidebar-nav .nav-item {
+
+
+    color: #2D3A2E !important;
+
+
+}
+
+
+body.eye-protection .sidebar-nav .nav-item.active {
+
+
+    background: rgba(74,158,143,0.15) !important;
+
+
+    color: #2D3A2E !important;
+
+
+    font-weight: 700 !important;
+
+
+}
+
+
+body.eye-protection .content-area,
+
+
+body.eye-protection .tab-content,
+
+
+body.eye-protection .form-section {
+
+
+    background: #FAF8F2 !important;
+
+
+}
+
+
+body.eye-protection .sku-table,
+
+
+body.eye-protection .image-card,
+
+
+body.eye-protection .preview-box,
+
+
+body.eye-protection .result-box {
+
+
+    background: #FAF8F2 !important;
+
+
+    border-color: rgba(45,58,46,0.1) !important;
+
+
+}
+
+
+body.eye-protection .sku-table th {
+
+
+    background: #EDE9DF !important;
+
+
+    color: #2D3A2E !important;
+
+
+}
+
+
+body.eye-protection .sku-table td {
+
+
+    color: #2D3A2E !important;
+
+
+}
+
+
+body.eye-protection .form-control,
+
+
+body.eye-protection input,
+
+
+body.eye-protection select,
+
+
+body.eye-protection textarea {
+
+
+    background: #FAF8F2 !important;
+
+
+    color: #2D3A2E !important;
+
+
+    border-color: rgba(45,58,46,0.15) !important;
+
+
+}
+
+
+body.eye-protection .btn-secondary {
+
+
+    background: rgba(74,158,143,0.08) !important;
+
+
+    color: #2D3A2E !important;
+
+
+    border-color: rgba(74,158,143,0.2) !important;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===== Apple Glass UI（从V7.1同步）===== */
+
+
+.header {
+
+
+    background: rgba(255,255,255,0.72) !important;
+
+
+    backdrop-filter: blur(30px) saturate(180%) !important;
+
+
+    -webkit-backdrop-filter: blur(30px) saturate(180%) !important;
+
+
+    border-bottom: 0.5px solid rgba(0,0,0,0.08) !important;
+
+
+    padding: 20px 32px !important;
+
+
+    position: relative !important;
+
+
+}
+
+
+.sidebar-nav {
+
+
+    background: rgba(246,247,249,0.88) !important;
+
+
+    backdrop-filter: blur(35px) saturate(180%) !important;
+
+
+    -webkit-backdrop-filter: blur(35px) saturate(180%) !important;
+
+
+    border-right: 0.5px solid rgba(0,0,0,0.06) !important;
+
+
+}
+
+
+.nav-item {
+
+
+    border-radius: 8px !important;
+
+
+    font-size: 14px !important;
+
+
+    padding: 10px 14px !important;
+
+
+    margin: 4px 6px !important;
+
+
+    transition: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+
+
+}
+
+
+.nav-item.active {
+
+
+    background: rgba(0,100,255,0.1) !important;
+
+
+    color: #0064ff !important;
+
+
+    font-weight: 700 !important;
+
+
+}
+
+
+.btn, button[class*="btn"] {
+
+
+    border-radius: 10px !important;
+
+
+    transition: all 0.2s ease !important;
+
+
+}
+
+
+.btn-primary {
+
+
+    background: #0066DD !important;
+
+
+    color: #ffffff !important;
+
+
+    border: none !important;
+
+
+    box-shadow: 0 1px 3px rgba(0,122,255,0.25) !important;
+
+
+}
+
+
+.sku-table, .image-card, .form-section, .preview-box {
+
+
+    border-radius: 12px !important;
+
+
+}
+
+
+
+
+
+</style>
+
+
+
+
+
+
+
+
+<style>
+
+
+#upload-zone.drag-over { border-color: #4CAF50 !important; background: rgba(76,175,80,0.08) !important; }
+
+
+#dsz-translator.collapsed .trans-body,
+
+
+#dsz-translator.collapsed .trans-footer { display: none !important; }
+
+
+</style>
+
+
+</head>
+
+
+<body>
+<!-- V1.5.1: 亮度调节遮罩层 -->
+<div id="brightness-filter" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;background:transparent;transition:background 0.15s ease;"></div>
+
+
+
+
+
+
+
+
+<div class="container" id="main-app">
+
+
+<!-- ==================== 头部 ==================== -->
+
+
+<div class="header">
+
+
+<div>
+
+
+<h1>Dropshipzone 服装鞋类上架工具 <span>V1.5</span></h1>
+
+
+<p>类目选择 · AU/EU尺码对照 · TEMU风格界面 · 文本输入颜色 · 复选框网格码数</p>
+
+
+</div>
+
+
+<div style="position:absolute;right:20px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;z-index:100;">
+
+
+            <!-- 护眼模式 -->
+
+
+            <button id="eye-protection-btn" onclick="toggleEyeProtection()"
+
+
+                    title="护眼模式（暖色低蓝光）"
+
+
+                    style="padding:6px 14px;border:1.5px solid rgba(52,199,89,0.3);border-radius:10px;
+
+
+                           background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);cursor:pointer;
+
+
+                           font-size:13px;color:#2DA44E;font-weight:600;transition:all 0.2s;
+
+
+                           display:flex;align-items:center;gap:4px;"
+
+
+                    onmouseover="this.style.background='rgba(52,199,89,0.1)';this.style.borderColor='#34C759'"
+
+
+                    onmouseout="this.style.background='rgba(255,255,255,0.85)';this.style.borderColor='rgba(52,199,89,0.3)'">
+
+
+                &#x1F441;&#xFE0F; 护眼</button>
+
+
+            <!-- 亮度调节 -->
+
+
+            <div style="display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:10px;
+
+
+                        background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);
+
+
+                        border:1px solid rgba(0,0,0,0.06);">
+
+
+                <span style="font-size:14px;">&#9728;</span>
+
+
+                <input type="range" id="brightness-slider" min="40" max="120" value="100"
+
+
+                       style="width:70px;height:4px;accent-color:#007AFF;cursor:pointer;"
+
+
+                       oninput="updateBrightness(this.value)">
+
+
+                <span id="brightness-val" style="font-size:11px;color:#666;min-width:32px;text-align:right;">100%</span>
+
+
+            </div>
+
+
+            <!-- 分隔线 -->
+
+
+            <div style="width:1px;height:24px;background:rgba(0,0,0,0.08);"></div>
+
+
+            <!-- 翻译 -->
+
+
+            <button onclick="toggleTranslator()"
+
+
+                    title="显示/隐藏翻译框"
+
+
+                    style="width:36px;height:36px;border:1px solid rgba(0,0,0,0.08);border-radius:10px;
+
+
+                           background:rgba(255,255,255,0.85);backdrop-filter:blur(12px);cursor:pointer;
+
+
+                           font-size:16px;display:flex;align-items:center;justify-content:center;
+
+
+                           transition:all 0.2s;"
+
+
+                    onmouseover="this.style.background='rgba(0,122,255,0.08)';this.style.borderColor='rgba(0,122,255,0.2)'"
+
+
+                    onmouseout="this.style.background='rgba(255,255,255,0.85)';this.style.borderColor='rgba(0,0,0,0.08)'">&#127760;</button>
+
+
+        </div>
+
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab导航 ==================== -->
+
+
+<div class="main-layout">
+
+
+<!-- 左侧垂直导航 -->
+
+
+<div class="sidebar-nav">
+
+
+<div class="nav-tabs" id="nav-tabs">
+
+
+<button class="nav-tab active" onclick="window.switchTab('tab-images')">🖼️ 图片管理</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-category')">📁 类目选择</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-variants')">🎨 颜色码数</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-ai')">🤖 AI文案</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-seo')">🔍 SEO优化</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-basic')">📋 基本信息</button>
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-sizechart')">📏 尺码表</button>
+
+
+
+
+
+<button class="nav-tab" onclick="window.switchTab('tab-export')">📤 导出上架</button>
+
+
+</div>
+
+
+</div>
+
+
+<!-- 右侧内容区 -->
+
+
+<div class="content-area">
+
+
+
+
+
+<!-- ==================== Tab1: 图片管理 ==================== -->
+
+
+<div class="tab-content active" id="tab-images">
+
+
+<h3 class="section-title">图片管理</h3>
+
+
+<div class="info-box">
+
+
+💡 支持直接上传 <strong>ZIP压缩包</strong>，自动解压并上传其中所有图片到图床。也支持单张/多张图片上传。
+
+
+</div>
+
+
+<div class="form-row" style="margin-bottom:15px;">
+
+
+<div class="form-group">
+
+
+<label>Cloud Name</label>
+
+
+<input type="text" class="form-control" id="cloudinary-cloud" value="dusqywjm5"><span id="cloud-cloud-status" style="font-size:11px;color:#28a745;margin-left:6px;visibility:hidden;">✅</span>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Upload Preset</label>
+
+
+<input type="text" class="form-control" id="cloudinary-preset" value="dsz_upload"><span id="cloud-preset-status" style="font-size:11px;color:#28a745;margin-left:6px;visibility:hidden;">✅</span>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Folder</label>
+
+
+<input type="text" class="form-control" id="cloudinary-folder" value="dropshipzone/products"><span id="cloud-folder-status" style="font-size:11px;color:#28a745;margin-left:6px;visibility:hidden;">✅</span>
+
+
+</div>
+
+
+</div>
+
+
+<button class="btn btn-sm btn-success" onclick="saveCloudinaryConfig()">保存图床配置</button>
+<button class="btn btn-sm btn-warning" onclick="resetCloudinaryConfig()" style="margin-left:6px;">重置配置</button>
+<span id="cloudinary-save-status" style="margin-left:10px;font-size:13px;color:#28a745;"></span>
+
+<div id="cloudinary-debug" style="margin-top:6px;font-size:12px;color:#888;display:none;"></div>
+
+
+
+
+
+<div class="upload-zone" id="upload-zone" ondragover="event.preventDefault();this.classList.add('drag-over');" ondrop="event.preventDefault();this.classList.remove('drag-over');handleFileUpload(event.dataTransfer.files);" style="margin-top:20px;" onclick="document.getElementById('file-input').click()">
+
+
+<p style="font-size:16px;margin-bottom:5px;">📁 点击或拖拽上传图片 / ZIP压缩包</p>
+
+
+<p style="font-size:13px;color:#888;">支持 JPG/PNG/GIF/WebP / ZIP · 第一张为主图 · 可拖拽排序</p>
+
+
+<input type="file" id="file-input" multiple accept="image/*,.zip" style="display:none;" onchange="handleFileUpload(this.files)">
+
+
+</div>
+
+
+<div id="upload-status" style="margin-top:10px;font-size:13px;"></div>
+
+
+<div id="upload-progress-container" style="display:none;margin-top:10px;">
+
+
+<div style="background:#e0e0e0;border-radius:4px;height:20px;overflow:hidden;">
+
+
+<div id="upload-progress" style="background:#28a745;height:100%;width:0%;transition:width 0.3s;"></div>
+
+
+</div>
+
+
+</div>
+
+
+<div class="image-gallery" id="image-gallery"></div>
+
+
+<div style="margin-top:15px;">
+
+
+<button class="btn btn-sm btn-secondary" onclick="copyAllImageUrls()">复制所有URL</button>
+
+
+<button class="btn btn-sm btn-danger" onclick="clearAllImages()">清空图片</button>
+
+
+</div>
+
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-category')">下一步：类目选择 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab2: 类目选择 (V1.3新增) ==================== -->
+
+
+<div class="tab-content" id="tab-category">
+
+
+<h3 class="section-title">类目选择 (Dropshipzone上传模板格式)</h3>
+
+
+<div class="info-box">💡 请根据产品的实际类目，从下方树形列表中选择对应的三级类目。选中的类目ID将自动填充到导出文件中。</div>
+
+
+<div class="form-group">
+
+
+<label>搜索类目</label>
+
+
+<input type="text" class="form-control" id="category-search" placeholder="输入关键词搜索类目..." oninput="filterCategoryTree()">
+
+
+</div>
+
+
+<div id="category-tree" class="category-tree"></div>
+
+
+<div id="selected-category-info" class="success-box" style="display:none;">
+
+
+<strong>已选中类目:</strong> <span id="selected-category-path"></span> (<span id="selected-category-id"></span>)
+
+
+</div>
+
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-variants')">下一步：颜色码数 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab3: 颜色码数 (前移) ==================== -->
+
+
+<!-- ==================== Tab4: AI文案 ==================== -->
+
+
+<div class="tab-content" id="tab-ai">
+
+
+<h3 class="section-title">AI文案生成</h3>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>DeepSeek API Key</label>
+
+
+<input type="text" class="form-control" id="deepseek-key" value="" placeholder="sk-...">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>豆包 API Key</label>
+
+
+<input type="text" class="form-control" id="doubao-key" value="" placeholder="ARK API Key">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-group" style="margin-top:4px;display:flex;gap:6px;">
+<button class="btn btn-success" onclick="saveAllApiConfig()" style="flex:1;padding:10px;font-size:14px;">💾 保存</button>
+<button class="btn btn-info" onclick="dszExportAllConfig()" style="flex:1;padding:10px;font-size:14px;" title="导出配置为JSON文件，防止浏览器清空">📥 导出</button>
+<label class="btn btn-warning" style="flex:1;padding:10px;font-size:14px;margin-bottom:0;cursor:pointer;" title="从JSON文件导入配置">📤 导入
+<input type="file" accept=".json" style="display:none;" onchange="var f=this.files[0];if(f){var r=new FileReader();r.onload=function(){dszImportConfig(r.result)};r.readAsText(f);this.value=''}">
+</label>
+</div>
+
+
+
+<!-- V1.5.1: AI图片选择区域 -->
+<div class="form-group" id="ai-image-area">
+<label>选择产品图片</label>
+<div id="ai-image-thumbnails" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;min-height:40px;align-items:center;">
+<span style="color:#999;font-size:13px;">请先在图片管理中心上传图片</span>
+</div>
+<div style="display:flex;gap:8px;align-items:center;">
+<input type="file" accept="image/*" id="ai-local-file" onchange="handleAiLocalFile(this)" style="display:none;">
+<button class="btn btn-sm btn-secondary" onclick="document.getElementById('ai-local-file').click()">或从本地选择图片</button>
+<button class="btn btn-sm btn-secondary" onclick="clearAiImageSelection()" style="display:none;" id="ai-clear-img-btn">清除选择</button>
+</div>
+<div id="ai-image-preview" style="margin-top:8px;display:none;"></div>
+</div>
+
+<div class="form-group">
+
+
+<label>产品关键词（可选，补充信息）</label>
+
+
+<input type="text" class="form-control" id="ai-keyword" placeholder="如: 夏季女装碎花连衣裙 透气棉质">
+
+
+</div>
+
+
+
+<!-- V1.5.1: 三步骤流程指示条 -->
+<div class="ai-flow-indicator" style="display:flex;align-items:center;justify-content:center;gap:0;margin:16px 0;padding:8px 0;">
+<div class="flow-step" id="flow-step-1">
+<div class="flow-dot" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:#e2e8f0;color:#64748b;transition:all 0.3s;">1</div>
+<div class="flow-label" style="font-size:11px;color:#94a3b8;margin-top:4px;text-align:center;white-space:nowrap;">豆包识图</div>
+</div>
+<div class="flow-line" style="width:60px;height:2px;background:#e2e8f0;margin:0 4px;transition:all 0.3s;"></div>
+<div class="flow-step" id="flow-step-2">
+<div class="flow-dot" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:#e2e8f0;color:#64748b;transition:all 0.3s;">2</div>
+<div class="flow-label" style="font-size:11px;color:#94a3b8;margin-top:4px;text-align:center;white-space:nowrap;">DeepSeek润色</div>
+</div>
+<div class="flow-line" style="width:60px;height:2px;background:#e2e8f0;margin:0 4px;transition:all 0.3s;"></div>
+<div class="flow-step" id="flow-step-3">
+<div class="flow-dot" style="width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;background:#e2e8f0;color:#64748b;transition:all 0.3s;">3</div>
+<div class="flow-label" style="font-size:11px;color:#94a3b8;margin-top:4px;text-align:center;white-space:nowrap;">输出结果</div>
+</div>
+</div>
+
+<button class="btn btn-primary" onclick="generateAICopy()" id="ai-generate-btn">🤖 生成AI文案</button>
+
+
+
+
+
+<div id="ai-results" style="margin-top:20px;display:none;">
+
+
+<div class="result-box">
+
+
+<h4>📝 产品标题 (EN)</h4>
+
+
+<div id="ai-title-en" style="min-height:30px;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('product-name-en','ai-title-en')">应用到产品名称(EN)</button></div>
+
+
+</div>
+
+
+<div class="result-box">
+
+
+<h4>📝 产品标题 (CN)</h4>
+
+
+<div id="ai-title-zh" style="min-height:30px;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('product-name-cn','ai-title-zh')">应用到产品名称(CN)</button></div>
+
+
+</div>
+
+
+<div class="result-box">
+
+
+<h4>📄 产品描述 (EN HTML)</h4>
+
+
+<div id="ai-description-en" style="min-height:50px;white-space:pre-wrap;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('html-description','ai-description-en');updateDescriptionPreview()">应用到描述</button></div>
+
+
+</div>
+
+
+<div class="result-box">
+
+
+<h4>✨ 卖点 (EN)</h4>
+
+
+<div id="ai-bullets-en" style="min-height:50px;white-space:pre-wrap;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="appendBulletsToDescription()">追加到描述</button></div>
+
+
+</div>
+
+
+<div class="result-box">
+
+
+<h4>🔑 SEO关键词 (EN)</h4>
+
+
+<div id="ai-keywords-en" style="min-height:30px;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('seo-keywords-en','ai-keywords-en')">应用到SEO关键词(EN)</button><button class="btn btn-sm btn-primary" style="margin-left:4px;" onclick="document.getElementById('product-name-en').value=keywordsToProductName(document.getElementById('ai-keywords-en').textContent);showNotification('已应用到产品名称(EN)','success')">应用到产品名称(EN)</button></div>
+
+
+</div>
+
+
+<div class="result-box">
+
+
+<h4>🔑 SEO关键词 (CN)</h4>
+
+
+<div id="ai-keywords-zh" style="min-height:30px;"></div>
+
+
+<div class="result-actions"><button class="btn btn-sm btn-primary" onclick="applyToField('seo-keywords-cn','ai-keywords-zh')">应用到SEO关键词(CN)</button></div>
+
+
+</div>
+
+
+<div style="margin-top:15px;">
+
+
+<button class="btn btn-success" onclick="applyAllAIResults()">✅ 一键应用所有结果</button>
+
+
+<span style="margin-left:10px;font-size:13px;color:#888;">产品名称(EN)将从SEO关键词自动生成</span>
+
+
+</div>
+
+
+</div>
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-seo')">下一步：SEO优化 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab3: SEO优化 ==================== -->
+
+
+<div class="tab-content" id="tab-seo">
+
+
+<h3 class="section-title">SEO优化</h3>
+
+
+<div class="success-box">
+
+
+💡 SEO关键词会自动同步到产品名称(EN) — 逗号分隔关键词自动转换为Title Case产品名(最多80字符)
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>SEO关键词 (EN) — 逗号分隔</label>
+
+
+<textarea class="form-control" id="seo-keywords-en" rows="3" placeholder="floral dress, summer dress, cotton dress, casual wear" oninput="debouncedSyncProductName()"></textarea>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>SEO关键词 (CN) — 逗号分隔</label>
+
+
+<textarea class="form-control" id="seo-keywords-cn" rows="3" placeholder="碎花裙, 夏季连衣裙, 棉质裙子"></textarea>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>Meta Title (EN)</label>
+
+
+<input type="text" class="form-control" id="meta-title-en" placeholder="SEO Meta Title">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Meta Title (CN)</label>
+
+
+<input type="text" class="form-control" id="meta-title-cn" placeholder="SEO Meta标题">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Meta Description (EN)</label>
+
+
+<textarea class="form-control" id="meta-desc-en" rows="3" placeholder="SEO Meta Description"></textarea>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Meta Description (CN)</label>
+
+
+<textarea class="form-control" id="meta-desc-cn" rows="3" placeholder="SEO Meta描述"></textarea>
+
+
+</div>
+
+
+<div style="margin-top:15px;">
+
+
+<button class="btn btn-primary" onclick="generateSEOTags()">生成SEO标签</button>
+
+
+<button class="btn btn-success" onclick="applySEOKeywordsToProductName()" style="margin-left:10px;">🔑 SEO关键词 → 产品名称(EN)</button>
+
+
+</div>
+
+
+<div id="seo-recommend" style="margin-top:15px;">
+
+
+<h4 style="margin-bottom:8px;">推荐关键词:</h4>
+
+
+<div id="recommended-tags" style="display:flex;flex-wrap:wrap;gap:4px;"></div>
+
+
+</div>
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-basic')">下一步：基本信息 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab4: 基本信息 ==================== -->
+
+
+<div class="tab-content" id="tab-basic">
+
+
+<h3 class="section-title">基本信息</h3>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>产品名称 (EN) <span style="color:#dc3545;">*</span></label>
+
+
+<input type="text" class="form-control" id="product-name-en" placeholder="Summer Floral Dress" oninput="syncParentSkuTitle()">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>产品名称 (CN)</label>
+
+
+<input type="text" class="form-control" id="product-name-cn" placeholder="夏季碎花连衣裙">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>Parent SKU <span style="color:#dc3545;">*</span></label>
+
+
+<div style="display:flex;gap:8px;">
+
+
+<input type="text" class="form-control" id="parent-sku" placeholder="DRESS-001" oninput="this.value=cleanSku(this.value)">
+
+
+<button class="btn btn-sm btn-warning" onclick="autoGenParentSku()">自动生成</button>
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>品类 <span style="color:#dc3545;">*</span></label>
+
+
+<select class="form-control" id="product-category" onchange="onCategoryChange()">
+
+
+<option value="womens-clothing">女装服装 (Women's Clothing)</option>
+
+
+<option value="mens-clothing">男装服装 (Men's Clothing)</option>
+
+
+<option value="womens-shoes">女鞋 (Women's Shoes)</option>
+
+
+<option value="mens-shoes">男鞋 (Men's Shoes)</option>
+
+
+<option value="kids-shoes">童鞋 (Kids' Shoes)</option>
+
+
+<option value="kids-clothing">童装 (Kids' Clothing)</option>
+<option value="womens-underwear">女士内衣 (Women's Underwear)</option>
+<option value="womens-sleepwear">女士睡衣 (Women's Sleepwear)</option>
+<option value="womens-swimwear">女士泳装 (Women's Swimwear)</option>
+
+
+
+</select>
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>品牌</label>
+
+
+<input type="text" class="form-control" id="brand-name" placeholder="Brand Name">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>状态</label>
+
+
+<select class="form-control" id="product-status">
+
+
+<option value="1">Active (上架)</option>
+
+
+<option value="0">Inactive (下架)</option>
+
+
+</select>
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>EAN Code (可选)</label>
+
+
+<input type="text" class="form-control" id="ean-code" placeholder="EAN barcode" value="N/A">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>产品描述 (HTML)</label>
+
+
+<textarea class="form-control" id="html-description" rows="8" placeholder="HTML格式的产品描述..."></textarea>
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>描述预览</label>
+
+
+<div class="preview-box" id="description-preview">预览区域</div>
+
+
+</div>
+
+
+<button class="btn btn-sm btn-secondary" onclick="updateDescriptionPreview()">刷新预览</button>
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-sizechart')">下一步：尺码表 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab5: 颜色码数 (TEMU风格 V1.2) ==================== -->
+
+
+<div class="tab-content" id="tab-variants">
+
+
+<h3 class="section-title">颜色码数变体管理（TEMU风格）</h3>
+
+
+<div class="info-box">
+
+
+当前品类: <strong id="current-category-display">女装服装</strong>
+
+
+<button class="btn btn-sm btn-warning" style="margin-left:10px;" onclick="window.switchTab('tab-basic')">切换品类</button>
+
+
+<span style="float:right;">共 <strong id="total-variants-count">0</strong> 个变体</span>
+
+
+</div>
+
+
+
+
+
+<!-- ========== 第一部分：商品属性（TEMU截图1风格）========== -->
+
+
+<div class="attr-section" id="product-attrs-section">
+
+
+<div class="attr-section-header">
+
+
+<span class="attr-section-title">⚠️ 商品属性</span>
+
+
+<span class="attr-count" id="attr-fill-count">(0/19)</span>
+
+
+</div>
+
+
+<div style="font-size:12px;color:#fa8c16;margin-bottom:12px;">请如实填写商品属性信息，如出现违规不符等情形，平台方有权依据商家协议及商家规则判定采取包括但不限于商品下架、禁售等处理措施。</div>
+
+
+<div class="attr-grid" id="attr-grid-container">
+
+
+<!-- 由JS动态生成，根据品类不同显示不同的属性字段 -->
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ========== 第二部分：颜色（TEMU截图2风格 — 文本输入）========== -->
+
+
+<div class="attr-section">
+
+
+<div class="attr-section-header">
+
+
+<span class="attr-section-title" style="color:#333;">🎨 颜色</span>
+
+
+</div>
+
+
+<div class="color-input-area" id="color-input-list">
+
+
+<div class="no-data-hint" id="no-colors-hint">
+
+
+<p>还没有添加颜色</p>
+
+
+<p style="font-size:13px;">点击下方「+ 添加颜色」添加第一个颜色</p>
+
+
+</div>
+
+
+</div>
+
+
+<div style="margin-top:8px;">
+
+
+<span class="add-color-link" onclick="addColorInputRow()">＋ 添加</span>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ========== 第三部分：尺码（TEMU截图2风格 — 复选框网格）========== -->
+
+
+<div class="attr-section">
+
+
+<div class="attr-section-header">
+
+
+<span class="attr-section-title" style="color:#333;">📏 尺码</span>
+
+
+</div>
+
+
+<div class="size-hint-text" id="size-hint-text">
+
+
+建议发布尽可能广泛的尺码范围，提高尺码完善度，可有效提升商品转化。
+
+
+</div>
+
+
+<!-- 尺码类型切换 -->
+
+
+<div class="size-type-tabs" id="size-type-tabs">
+
+
+<div class="size-type-tab active" data-type="normal" onclick="switchSizeType('normal')">常规</div>
+
+
+<div class="size-type-tab" data-type="dual" onclick="switchSizeType('dual')">常规-双码</div>
+
+
+</div>
+
+
+<!-- 全选 -->
+
+
+<div class="select-all-row">
+
+
+<input type="checkbox" id="select-all-sizes" onchange="toggleSelectAllSizes(this.checked)">
+
+
+<label for="select-all-sizes">全选</label>
+
+
+</div>
+
+
+<!-- 尺码复选框网格 -->
+
+
+<div class="size-check-grid" id="size-check-grid">
+
+
+<!-- JS动态渲染 -->
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ========== 第四部分：SKU变体表格（TEMU截图3风格）========== -->
+
+
+<div class="attr-section" id="sku-table-section" style="display:none;">
+
+
+<div class="attr-section-header">
+
+
+<span class="attr-section-title" style="color:#333;">📋 SKU变体表格</span>
+
+
+</div>
+
+
+<!-- 表格标签页 -->
+
+
+<div class="sku-table-tabs">
+
+
+<div class="sku-table-tab active" onclick="switchSkuTableTab('sku',this)">SKU</div>
+
+
+
+
+
+<div class="sku-table-tab" onclick="switchSkuTableTab('dims',this)">体积称重</div>
+
+
+<div class="sku-table-tab" onclick="switchSkuTableTab('batch',this)">批量填写</div>
+
+
+</div>
+
+
+<!-- 批量填充工具栏 -->
+
+
+<div class="batch-fill-bar" id="batch-fill-bar" style="display:none;">
+
+
+<label>批量价格:</label><input type="number" id="batch-price" value="29.99" step="0.01">
+
+
+<label>批量库存:</label><input type="number" id="batch-stock" value="999">
+
+
+<label>长(cm):</label><input type="number" id="batch-vol-l" value="30">
+
+
+<label>宽(cm):</label><input type="number" id="batch-vol-w" value="20">
+
+
+<label>高(cm):</label><input type="number" id="batch-vol-h" value="5">
+
+
+<label>重量(g):</label><input type="number" id="batch-weight" value="200">
+
+
+<button class="btn btn-sm btn-primary" onclick="applyBatchFill()">应用到所有变体</button>
+
+
+</div>
+
+
+<div style="overflow-x:auto;">
+
+
+<table class="sku-table" id="variant-sku-table">
+
+
+<thead><tr>
+
+
+<th>颜色</th><th>尺码</th><th>*体积 L×W×H(cm)</th><th>*重量(g)</th><th>Price(AUD)</th><th>Stock</th>
+
+
+</tr></thead>
+
+
+<tbody id="variant-tbody">
+
+
+<!-- JS动态渲染 -->
+
+
+</tbody>
+
+
+</table>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- 全局操作按钮 -->
+
+
+<div id="variant-actions" style="display:none;margin-top:15px;">
+
+
+<button class="btn btn-warning" onclick="applyPriceToAllColors()">批量改价</button>
+
+
+<button class="btn btn-info" onclick="applyStockToAllColors()">批量改库存</button>
+
+
+<button class="btn btn-danger" onclick="clearAllVariants()">清空所有变体</button>
+
+
+</div>
+
+
+
+
+
+<!-- 变体摘要 -->
+
+
+<div id="variant-summary" style="margin:15px 0;"></div>
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-ai')">下一步：AI文案 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab6: 尺码表 ==================== -->
+
+
+<div class="tab-content" id="tab-sizechart">
+
+
+<h3 class="section-title">尺码对照表</h3>
+
+
+<div class="info-box">
+
+
+根据当前品类自动生成澳洲标准尺码表，可一键插入产品描述或复制HTML。
+
+
+</div>
+
+
+<div id="size-chart-preview"></div>
+
+
+<div style="margin-top:15px;">
+
+
+<button class="btn btn-primary" onclick="generateSizeChart()">🔄 重新生成尺码表</button>
+
+
+<button class="btn btn-success" onclick="insertSizeChartToDescription()">📋 插入到描述</button>
+
+
+<button class="btn btn-warning" onclick="copySizeChartHTML()">📋 复制HTML</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab7: 运费包装 ==================== -->
+
+
+<div class="tab-content" id="tab-shipping">
+
+
+<h3 class="section-title">运费包装信息</h3>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>包装重量 (kg)</label>
+
+
+<input type="number" class="form-control" id="package-weight" value="0.3" step="0.01" oninput="calcCBM()">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>包装长 (cm)</label>
+
+
+<input type="number" class="form-control" id="package-length" value="30" oninput="calcCBM()">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>包装宽 (cm)</label>
+
+
+<input type="number" class="form-control" id="package-width" value="20" oninput="calcCBM()">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>包装高 (cm)</label>
+
+
+<input type="number" class="form-control" id="package-height" value="5" oninput="calcCBM()">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>CBM (m³) — 自动计算</label>
+
+
+<input type="text" class="form-control" id="package-cbm" readonly value="0.003">
+
+
+</div>
+
+
+</div>
+
+
+<div class="form-row">
+
+
+<div class="form-group">
+
+
+<label>价格 (AUD Incl. GST)</label>
+
+
+<input type="number" class="form-control" id="product-price" value="29.99" step="0.01">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>RRP (AUD Incl. GST)</label>
+
+
+<input type="number" class="form-control" id="product-rrp" value="49.99" step="0.01">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>库存</label>
+
+
+<input type="number" class="form-control" id="product-stock" value="999">
+
+
+</div>
+
+
+<div class="form-group">
+
+
+<label>Sub-subcategory</label>
+
+
+<input type="text" class="form-control" id="sub-subcategory" placeholder="Dropshipzone类目ID">
+
+
+</div>
+
+
+</div>
+
+
+<div class="info-box">
+
+
+💡 180个澳洲运费区域列将在导出时自动填充默认值（标准区域0，偏远区域9999）。
+
+
+</div>
+
+
+
+<div style="margin-top:25px; padding-top:18px; border-top:1px solid #e2e8f0; text-align:right;">
+    <button class="btn btn-primary" onclick="switchTab('tab-export')">下一步：导出上架 →</button>
+</div>
+
+</div>
+
+
+
+
+
+<!-- ==================== Tab8: 导出上架 ==================== -->
+
+
+<div class="tab-content" id="tab-export">
+
+
+<h3 class="section-title">导出上架文件</h3>
+
+
+<div class="warning-box">
+
+
+⚠️ 导出前请确认：1.已添加颜色和码数 2.基本信息已填写 3.图片已上传
+
+
+</div>
+
+
+<div id="export-summary" style="margin:15px 0;"></div>
+
+
+<button class="btn btn-success" onclick="exportToExcel()" style="font-size:16px;padding:12px 30px;">📊 导出Excel上架文件</button>
+
+
+<div id="export-preview" style="margin-top:20px;"></div>
+
+
+</div>
+
+
+
+
+
+<div class="footer">
+
+
+<p>Dropshipzone 服装鞋类上架工具 V1.5 | 类目选择·AU/EU尺码对照 · 文本选色 · 复选框码数 · 逐行属性</p>
+
+
+<p>&copy; 2026 Dropshipzone Tools</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<!-- ==================== 悬浮翻译框 ==================== -->
+
+
+<div id="dsz-translator" class="collapsed">
+
+
+<div class="trans-header">
+
+
+<span style="flex:1;cursor:pointer" onclick="toggleTranslator()">🌐 AI翻译</span>
+
+
+<span class="trans-close" onclick="event.stopPropagation();hideTranslator()" title="隐藏翻译框">✕</span>
+
+
+<span id="trans-toggle-icon" style="cursor:pointer" onclick="toggleTranslator()">▼</span>
+
+
+</div>
+
+
+<div class="trans-body">
+
+
+<select id="trans-direction">
+
+
+<option value="en2zh">英文 → 中文</option>
+
+
+<option value="zh2en">中文 → 英文</option>
+
+
+</select>
+
+
+<select id="trans-style" style="margin-left:5px;">
+
+
+<option value="direct">直接翻译</option>
+
+
+<option value="ecommerce">电商风格</option>
+
+
+<option value="formal">正式风格</option>
+
+
+<option value="casual">口语风格</option>
+
+
+</select>
+
+
+<textarea id="trans-input" placeholder="输入要翻译的文本... (Ctrl+Enter翻译)"></textarea>
+
+
+<button class="btn btn-sm btn-primary" onclick="doTranslate()" style="width:100%;">翻 译</button>
+
+
+<div class="trans-result" id="trans-result">翻译结果将显示在这里...</div>
+
+
+<button class="btn btn-sm btn-success" onclick="copyTransResult()" style="margin-top:5px;width:100%;">复制结果</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+
+
+
+
+
+
+
+
+
+// 颜色中英文映射表
+
+
+var COLOR_ZH_EN_MAP = {
+
+
+    '红色': 'Red', '蓝色': 'Blue', '黑色': 'Black', '白色': 'White',
+
+
+    '绿色': 'Green', '黄色': 'Yellow', '紫色': 'Purple', '橙色': 'Orange',
+
+
+    '粉色': 'Pink', '玫红': 'Rose', '棕色': 'Brown', '灰色': 'Gray',
+
+
+    '米色': 'Beige', '卡其色': 'Khaki', '海军蓝': 'Navy', '酒红色': 'Burgundy',
+
+
+    '金色': 'Gold', '银色': 'Silver', '藏青': 'Navy', '咖啡色': 'Coffee',
+    '酒红': 'Burgundy', '珊瑚红': 'Coral', '桃红': 'Peach', '砖红': 'Brick Red', '橘红': 'Tangerine',
+    '荧光黄': 'Neon Yellow', '荧光橙': 'Neon Orange',
+    '墨绿': 'Dark Green', '浅绿': 'Light Green', '军绿': 'Army Green', '迷彩': 'Camouflage',
+    '荧光绿': 'Neon Green', '薄荷绿': 'Mint Green',
+    '深蓝': 'Dark Blue', '天蓝': 'Sky Blue', '宝蓝': 'Royal Blue', '湖蓝': 'Lake Blue',
+    '靛蓝': 'Indigo', '雾霾蓝': 'Misty Blue',
+    '深紫': 'Dark Purple', '浅紫': 'Light Purple', '薰衣草紫': 'Lavender',
+    '驼色': 'Camel', '杏色': 'Apricot', '肤色': 'Skin', '巧克力色': 'Chocolate',
+    '深灰': 'Dark Gray', '浅灰': 'Light Gray', '碳黑': 'Carbon',
+    '象牙白': 'Ivory', '香槟色': 'Champagne', '荧光粉': 'Neon Pink'
+
+
+};
+
+// V1.5.1: 颜色预设列表（50+种常用颜色，用于下拉提示）
+var COLOR_PRESETS = [
+    '黑色','白色','红色','酒红','粉色','玫红','珊瑚红','桃红','砖红','橘红',
+    '橙色','黄色','金色','荧光黄','荧光橙',
+    '绿色','墨绿','浅绿','军绿','迷彩','荧光绿','薄荷绿',
+    '蓝色','深蓝','天蓝','藏青','宝蓝','湖蓝','靛蓝','雾霾蓝',
+    '紫色','深紫','浅紫','薰衣草紫',
+    '棕色','咖啡色','驼色','卡其色','米色','杏色','肤色','巧克力色',
+    '灰色','深灰','浅灰','碳黑','银色',
+    '象牙白','香槟色','荧光粉'
+];
+// V1.5.3: 颜色预设扩展列表（英文+中文+Hex颜色值，用于下拉框选项+色块预览）
+var COLOR_PRESETS_ENRICHED = [
+    {en:'Black', zh:'黑色', hex:'#000000'},
+    {en:'White', zh:'白色', hex:'#F5F5F5'},
+    {en:'Red', zh:'红色', hex:'#FF0000'},
+    {en:'Burgundy', zh:'酒红', hex:'#800020'},
+    {en:'Pink', zh:'粉色', hex:'#FFC0CB'},
+    {en:'Rose', zh:'玫红', hex:'#E32636'},
+    {en:'Coral', zh:'珊瑚红', hex:'#FF7F50'},
+    {en:'Peach', zh:'桃红', hex:'#FF69B4'},
+    {en:'Brick Red', zh:'砖红', hex:'#B22222'},
+    {en:'Tangerine', zh:'橘红', hex:'#FF4500'},
+    {en:'Orange', zh:'橙色', hex:'#FFA500'},
+    {en:'Yellow', zh:'黄色', hex:'#FFFF00'},
+    {en:'Gold', zh:'金色', hex:'#FFD700'},
+    {en:'Neon Yellow', zh:'荧光黄', hex:'#CCFF00'},
+    {en:'Neon Orange', zh:'荧光橙', hex:'#FF5E00'},
+    {en:'Green', zh:'绿色', hex:'#008000'},
+    {en:'Dark Green', zh:'墨绿', hex:'#006400'},
+    {en:'Light Green', zh:'浅绿', hex:'#90EE90'},
+    {en:'Army Green', zh:'军绿', hex:'#556B2F'},
+    {en:'Camouflage', zh:'迷彩', hex:'#4B5320'},
+    {en:'Neon Green', zh:'荧光绿', hex:'#39FF14'},
+    {en:'Mint Green', zh:'薄荷绿', hex:'#98FF98'},
+    {en:'Blue', zh:'蓝色', hex:'#0000FF'},
+    {en:'Dark Blue', zh:'深蓝', hex:'#00008B'},
+    {en:'Sky Blue', zh:'天蓝', hex:'#87CEEB'},
+    {en:'Navy', zh:'藏青', hex:'#000080'},
+    {en:'Royal Blue', zh:'宝蓝', hex:'#4169E1'},
+    {en:'Lake Blue', zh:'湖蓝', hex:'#30D5C8'},
+    {en:'Indigo', zh:'靛蓝', hex:'#4B0082'},
+    {en:'Misty Blue', zh:'雾霾蓝', hex:'#6699CC'},
+    {en:'Purple', zh:'紫色', hex:'#800080'},
+    {en:'Dark Purple', zh:'深紫', hex:'#8B008B'},
+    {en:'Light Purple', zh:'浅紫', hex:'#DDA0DD'},
+    {en:'Lavender', zh:'薰衣草紫', hex:'#E6E6FA'},
+    {en:'Brown', zh:'棕色', hex:'#A52A2A'},
+    {en:'Coffee', zh:'咖啡色', hex:'#6F4E37'},
+    {en:'Camel', zh:'驼色', hex:'#C19A6B'},
+    {en:'Khaki', zh:'卡其色', hex:'#F0E68C'},
+    {en:'Beige', zh:'米色', hex:'#F5F5DC'},
+    {en:'Apricot', zh:'杏色', hex:'#FFE4C4'},
+    {en:'Skin', zh:'肤色', hex:'#FFDAB9'},
+    {en:'Chocolate', zh:'巧克力色', hex:'#7B3F00'},
+    {en:'Gray', zh:'灰色', hex:'#808080'},
+    {en:'Dark Gray', zh:'深灰', hex:'#36454F'},
+    {en:'Light Gray', zh:'浅灰', hex:'#D3D3D3'},
+    {en:'Carbon', zh:'碳黑', hex:'#1C1C1C'},
+    {en:'Silver', zh:'银色', hex:'#C0C0C0'},
+    {en:'Ivory', zh:'象牙白', hex:'#FFFFF0'},
+    {en:'Champagne', zh:'香槟色', hex:'#F7E7CE'},
+    {en:'Neon Pink', zh:'荧光粉', hex:'#FF1493'}
+];
+
+
+
+
+
+
+function getColorDisplay(colorName) {
+
+
+    // 显示：中文 (英文)
+
+
+    if (COLOR_ZH_EN_MAP[colorName]) {
+
+
+        return colorName + ' (' + COLOR_ZH_EN_MAP[colorName] + ')';
+
+
+    }
+
+
+    return colorName;
+
+
+}
+window.getColorDisplay = getColorDisplay;
+
+
+
+
+
+function getColorForExport(colorName) {
+
+
+    // 导出：仅英文
+
+
+    if (COLOR_ZH_EN_MAP[colorName]) {
+
+
+        return COLOR_ZH_EN_MAP[colorName];
+
+
+    }
+
+
+    return colorName;
+
+
+}
+window.getColorForExport = getColorForExport;
+
+
+
+
+
+// ==================== V1.3: 类目选择系统 ====================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var selectedCategoryId = '';
+
+
+var selectedCategoryPath = '';
+
+
+
+
+
+function renderCategoryTree(filter) {
+
+
+    filter = filter || '';
+
+
+    var container = document.getElementById('category-tree');
+
+
+    if (!container) return;
+
+
+    var html = '';
+
+
+    for (var group in CATEGORY_TREE_DATA) {
+
+
+        var items = CATEGORY_TREE_DATA[group];
+
+
+        var filtered = filter ? items.filter(function(i) {
+
+
+            var nzh = (i.nameZh || '').toLowerCase();
+
+
+            var nen = (i.name || '').toLowerCase();
+
+
+            var f = filter.toLowerCase();
+
+
+            return nzh.indexOf(f) !== -1 || nen.indexOf(f) !== -1;
+
+
+        }) : items;
+
+
+        if (filtered.length === 0) continue;
+
+
+        var groupZh = (typeof CATEGORY_GROUP_ZH !== 'undefined' && CATEGORY_GROUP_ZH[group]) || group;
+
+
+        html += '<div class="category-tree-group">';
+
+
+        html += '<div class="category-tree-group-title">' + groupZh + '</div>';
+
+
+        filtered.forEach(function(item) {
+
+
+            var cssClass = (selectedCategoryId == item.id) ? 'category-tree-item selected' : 'category-tree-item';
+
+
+            var displayName = item.nameZh || item.name;
+
+
+            html += '<div class="' + cssClass + '" onclick="selectCategory(' + item.id + ')">' + displayName + ' <span style="color:#999;font-size:12px;">(ID:' + item.id + ')</span></div>';
+
+
+        });
+
+
+        html += '</div>';
+
+
+    }
+
+
+    container.innerHTML = html || '<div style="color:#999;text-align:center;padding:20px;">未找到匹配的类目</div>';
+
+
+}
+window.renderCategoryTree = renderCategoryTree;
+
+
+
+
+
+function selectCategory(id) {
+
+
+    // 根据 id 从 CATEGORY_TREE_DATA 中查找完整数据
+
+
+    var foundItem = null;
+
+
+    var foundGroup = '';
+
+
+    for (var g in CATEGORY_TREE_DATA) {
+
+
+        for (var j = 0; j < CATEGORY_TREE_DATA[g].length; j++) {
+
+
+            if (CATEGORY_TREE_DATA[g][j].id == id) {
+
+
+                foundItem = CATEGORY_TREE_DATA[g][j];
+
+
+                foundGroup = g;
+
+
+                break;
+
+
+            }
+
+
+        }
+
+
+        if (foundItem) break;
+
+
+    }
+
+
+    if (!foundItem) return;
+
+
+    selectedCategoryId = id;
+
+
+    var nameEn = foundItem.name;
+
+
+    var nameZh = foundItem.nameZh || nameEn;
+
+
+    var groupEn = foundGroup;
+
+
+    var groupZh = (typeof CATEGORY_GROUP_ZH !== 'undefined' && CATEGORY_GROUP_ZH[groupEn]) || groupEn;
+
+
+    selectedCategoryPath = groupEn + ' > ' + nameEn;
+
+
+    document.getElementById('selected-category-path').textContent = groupZh + ' > ' + nameZh + '  (ID:' + id + ')';
+
+
+    document.getElementById('selected-category-id').textContent = id;
+
+
+    document.getElementById('selected-category-info').style.display = 'block';
+
+
+    var subsubInput = document.getElementById('sub-subcategory');
+
+
+    if (subsubInput) subsubInput.value = id;
+
+
+    renderCategoryTree(document.getElementById('category-search').value);
+
+
+    showNotification('已选择类目: ' + nameZh + ' (ID:' + id + ')', 'success');
+
+
+}
+window.selectCategory = selectCategory;
+
+
+
+
+
+function filterCategoryTree() {
+
+
+    var filter = document.getElementById('category-search').value;
+
+
+    renderCategoryTree(filter);
+
+
+}
+window.filterCategoryTree = filterCategoryTree;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ==================== V1.3: 类目选择系统（中文版）====================
+
+
+var CATEGORY_GROUP_ZH = {
+
+
+    "Fashion > Women's Fashion": "时尚 > 女装",
+
+
+    "Fashion > Men's Fashion": "时尚 > 男装",
+
+
+    "Baby & Kids > Boys": "母婴 > 男孩",
+
+
+    "Baby & Kids > Girls": "母婴 > 女孩"
+
+
+};
+
+
+
+
+
+var CATEGORY_TREE_DATA = {
+
+
+    "Fashion > Women's Fashion": [
+
+
+        {"name":"Women's Accessories", "nameZh":"女士配饰", "id":939},
+
+
+        {"name":"Women's Activewear", "nameZh":"女士运动服", "id":940},
+
+
+        {"name":"Women's Boots", "nameZh":"女士靴子", "id":941},
+
+
+        {"name":"Women's Bottoms", "nameZh":"女士下装", "id":942},
+
+
+        {"name":"Women's Casual Shoes", "nameZh":"女士休闲鞋", "id":943},
+
+
+        {"name":"Women's Dresses & Playsuits", "nameZh":"女士连衣裙及连体衣", "id":944},
+
+
+        {"name":"Women's Handbags", "nameZh":"女士手提包", "id":945},
+
+
+        {"name":"Women's Heels", "nameZh":"女士高跟鞋", "id":946},
+
+
+        {"name":"Women's Intimates", "nameZh":"女士贴身衣物", "id":947},
+
+
+        {"name":"Women's Jackets & Coats", "nameZh":"女士夹克及外套", "id":948},
+
+
+        {"name":"Women's Jeans", "nameZh":"女士牛仔裤", "id":949},
+
+
+        {"name":"Women's Jewellery", "nameZh":"女士珠宝首饰", "id":950},
+
+
+        {"name":"Women's Knitwear & Sweaters", "nameZh":"女士针织衫及毛衣", "id":951},
+
+
+        {"name":"Women's Lingerie", "nameZh":"女士内衣", "id":952},
+
+
+        {"name":"Women's Sleepwear", "nameZh":"女士睡衣", "id":953},
+
+
+        {"name":"Women's Sneakers & Sports Shoes", "nameZh":"女士运动鞋", "id":954},
+
+
+        {"name":"Women's Socks & Hosiery", "nameZh":"女士袜子及袜类", "id":955},
+
+
+        {"name":"Women's Swimwear", "nameZh":"女士泳装", "id":956},
+
+
+        {"name":"Women's Thongs & Sandals", "nameZh":"女士凉鞋及拖鞋", "id":957},
+
+
+        {"name":"Women's Tops & T-shirts", "nameZh":"女士上装及T恤", "id":958},
+
+
+        {"name":"Women's Uggs & Slippers", "nameZh":"女士UGG及室内鞋", "id":959},
+
+
+        {"name":"Women's Watches", "nameZh":"女士手表", "id":960}
+
+
+    ],
+
+
+    "Fashion > Men's Fashion": [
+
+
+        {"name":"Men's Accessories", "nameZh":"男士配饰", "id":918},
+
+
+        {"name":"Men's Casual Shoes", "nameZh":"男士休闲鞋", "id":919},
+
+
+        {"name":"Men's Coats & Jackets", "nameZh":"男士外套及夹克", "id":920},
+
+
+        {"name":"Men's Dress Shoes & Boots", "nameZh":"男士正装鞋及靴子", "id":921},
+
+
+        {"name":"Men's Hats & Caps", "nameZh":"男士帽子", "id":922},
+
+
+        {"name":"Men's Jeans", "nameZh":"男士牛仔裤", "id":923},
+
+
+        {"name":"Men's Jewellery", "nameZh":"男士珠宝首饰", "id":924},
+
+
+        {"name":"Men's Knitwear & Sweaters", "nameZh":"男士针织衫及毛衣", "id":925},
+
+
+        {"name":"Men's Pants & Chinos", "nameZh":"男士长裤及休闲裤", "id":926},
+
+
+        {"name":"Men's Shirts", "nameZh":"男士衬衫", "id":927},
+
+
+        {"name":"Men's Shorts", "nameZh":"男士短裤", "id":928},
+
+
+        {"name":"Men's Sleepwear", "nameZh":"男士睡衣", "id":929},
+
+
+        {"name":"Men's Sneakers & Sports Shoes", "nameZh":"男士运动鞋", "id":930},
+
+
+        {"name":"Men's Suits & Tuxedos", "nameZh":"男士西装及礼服", "id":931},
+
+
+        {"name":"Men's Sweats & Trackpants", "nameZh":"男士卫衣及运动裤", "id":932},
+
+
+        {"name":"Men's Thongs & Sandals", "nameZh":"男士凉鞋及拖鞋", "id":933},
+
+
+        {"name":"Men's Tops & T-shirts", "nameZh":"男士上装及T恤", "id":934},
+
+
+        {"name":"Men's Uggs & Slippers", "nameZh":"男士UGG及室内鞋", "id":935},
+
+
+        {"name":"Men's Underwear & Socks", "nameZh":"男士内衣及袜子", "id":936},
+
+
+        {"name":"Men's Watches", "nameZh":"男士手表", "id":937},
+
+
+        {"name":"Men's Swimwear", "nameZh":"男士泳装", "id":961}
+
+
+    ],
+
+
+    "Baby & Kids > Boys": [
+
+
+        {"name":"Boy's Shirts & T-shirts", "nameZh":"男孩衬衫及T恤", "id":826},
+
+
+        {"name":"Boy's Shoes", "nameZh":"男孩鞋子", "id":827},
+
+
+        {"name":"Boy's Sleepwear", "nameZh":"男孩睡衣", "id":828}
+
+
+    ],
+
+
+    "Baby & Kids > Girls": [
+
+
+        {"name":"Girl's Shirts & T-shirts", "nameZh":"女孩衬衫及T恤", "id":833},
+
+
+        {"name":"Girl's Shoes", "nameZh":"女孩鞋子", "id":834},
+
+
+        {"name":"Girl's Skirts", "nameZh":"女孩裙子", "id":835},
+
+
+        {"name":"Girl's Sleepwear", "nameZh":"女孩睡衣", "id":836}
+
+
+    ]
+
+
+};
+
+
+
+
+
+// ==================== localStorage 持久化 (Electron) ====================
+
+
+(function(){
+
+
+    if (typeof window.require === 'function') {
+
+
+        var fs = window.require('fs');
+
+
+        var path = window.require('path');
+
+
+        var os = window.require('os');
+
+
+        var storageFile = path.join(os.homedir(), '.dsz_desktop', 'storage.json');
+
+
+        var _data = {};
+
+
+        try { if (fs.existsSync(storageFile)) { _data = JSON.parse(fs.readFileSync(storageFile, 'utf8')); } } catch(e) {}
+
+
+        try { var dir = path.dirname(storageFile); if (!fs.existsSync(dir)) fs.mkdirSync(dir, {recursive:true}); } catch(e) {}
+
+
+        function persist() { try { fs.writeFileSync(storageFile, JSON.stringify(_data)); } catch(e) {} }
+
+
+        var origGet = localStorage.getItem.bind(localStorage);
+
+
+        var origSet = localStorage.setItem.bind(localStorage);
+
+
+        var origRemove = localStorage.removeItem.bind(localStorage);
+
+
+        localStorage.getItem = function(k) { return k in _data ? _data[k] : origGet(k); };
+
+
+        localStorage.setItem = function(k, v) { _data[k] = String(v); origSet(k, v); persist(); };
+
+
+        localStorage.removeItem = function(k) { delete _data[k]; origRemove(k); persist(); };
+
+
+    }
+
+
+})();
+
+
+
+
+
+// ==================== 初始化 ====================
+
+
+
+
+
+function initApp() {
+
+
+    restoreCloudinaryConfig();
+
+
+    loadApiKey();
+
+
+    loadDoubaoKey();
+
+
+    generateSizeChart();
+
+
+    renderRecommendedTags();
+
+
+    calcCBM();
+
+
+    renderProductAttrs();     // V1.2: 渲染商品属性
+
+
+    renderColorInputList();   // V1.2: 渲染颜色列表
+
+
+    renderSizeCheckGrid();    // V1.2: 渲染尺码复选框
+
+
+    rebuildVariantsFromSelection(); // V1.2: 从选择重建变体
+
+    // V1.5: 双重存储持久化（localStorage + Cookie fallback）
+    // --- 图床配置自动保存（输入即保存） ---
+    var _cloudFields = [
+        { id: 'cloudinary-cloud', lsKey: 'dsz_cloud_name', statusId: 'cloud-cloud-status' },
+        { id: 'cloudinary-preset', lsKey: 'dsz_cloud_preset', statusId: 'cloud-preset-status' },
+        { id: 'cloudinary-folder', lsKey: 'dsz_cloud_folder', statusId: 'cloud-folder-status' }
+    ];
+    _cloudFields.forEach(function(field) {
+        var el = document.getElementById(field.id);
+        if (!el) return;
+        ['input', 'change'].forEach(function(evt) {
+            el.addEventListener(evt, function() {
+                var val = this.value.trim();
+                // 三重存储
+                dszSave(field.lsKey.replace(/^dsz_/, ''), val);
+                console.log('[DSZ Save] ' + field.lsKey + '=' + val);
+                // 状态提示
+                var sp = document.getElementById(field.statusId);
+                if (sp) { sp.style.visibility='visible'; clearTimeout(sp._t); sp._t=setTimeout(function(){sp.style.visibility='hidden';},1500); }
+                // 更新debug显示
+                showCloudinaryDebug();
+            });
+        });
+    });
+
+    // --- API Key 自动保存（防抖） ---
+    function _makeAutoSave(inputId, lsKey) {
+        var el = document.getElementById(inputId);
+        if (!el) return;
+        var shortKey = lsKey.replace(/^dsz_/, '');
+        el.addEventListener('input', function() {
+            clearTimeout(this._saveT);
+            this._saveT = setTimeout(function() {
+                var v = el.value.trim(); if (!v) return;
+                dszSave(shortKey, v);
+                console.log('[DSZ Save] ' + lsKey + '=***');
+            }, 500);
+        });
+    }
+    _makeAutoSave('deepseek-key', 'dsz_deepseek_key');
+    _makeAutoSave('doubao-key', 'dsz_doubao_key');
+
+    // --- 页面启动时：如果localStorage为空但HTML有默认值 → 立即保存 ---
+    setTimeout(function() {
+        restoreCloudinaryConfig();
+        // 冗余：确保默认值被写入存储
+        _cloudFields.forEach(function(field) {
+            var el = document.getElementById(field.id);
+            if (!el) return;
+            var saved = dszLoad(field.lsKey.replace(/^dsz_/, ''));
+            if (!saved && el.value.trim()) {
+                dszSave(field.lsKey.replace(/^dsz_/, ''), el.value.trim());
+                console.log('[DSZ InitSave] ' + field.lsKey + '=' + el.value.trim());
+            }
+        });
+        loadApiKey(); // 确保API key也被尝试恢复
+        loadDoubaoKey();
+        // V1.5.2: API Key 初始化保存（若输入框有值但存储为空，则回填到存储）
+        var _apiFields = [
+            { id: 'deepseek-key', lsKey: 'deepseek_key' },
+            { id: 'doubao-key', lsKey: 'doubao_key' }
+        ];
+        _apiFields.forEach(function(field) {
+            var el = document.getElementById(field.id);
+            if (!el) return;
+            var saved = dszLoad(field.lsKey);
+            if (!saved && el.value.trim()) {
+                dszSave(field.lsKey, el.value.trim());
+                console.log('[DSZ InitSave] ' + field.lsKey + '=***');
+            }
+        });
+        showCloudinaryDebug();
+        // 诊断：1秒后再次检查所有输入框的值
+        setTimeout(function() {
+            var ds = (document.getElementById('deepseek-key')||{}).value || '(空)';
+            var db = (document.getElementById('doubao-key')||{}).value || '(空)';
+            var cn = (document.getElementById('cloudinary-cloud')||{}).value || '(空)';
+            console.log('[DSZ] 初始化1s后诊断:', {DeepSeek: ds, 豆包: db, CloudName: cn});
+            console.log('[DSZ] localStorage快照:', {
+                dsz_deepseek_key: localStorage.getItem('dsz_deepseek_key') ? '(有值)' : '(空)',
+                dsz_doubao_key: localStorage.getItem('dsz_doubao_key') ? '(有值)' : '(空)',
+                dsz_cloud_name: localStorage.getItem('dsz_cloud_name') ? '(有值)' : '(空)',
+                dsz_cloud_preset: localStorage.getItem('dsz_cloud_preset') ? '(有值)' : '(空)'
+            });
+        }, 1000);
+        console.log('[DSZ] 初始化持久化完成');
+    }, 300);
+
+}
+window.initApp = initApp;
+
+
+
+
+
+// ==================== Tab切换 ====================
+
+
+function switchTab(tabId, clickedTab) {
+
+
+    document.querySelectorAll('.tab-content').forEach(function(t) { t.classList.remove('active'); });
+
+
+    document.querySelectorAll('.nav-tab').forEach(function(t) { t.classList.remove('active'); });
+
+
+    var targetTab = document.getElementById(tabId);
+
+
+    if (targetTab) targetTab.classList.add('active');
+
+
+    if (clickedTab) clickedTab.classList.add('active');
+
+
+    else {
+
+
+        document.querySelectorAll('.nav-tab').forEach(function(t) {
+
+
+            if (t.getAttribute('onclick') && t.getAttribute('onclick').indexOf(tabId) !== -1) t.classList.add('active');
+
+
+        });
+
+
+    }
+
+
+    if (tabId === 'tab-export') updateExportSummary();
+
+
+    if (tabId === 'tab-variants') updateCategoryDisplay();
+
+
+}
+window.switchTab = switchTab;
+
+
+
+
+
+// ==================== 深色模式 ====================
+
+
+function toggleEyeProtection() {
+
+
+    document.body.classList.toggle('eye-protection');
+
+
+    var btn = document.getElementById('dark-toggle');
+
+
+    btn.textContent = document.body.classList.contains('eye-protection') ? '👁️ 护眼模式' : '👁️ 护眼';
+
+
+    localStorage.setItem('eye-protection', document.body.classList.contains('eye-protection') ? '1' : '0');
+
+
+}
+window.toggleEyeProtection = toggleEyeProtection;
+
+
+if (localStorage.getItem('eye-protection') === '1') { document.body.classList.add('eye-protection'); }
+
+
+
+
+
+// ==================== 通知 ====================
+
+
+function showNotification(msg, type) {
+
+
+    var n = document.createElement('div');
+
+
+    n.style.cssText = 'position:fixed;top:20px;right:20px;padding:15px 25px;border-radius:8px;color:#fff;font-weight:600;z-index:99999;animation:slideIn 0.3s ease;font-size:14px;';
+
+
+    n.style.background = type === 'success' ? '#28a745' : type === 'error' ? '#dc3545' : '#17a2b8';
+
+
+    n.textContent = msg;
+
+
+    document.body.appendChild(n);
+
+
+    setTimeout(function() { n.remove(); }, 3000);
+
+
+}
+window.showNotification = showNotification;
+
+
+
+
+
+// ==================== 描述预览 ====================
+
+
+function updateDescriptionPreview() {
+
+
+    var desc = document.getElementById('html-description').value;
+
+
+    document.getElementById('description-preview').innerHTML = desc || '<span style="color:#999;">暂无描述</span>';
+
+
+}
+window.updateDescriptionPreview = updateDescriptionPreview;
+
+
+
+
+
+// ==================== 品类 & 码数配置 ====================
+
+
+
+
+
+// V1.2: 完整尺码数据 — 支持多种尺码类型
+
+
+var SIZE_DATA = {
+
+
+    'womens-clothing': {
+
+
+        normal: ['6(AU6/EU34)','8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)','14(AU14/EU42)','16(AU16/EU44)','18(AU18/EU46)','20(AU20/EU48)'],
+
+
+        dual: ['6/8(AU6-8/EU34-36)','10/12(AU10-12/EU38-40)','14/16(AU14-16/EU42-44)'],
+
+
+        hot: ['8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)']
+
+
+    },
+
+
+    'mens-clothing': {
+
+
+        normal: ['XS(AU XS/EU44)','S(AU S/EU46)','M(AU M/EU48)','L(AU L/EU50)','XL(AU XL/EU52)','2XL(AU 2XL/EU54)','3XL(AU 3XL/EU56)','4XL(AU 4XL/EU58)'],
+
+
+        dual: [],
+
+
+        hot: ['M(AU M/EU48)','L(AU L/EU50)','XL(AU XL/EU52)']
+
+
+    },
+
+
+    'womens-shoes': {
+
+
+        normal: ['4(AU4/EU35)','5(AU5/EU36)','6(AU6/EU37)','7(AU7/EU38)','8(AU8/EU39)','9(AU9/EU40)','10(AU10/EU41)','11(AU11/EU42)','12(AU12/EU43)'],
+
+
+        dual: [],
+
+
+        hot: ['6(AU6/EU37)','7(AU7/EU38)','8(AU8/EU39)','9(AU9/EU40)','10(AU10/EU41)']
+
+
+    },
+
+
+    'mens-shoes': {
+
+
+        normal: ['6(AU6/EU39)','7(AU7/EU40)','8(AU8/EU41)','9(AU9/EU42)','10(AU10/EU43)','11(AU11/EU44)','12(AU12/EU45)','13(AU13/EU46)'],
+
+
+        dual: [],
+
+
+        hot: ['8(AU8/EU41)','9(AU9/EU42)','10(AU10/EU43)','11(AU11/EU44)','12(AU12/EU45)']
+
+
+    },
+
+
+    'kids-shoes': {
+
+
+        normal: ['10(AU10/EU27)','11(AU11/EU28)','12(AU12/EU30)','13(AU13/EU31)','1(AU1/EU32)','2(AU2/EU33)','3(AU3/EU35)','4(AU4/EU36)','5(AU5/EU38)','6(AU6/EU39)'],
+
+
+        dual: [],
+
+
+        hot: []
+
+
+    },
+
+
+    'kids-clothing': {
+
+
+        normal: ['2(AU2/EU92)','4(AU4/EU104)','6(AU6/EU116)','8(AU8/EU128)','10(AU10/EU140)','12(AU12/EU152)','14(AU14/EU164)','16(AU16/EU176)'],
+
+
+        dual: [],
+
+
+        hot: ['6(AU6/EU116)','8(AU8/EU128)','10(AU10/EU140)','12(AU12/EU152)']
+
+
+    },
+    'womens-underwear': {
+        normal: ['6(AU6/EU34)','8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)','14(AU14/EU42)','16(AU16/EU44)','18(AU18/EU46)'],
+        dual: ['S/6-8','M/10-12','L/14-16'],
+        hot: ['8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)']
+    },
+    'womens-sleepwear': {
+        normal: ['XS(AU6/EU34)','S(AU8-10/EU36-38)','M(AU12-14/EU40-42)','L(AU16-18/EU44-46)','XL(AU20/EU48)'],
+        dual: ['S-M(AU8-12)','L-XL(AU14-20)'],
+        hot: ['S(AU8-10/EU36-38)','M(AU12-14/EU40-42)','L(AU16-18/EU44-46)']
+    },
+    'womens-swimwear': {
+        normal: ['6(AU6/EU34)','8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)','14(AU14/EU42)','16(AU16/EU44)','18(AU18/EU46)'],
+        dual: ['6/8(AU6-8)','10/12(AU10-12)','14/16(AU14-16)'],
+        hot: ['8(AU8/EU36)','10(AU10/EU38)','12(AU12/EU40)']
+    },
+
+
+
+
+};
+
+
+
+
+
+var CATEGORY_LABELS = {
+
+
+    'womens-clothing': '女装服装',
+
+
+    'mens-clothing': '男装服装',
+
+
+    'womens-shoes': '女鞋',
+
+
+    'mens-shoes': '男鞋',
+
+
+    'kids-shoes': '童鞋',
+
+
+    'kids-clothing': '童装',
+    'womens-underwear': '女士内衣',
+    'womens-sleepwear': '女士睡衣',
+    'womens-swimwear': '女士泳装',
+
+
+};
+
+
+
+
+
+// V1.2: 商品属性定义 — 根据品类不同
+
+
+var ATTR_DEFINITIONS = {
+
+
+    'womens-clothing': [
+    
+        { key:'material', label:'面料 Material', required:true, options:['请选择','棉 Cotton','涤纶 Polyester','羊毛 Wool','真丝 Silk','亚麻 Linen','牛仔 Denim','针织 Knit','雪纺 Chiffon','蕾丝 Lace','PU皮革 PU Leather','天鹅绒 Velvet','莫代尔 Modal'] },
+    
+        { key:'sleeve_length', label:'袖长 Sleeve Length', required:true, options:['请选择','无袖 Sleeveless','短袖 Short Sleeve','五分袖 Half Sleeve','七分袖 3/4 Sleeve','长袖 Long Sleeve'] },
+    
+        { key:'neckline', label:'领型 Neckline', required:false, options:['请选择','圆领 Round Neck','V领 V-Neck','方领 Square Neck','一字领 Off Shoulder','高领 Turtleneck','翻领 Collar','连帽 Hooded'] },
+    
+        { key:'fit_type', label:'版型 Fit Type', required:true, options:['请选择','修身 Slim Fit','常规 Regular Fit','宽松 Loose Fit','超大 Oversized'] },
+    
+        { key:'length', label:'衣长 Length', required:true, options:['请选择','短款 Short','常规 Regular','中长款 Mid-Length','长款 Long','超长款 Maxi'] },
+    
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季 All Season','春季 Spring','夏季 Summer','秋季 Autumn','冬季 Winter'] },
+    
+        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色 Solid','条纹 Stripe','格子 Plaid','印花 Print','波点 Polka Dot','几何 Geometric','花卉 Floral','渐变 Gradient','扎染 Tie-Dye','碎花 Floral Print'] },
+    
+        { key:'style', label:'风格 Style', required:false, options:['请选择','休闲 Casual','通勤 Office','街头 Street','度假 Vacation','运动 Sporty','派对 Party','复古 Vintage','甜美 Sweet'] },
+    
+        { key:'waist_type', label:'腰部设计 Waist Type', required:false, options:['请选择','常规 Regular','高腰 High Waist','低腰 Low Waist','松紧 Elastic','抽绳 Drawstring'] },
+    
+    ],
+
+
+    'mens-clothing': [
+
+
+        { key:'material', label:'面料 Material', required:true, options:['请选择','纯棉','聚酯纤维','混纺','羊毛','亚麻','丝绸','牛仔布','灯芯绒','抓绒'] },
+
+
+        { key:'collar_type', label:'领型 Collar Type', required:false, options:['请选择','圆领','V领','立领','翻领','POLO领','连帽'] },
+
+
+        { key:'fit', label:'版型 Fit', required:false, options:['请选择','修身(Slim)','常规(Fit)','宽松(Oversize)','直筒'] },
+
+
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春季','夏季','秋季','冬季'] },
+
+
+        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色','条纹','格子','印花','迷彩'] },
+
+
+        { key:'sleeve', label:'袖型 Sleeve', required:false, options:['请选择','长袖','短袖','七分袖','无袖'] },
+
+
+        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','套头','拉链','扣子'] },
+
+
+    ],
+
+
+    'womens-shoes': [
+
+
+        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','PU皮革','真皮','网布','帆布','绒面','麂皮','人造革','针织布','亮片','漆皮'] },
+
+
+        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','TPR','PVC','PU','MD','真皮'] },
+
+
+        { key:'inner_material', label:'内里材料 Inner Material', required:true, options:['请选择','PU','真皮','网布','毛巾布','无内里'] },
+
+
+        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','套脚','魔术贴','系带','拉链','搭扣','松紧带'] },
+
+
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春夏','秋冬','夏季','冬季'] },
+
+
+        { key:'heel_height', label:'跟高 Heel Height', required:false, options:['请选择','Flat 平底','Low 低跟(1-3cm)','Mid 中跟(3-5cm)','High 高跟(5-8cm)','Very High 超高跟(8cm+)'] },
+
+
+        { key:'toe_shape', label:'鞋头形状 Toe Shape', required:false, options:['请选择','圆头','尖头','方头','鱼嘴','包头'] },
+
+
+        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色','印花','拼接','金属装饰','水钻'] },
+
+
+        { key:'occasion', label:'场合 Occasion', required:false, options:['请选择','日常','通勤','派对','运动','户外','婚礼'] },
+
+
+    ],
+
+
+    'mens-shoes': [
+
+
+        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','真皮','PU皮革','网布','帆布','麂皮','合成材料','飞织'] },
+
+
+        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','MD','TPR','PVC'] },
+
+
+        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','系带','套脚','魔术贴','松紧带','一脚蹬'] },
+
+
+        { key:'shoe_type', label:'鞋型 Shoe Type', required:false, options:['请选择','运动鞋','休闲鞋','皮鞋','靴子','凉鞋','拖鞋','乐福鞋'] },
+
+
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春夏','秋冬','夏季','冬季'] },
+
+
+        { key:'occasion', label:'场合 Occasion', required:false, options:['请选择','日常','商务','运动','户外','休闲','正式'] },
+
+
+    ],
+
+
+    'kids-shoes': [
+
+
+        { key:'upper_material', label:'鞋面材料 Upper Material', required:true, options:['请选择','PU皮革','网布','帆布','绒面','EVA'] },
+
+
+        { key:'sole_material', label:'鞋底材料 Sole Material', required:true, options:['请选择','橡胶','EVA','MD','TPR'] },
+
+
+        { key:'closure_type', label:'闭合方式 Closure Type', required:false, options:['请选择','魔术贴','系带','套脚','搭扣'] },
+
+
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春夏','秋冬'] },
+
+
+        { key:'anti_slip', label:'防滑 Anti-Slip', required:false, options:['请选择','是','否'] },
+
+
+    ],
+
+
+    'kids-clothing': [
+
+
+        { key:'material', label:'面料 Material', required:true, options:['请选择','纯棉','聚酯纤维','混纺','毛线','天鹅绒'] },
+
+
+        { key:'season', label:'季节 Season', required:false, options:['请选择','四季','春季','夏季','秋季','冬季'] },
+
+
+        { key:'gender', label:'性别 Gender', required:false, options:['请选择','男童','女童','中性'] },
+
+
+        { key:'age_range', label:'适用年龄 Age Range', required:false, options:['请选择','0-1岁','1-3岁','3-6岁','6-10岁','10-14岁'] },
+
+
+        { key:'pattern', label:'图案 Pattern', required:false, options:['请选择','纯色','卡通','条纹','格子','印花'] },
+
+
+    ]
+
+
+};
+
+
+
+
+
+// 当前状态
+
+
+var productAttributes = {};      // V1.2: 商品属性值
+
+
+var colorInputs = [];             // V1.2: 颜色列表 [{colorEn, colorZh}]
+
+
+var currentSizeType = 'normal';   // V1.2: 当前尺码类型
+
+
+var selectedSizes = [];           // V1.2: 已选中的尺码
+
+
+var skuVariants = [];              // V1.2: 最终变体数据
+
+
+
+
+
+function onCategoryChange() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    generateSizeChart();
+
+
+    updateCategoryDisplay();
+
+
+    renderProductAttrs();
+
+
+        selectedSizes = [];
+renderSizeCheckGrid();
+
+
+
+
+    rebuildVariantsFromSelection();
+
+
+    showNotification('已切换到: ' + CATEGORY_LABELS[cat] + '，已重新加载对应属性和尺数', 'info');
+
+
+}
+window.onCategoryChange = onCategoryChange;
+
+
+
+
+
+function updateCategoryDisplay() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    document.getElementById('current-category-display').textContent = CATEGORY_LABELS[cat];
+
+
+}
+window.updateCategoryDisplay = updateCategoryDisplay;
+
+
+
+
+
+// ==================== V1.2: 商品属性系统 ====================
+
+
+
+
+
+function renderProductAttrs() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var attrs = ATTR_DEFINITIONS[cat] || [];
+
+
+    var container = document.getElementById('attr-grid-container');
+
+
+    
+
+
+    if (attrs.length === 0) {
+
+
+        container.innerHTML = '<div style="grid-column:1/-1;color:#999;font-size:13px;">该品类暂无特殊属性要求</div>';
+
+
+        return;
+
+
+    }
+
+
+    
+
+
+    var html = '';
+
+
+    attrs.forEach(function(attr) {
+
+
+        var reqMark = attr.required ? ' <span class="required-mark">*</span>' : '';
+
+
+        var val = productAttributes[attr.key] || '';
+
+
+        html += '<div class="form-group">' +
+
+
+            '<label>' + attr.label + reqMark + '</label>' +
+
+
+            '<select class="form-control attr-select" id="attr-' + attr.key + '" onchange="updateAttrValue(\'' + attr.key + '\',this.value)">' +
+
+
+            '<option value="">请选择</option>';
+
+
+        attr.options.forEach(function(opt) {
+
+
+            var sel = opt === val && opt !== '请选择' ? ' selected' : '';
+
+
+            html += '<option value="' + opt + '"' + sel + '>' + opt + '</option>';
+
+
+        });
+
+
+        html += '</select></div>';
+
+
+    });
+
+
+    
+
+
+    container.innerHTML = html;
+
+
+    updateAttrFillCount();
+
+
+}
+window.renderProductAttrs = renderProductAttrs;
+
+
+
+
+
+function updateAttrValue(key, value) {
+
+
+    productAttributes[key] = value;
+
+
+    updateAttrFillCount();
+
+
+}
+window.updateAttrValue = updateAttrValue;
+
+
+
+
+
+function updateAttrFillCount() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var attrs = ATTR_DEFINITIONS[cat] || [];
+
+
+    var filled = 0;
+
+
+    attrs.forEach(function(attr) {
+
+
+        if (productAttributes[attr.key]) filled++;
+
+
+    });
+
+
+    document.getElementById('attr-fill-count').textContent = '(' + filled + '/' + attrs.length + ')';
+
+
+    // 低填充率提示
+
+
+    if (filled < attrs.length * 0.5 && attrs.length > 0) {
+
+
+        document.getElementById('attr-fill-count').style.color = '#dc3545';
+
+
+    } else {
+
+
+        document.getElementById('attr-fill-count').style.color = '#999';
+
+
+    }
+
+
+}
+window.updateAttrFillCount = updateAttrFillCount;
+
+
+
+
+
+// ==================== V1.2: 颜色管理系统 (TEMU文本输入风格) ====================
+
+
+
+
+
+function renderColorInputList() {
+    var container = document.getElementById('color-input-list');
+    var noHint = document.getElementById('no-colors-hint');
+
+    if (!colorInputs || colorInputs.length === 0) {
+        if (noHint) noHint.style.display = 'block';
+        container.innerHTML = '';
+        document.getElementById('variant-actions').style.display = 'none';
+        document.getElementById('total-variants-count').textContent = '0';
+        return;
+    }
+
+    if (noHint) noHint.style.display = 'none';
+
+    var html = '';
+    colorInputs.forEach(function(c, idx) {
+        var cssBg = guessColorCSS(c.colorEn) || '#ccc';
+        // 提取纯背景色hex值（排除border等附加样式）
+        var pureHex = cssBg.split(';')[0] || cssBg;
+        var displayEn = getColorDisplay(c.colorEn);
+        // 构建下拉选项
+        var optionsHtml = '';
+        // 自定义颜色放在最上面
+        optionsHtml += '<div class="color-select-option color-select-option-custom" onclick="showCustomColorInput(' + idx + ')">' +
+            '<span class="color-option-dot" style="background:#ccc;border-style:dashed;"></span>' +
+            '+ 自定义颜色...' +
+            '</div>';
+        COLOR_PRESETS_ENRICHED.forEach(function(opt) {
+            var selAttr = (c.colorEn === opt.zh) ? ' selected="selected"' : '';
+            optionsHtml += '<div class="color-select-option' + (c.colorEn === opt.zh ? ' selected' : '') + '" data-value="' + opt.zh + '" onclick="selectColorOption(this,' + idx + ')">' +
+                '<span class="color-option-dot" style="background:' + opt.hex + '"></span>' +
+                opt.en + ' ' + opt.zh +
+                '</div>';
+        });
+
+        html += '<div class="color-input-row">' +
+            '<span class="color-dot" style="background:' + pureHex + ';border-color:' + pureHex + ';"></span>' +
+            '<div class="color-select-wrapper" id="color-select-wrapper-' + idx + '">' +
+                '<div class="color-select-trigger" onclick="toggleColorDropdown(' + idx + ')">' +
+                    '<span class="color-select-trigger-dot" style="background:' + pureHex + '"></span>' +
+                    '<span class="color-select-trigger-text">' + displayEn + '</span>' +
+                    '<span class="color-select-arrow">&#9660;</span>' +
+                '</div>' +
+                '<div class="color-select-dropdown" style="display:none;" id="color-select-dropdown-' + idx + '">' +
+                    optionsHtml +
+                '</div>' +
+            '</div>' +
+            '<button class="color-delete-btn" onclick="removeColorInput(' + idx + ')">删除</button>' +
+            '</div>';
+    });
+
+    container.innerHTML = html;
+    document.getElementById('variant-actions').style.display = 'block';
+}
+window.renderColorInputList = renderColorInputList;
+
+
+
+
+
+function addColorInputRow() {
+
+
+    // V1.5.1: 使用扩展颜色预设列表
+    var suggestions = COLOR_PRESETS;
+
+
+    var usedNames = colorInputs.map(function(c){return c.colorEn.toLowerCase();});
+
+
+    var nextName = '';
+
+
+    for (var i = 0; i < suggestions.length; i++) {
+
+
+        if (usedNames.indexOf(suggestions[i].toLowerCase()) < 0) {
+
+
+            nextName = suggestions[i];
+
+
+            break;
+
+
+        }
+
+
+    }
+
+
+    if (!nextName) nextName = '自定义颜色' + (colorInputs.length + 1);
+
+
+    
+
+
+    colorInputs.push({ colorEn: nextName, colorZh: nextName });
+
+
+    renderColorInputList();
+
+
+    showNotification('已添加颜色: ' + nextName, 'success');
+
+
+}
+window.addColorInputRow = addColorInputRow;
+
+// V1.5.3: 自定义颜色下拉框交互函数
+function toggleColorDropdown(idx) {
+    var dropdown = document.getElementById('color-select-dropdown-' + idx);
+    var trigger = document.querySelector('#color-select-wrapper-' + idx + ' .color-select-trigger');
+    var isOpen = dropdown.style.display === 'block';
+
+    // 关闭所有其他下拉框
+    document.querySelectorAll('.color-select-dropdown').forEach(function(d) {
+        d.style.display = 'none';
+    });
+    document.querySelectorAll('.color-select-trigger').forEach(function(t) {
+        t.classList.remove('open');
+    });
+
+    if (!isOpen) {
+        dropdown.style.display = 'block';
+        trigger.classList.add('open');
+        // 滚动到选中项
+        var selected = dropdown.querySelector('.color-select-option.selected');
+        if (selected) {
+            selected.scrollIntoView({ block: 'nearest' });
+        }
+    }
+}
+
+function selectColorOption(optionEl, idx) {
+    var value = optionEl.getAttribute('data-value');
+    var text = optionEl.textContent.trim();
+    var dotEl = optionEl.querySelector('.color-option-dot');
+    var dotBg = dotEl ? dotEl.style.background : '#ccc';
+
+    // 更新 colorInputs 数据
+    colorInputs[idx].colorEn = value;
+    colorInputs[idx].colorZh = value;
+
+    // 更新触发器显示
+    var wrapper = document.getElementById('color-select-wrapper-' + idx);
+    var triggerText = wrapper.querySelector('.color-select-trigger-text');
+    var triggerDot = wrapper.querySelector('.color-select-trigger-dot');
+    var rowDot = document.querySelectorAll('.color-input-row')[idx].querySelector('.color-dot');
+
+    triggerText.textContent = text;
+    triggerDot.style.background = dotBg;
+    if (rowDot) {
+        rowDot.style.background = dotBg;
+        rowDot.style.borderColor = dotBg;
+    }
+
+    // 关闭下拉框
+    var dropdown = document.getElementById('color-select-dropdown-' + idx);
+    dropdown.style.display = 'none';
+    var trigger = wrapper.querySelector('.color-select-trigger');
+    trigger.classList.remove('open');
+
+    // 更新选中状态
+    dropdown.querySelectorAll('.color-select-option').forEach(function(o) { o.classList.remove('selected'); });
+    optionEl.classList.add('selected');
+
+    rebuildVariantsFromSelection();
+}
+
+function showCustomColorInput(idx) {
+    var dropdown = document.getElementById('color-select-dropdown-' + idx);
+    // 检查是否已经有自定义输入框
+    if (dropdown.querySelector('.color-custom-input-row')) return;
+
+    var inputRow = document.createElement('div');
+    inputRow.className = 'color-custom-input-row';
+    inputRow.innerHTML = '<input type="text" id="color-custom-input-' + idx + '" placeholder="输入自定义颜色名..." onkeydown="if(event.key===\'Enter\')confirmCustomColor(' + idx + ')">' +
+        '<button onclick="confirmCustomColor(' + idx + ')">确定</button>';
+    dropdown.appendChild(inputRow);
+
+    var input = document.getElementById('color-custom-input-' + idx);
+    setTimeout(function() { input.focus(); }, 50);
+}
+
+function confirmCustomColor(idx) {
+    var input = document.getElementById('color-custom-input-' + idx);
+    if (!input) return;
+    var customName = input.value.trim();
+    if (!customName) return;
+
+    // 更新 colorInputs
+    colorInputs[idx].colorEn = customName;
+    colorInputs[idx].colorZh = customName;
+
+    // 更新触发器显示
+    var wrapper = document.getElementById('color-select-wrapper-' + idx);
+    var triggerText = wrapper.querySelector('.color-select-trigger-text');
+    var triggerDot = wrapper.querySelector('.color-select-trigger-dot');
+    var rowDot = document.querySelectorAll('.color-input-row')[idx].querySelector('.color-dot');
+
+    var cssBg = guessColorCSS(customName) || '#ccc';
+    var pureHex = cssBg.split(';')[0] || cssBg;
+    triggerText.textContent = customName;
+    triggerDot.style.background = pureHex;
+    if (rowDot) {
+        rowDot.style.background = pureHex;
+        rowDot.style.borderColor = pureHex;
+    }
+
+    // 关闭下拉框
+    var dropdown = document.getElementById('color-select-dropdown-' + idx);
+    dropdown.style.display = 'none';
+    var trigger = wrapper.querySelector('.color-select-trigger');
+    trigger.classList.remove('open');
+
+    // 清除选中状态
+    dropdown.querySelectorAll('.color-select-option').forEach(function(o) { o.classList.remove('selected'); });
+    // 移除自定义输入行
+    var inputRow = dropdown.querySelector('.color-custom-input-row');
+    if (inputRow) inputRow.remove();
+
+    rebuildVariantsFromSelection();
+}
+
+// 点击外部关闭下拉框
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.color-select-wrapper')) {
+        document.querySelectorAll('.color-select-dropdown').forEach(function(d) {
+            d.style.display = 'none';
+        });
+        document.querySelectorAll('.color-select-trigger').forEach(function(t) {
+            t.classList.remove('open');
+        });
+    }
+});
+
+
+
+
+
+
+function removeColorInput(idx) {
+
+
+    colorInputs.splice(idx, 1);
+
+
+    renderColorInputList();
+
+
+    showNotification('已删除颜色', 'info');
+
+
+}
+window.removeColorInput = removeColorInput;
+
+
+
+
+
+function updateColorName(idx, newName) {
+    newName = newName.trim();
+    if (!newName) return;
+    // V1.5.3: 直接存储纯颜色名（来自下拉框选项或自定义输入）
+    var pureName = newName;
+    // 匹配 "English 中文" 格式，提取中文部分
+    var matchFormat = newName.match(/^[A-Za-z\s]+\s+(.+)$/);
+    if (matchFormat) {
+        pureName = matchFormat[1].trim();
+    } else {
+        // 匹配 "中文 (English)" 旧格式
+        var matchBracket = newName.match(/^(.+?)\s*\([A-Za-z\s]+\)$/);
+        if (matchBracket) {
+            pureName = matchBracket[1].trim();
+        } else {
+            // 尝试反向映射：如果输入的是英文颜色名，转为中文
+            for (var zh in COLOR_ZH_EN_MAP) {
+                if (COLOR_ZH_EN_MAP[zh].toLowerCase() === newName.toLowerCase()) {
+                    pureName = zh;
+                    break;
+                }
+            }
+        }
+    }
+    colorInputs[idx].colorEn = pureName;
+    colorInputs[idx].colorZh = pureName;
+    rebuildVariantsFromSelection();
+}
+window.updateColorName = updateColorName;
+
+
+
+
+
+function guessColorCSS(name) {
+
+
+    var map = {
+
+
+        '黑':'#000000','白':'#eeeeee;border:1px solid #ccc','灰':'#808080','红':'#FF0000',
+
+
+        '蓝':'#0000FF','粉':'#FFC0CB','绿':'#008000','紫':'#800080','橙':'#FFA500',
+
+
+        '棕':'#A52A2A','米':'#F5F5DC','酒红':'#800020','藏青':'#000080','卡其':'#F0E68C',
+
+
+        '驼':'#C19A6B','深灰':'#36454F','金':'#FFD700','银':'#C0C0C0','黄':'#FFFF00',
+
+
+        'Beige':'#F5F5DC','Black':'#000000','White':'#eeeeee;border:1px solid #ccc','Grey':'#808080',
+
+
+        'Red':'#FF0000','Blue':'#0000FF','Pink':'#FFC0CB','Green':'#008000','Purple':'#800080',
+
+
+        'Orange':'#FFA500','Brown':'#A52A2A','Gold':'#FFD700','Silver':'#C0C0C0','Navy':'#000080',
+
+
+        'Burgundy':'#800020','Teal':'#008080','Cream':'#FFFDD0','Charcoal':'#36454F','Khaki':'#F0E68C'
+
+
+    };
+
+
+    var lower = name.toLowerCase();
+
+
+    for (var k in map) {
+
+
+        if (lower.indexOf(k.toLowerCase()) >= 0) return map[k];
+
+
+    }
+
+
+    return '#cccccc';
+
+
+}
+window.guessColorCSS = guessColorCSS;
+
+
+
+
+
+// ==================== V1.2: 尺码复选框系统 (TEMU网格风格) ====================
+
+
+
+
+
+function switchSizeType(type) {
+
+
+    currentSizeType = type;
+
+
+    // 更新tab样式
+
+
+    document.querySelectorAll('.size-type-tab').forEach(function(tab) {
+
+
+        tab.classList.toggle('active', tab.dataset.type === type);
+
+
+    });
+
+
+    renderSizeCheckGrid();
+
+
+}
+window.switchSizeType = switchSizeType;
+
+
+
+
+
+function renderSizeCheckGrid() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var sizeInfo = SIZE_DATA[cat];
+
+
+    if (!sizeInfo) return;
+
+
+    
+
+
+    var sizes = sizeInfo[currentSizeType] || sizeInfo.normal || [];
+
+
+    var hotSizes = sizeInfo.hot || [];
+
+
+    var container = document.getElementById('size-check-grid');
+
+
+    
+
+
+    if (sizes.length === 0) {
+
+
+        container.innerHTML = '<div style="grid-column:1/-1;color:#999;padding:20px;text-align:center;">该品类此尺码类型暂无数据</div>';
+
+
+        return;
+
+
+    }
+
+
+    
+
+
+    var html = '';
+
+
+    sizes.forEach(function(sz) {
+
+
+        var isChecked = selectedSizes.indexOf(sz) >= 0;
+
+
+        var isHot = hotSizes.indexOf(sz) >= 0;
+
+
+        var hotTag = isHot ? '<span class="hot-badge">HOT</span>' : '';
+
+
+        html += '<div class="size-check-item' + (isChecked ? ' checked' : '') + '" onclick="toggleSizeCheck(\'' + sz + '\')">' +
+
+
+            '<input type="checkbox" ' + (isChecked ? 'checked' : '') + ' onchange="event.stopPropagation();toggleSizeCheck(\'' + sz + '\')"> ' +
+
+
+            '<span>' + sz + hotTag + '</span></div>';
+
+
+    });
+
+
+    container.innerHTML = html;
+
+
+}
+window.renderSizeCheckGrid = renderSizeCheckGrid;
+
+
+
+
+
+function toggleSizeCheck(size) {
+
+
+    var idx = selectedSizes.indexOf(size);
+
+
+    if (idx >= 0) {
+
+
+        selectedSizes.splice(idx, 1);
+
+
+    } else {
+
+
+        selectedSizes.push(size);
+
+
+    }
+
+
+    // 更新全选状态
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var sizeInfo = SIZE_DATA[cat];
+
+
+    var allSizes = sizeInfo ? (sizeInfo[currentSizeType] || sizeInfo.normal || []) : [];
+
+
+    document.getElementById('select-all-sizes').checked = selectedSizes.length === allSizes.length && allSizes.length > 0;
+
+
+    
+
+
+    renderSizeCheckGrid();
+
+
+    rebuildVariantsFromSelection();
+
+
+}
+window.toggleSizeCheck = toggleSizeCheck;
+
+
+
+
+
+function toggleSelectAllSizes(checked) {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var sizeInfo = SIZE_DATA[cat];
+
+
+    var sizes = sizeInfo ? (sizeInfo[currentSizeType] || sizeInfo.normal || []) : [];
+
+
+    
+
+
+    if (checked) {
+
+
+        selectedSizes = sizes.slice();
+
+
+    } else {
+
+
+        selectedSizes = [];
+
+
+    }
+
+
+    renderSizeCheckGrid();
+
+
+    rebuildVariantsFromSelection();
+
+
+}
+window.toggleSelectAllSizes = toggleSelectAllSizes;
+
+
+
+
+
+// ==================== V1.2: 变体生成与SKU表格 ====================
+
+
+
+
+
+function rebuildVariantsFromSelection() {
+
+
+    skuVariants = [];
+
+
+    var parentSku = document.getElementById('parent-sku').value.trim();
+
+
+    var productName = document.getElementById('product-name-en').value.trim() || parentSku || '';
+
+
+    var defaultPrice = parseFloat(document.getElementById('product-price').value) || 29.99;
+
+
+    var defaultStock = parseInt(document.getElementById('product-stock').value) || 999;
+
+
+
+
+
+    // V1.4: 根据品类自动添加M-/W-/K-前缀
+
+
+    var category = document.getElementById('product-category').value || '';
+
+
+    var genderPrefix = '';
+
+
+    // 注意：'womens'包含子串'mens'，必须先检查womens
+    if (category.indexOf('womens') !== -1) {
+
+
+        genderPrefix = 'W-';
+
+
+    } else if (category.indexOf('mens') !== -1) {
+
+
+        genderPrefix = 'M-';
+
+
+    } else if (category.indexOf('kids') !== -1) {
+
+
+        genderPrefix = 'K-';
+
+
+    }
+
+
+
+
+
+    colorInputs.forEach(function(colorObj) {
+
+
+        selectedSizes.forEach(function(size) {
+
+
+            var abbr = colorAbbr(colorObj.colorEn);
+
+
+            var paddedSize = padSizeForSku(size);
+
+
+            var cleanParent = cleanSku(parentSku);
+
+
+            // 先移除任何已有的M-/W-/K-性别前缀，再添加品类对应的前缀
+
+
+            var genderPrefixes = ['M-', 'W-', 'K-'];
+            for (var gp = 0; gp < genderPrefixes.length; gp++) {
+                if (cleanParent.indexOf(genderPrefixes[gp]) === 0) {
+                    cleanParent = cleanParent.substring(genderPrefixes[gp].length);
+                    break;
+                }
+            }
+
+
+            var cleanParentWithPrefix = cleanParent;
+            if (genderPrefix && cleanParent) {
+                cleanParentWithPrefix = genderPrefix + cleanParent;
+            }
+
+
+            var sku = cleanParent ? (cleanParentWithPrefix + '-' + abbr + '-' + paddedSize) : '';
+
+
+
+
+
+            skuVariants.push({
+
+
+                sku: sku,
+
+
+                skuTitle: productName ? (productName + ' - ' + getColorForExport(colorObj.colorEn) + ' - Size ' + size) : '',
+
+
+                parentSku: cleanParentWithPrefix,
+
+
+                colour: getColorForExport(colorObj.colorEn),
+
+
+                size: size,
+
+
+                price: defaultPrice,
+
+
+                stock: defaultStock,
+
+
+                sensitivity: '',
+
+
+                volL: '', volW: '', volH: '',
+
+
+                weight: ''
+
+
+            });
+
+
+        });
+
+
+    });
+
+
+
+
+
+    updateVariantDisplay();
+
+
+    updateTotalCount();
+
+
+}
+window.rebuildVariantsFromSelection = rebuildVariantsFromSelection;
+
+
+
+
+
+function updateVariantDisplay() {
+
+
+    var summaryEl = document.getElementById('variant-summary');
+
+
+    var tbody = document.getElementById('variant-tbody');
+
+
+    var tableSection = document.getElementById('sku-table-section');
+
+
+    var actionsEl = document.getElementById('variant-actions');
+
+
+    
+
+
+    if (skuVariants.length === 0) {
+
+
+        summaryEl.innerHTML = '';
+
+
+        tbody.innerHTML = '';
+
+
+        tableSection.style.display = 'none';
+
+
+        actionsEl.style.display = 'none';
+
+
+        return;
+
+
+    }
+
+
+    
+
+
+    tableSection.style.display = 'block';
+
+
+    actionsEl.style.display = 'block';
+
+
+    
+
+
+    // 摘要
+
+
+    summaryEl.innerHTML = '<div class="success-box"><strong>' + colorInputs.length + '</strong> 个颜色 × <strong>' + selectedSizes.length + '</strong> 个尺码 = <strong>' + skuVariants.length + '</strong> 个变体</div>';
+
+
+    
+
+
+    // SKU表格
+
+
+    var html = '';
+
+
+    var prevColor = null;
+
+
+    skuVariants.forEach(function(v, vi) {
+
+
+        var colorCell = (v.colour !== prevColor) ? ('<td class="color-cell" rowspan="' + getColorRowCount(v.colour) + '">' + escAttr(v.colour) + '</td>') : '';
+
+
+        
+
+
+        html += '<tr>' + colorCell +
+
+
+            '<td class="size-cell">' + escAttr(v.size) + '</td>' +
+
+
+            '<td><select class="attr-select sensitivity-select" onchange="updateVariantField(' + vi + ',\'sensitivity\',this.value)">' +
+
+
+            '' +
+
+
+            '<option value="普通"' + (v.sensitivity==='普通'?' selected':'') + '>普通</option>' +
+
+
+            '<option value="含动物成分"' + (v.sensitivity==='含动物成分'?' selected':'') + '>含动物成分</option>' +
+
+
+            '<option value="含金属成分"' + (v.sensitivity==='含金属成分'?' selected':'') + '>含金属成分</option>' +
+
+
+            '<option value="液体/粉末"' + (v.sensitivity==='液体/粉末'?' selected':'') + '>液体/粉末</option>' +
+
+
+            '<option value="电池"' + (v.sensitivity==='电池'?' selected':'') + '>电池</option>' +
+
+
+            '</select></td>' +
+
+
+            '<td><div class="dim-input-group">' +
+
+
+            '<input type="number" value="' + (v.volL||'') + '" placeholder="长" onchange="updateVariantField(' + vi + ',\'volL\',this.value)"><span>×</span>' +
+
+
+            '<input type="number" value="' + (v.volW||'') + '" placeholder="宽" onchange="updateVariantField(' + vi + ',\'volW\',this.value)"><span>×</span>' +
+
+
+            '<input type="number" value="' + (v.volH||'') + '" placeholder="高" onchange="updateVariantField(' + vi + ',\'volH\',this.value)"><span>cm</span>' +
+
+
+            '</div></td>' +
+
+
+            '<td><input type="number" class="weight-input" value="' + (v.weight||'') + '" placeholder="请输入" onchange="updateVariantField(' + vi + ',\'weight\',this.value)"><span style="font-size:11px;color:#999;">g</span></td>' +
+
+
+            '<td><input type="number" class="price-input" value="' + v.price.toFixed(2) + '" step="0.01" onchange="updateVariantField(' + vi + ',\'price\',this.value)"></td>' +
+
+
+            '<td><input type="number" class="stock-input" value="' + v.stock + '" onchange="updateVariantField(' + vi + ',\'stock\',this.value)"></td>' +
+
+
+            '</tr>';
+
+
+        prevColor = v.colour;
+
+
+    });
+
+
+    
+
+
+    tbody.innerHTML = html;
+
+
+}
+window.updateVariantDisplay = updateVariantDisplay;
+
+
+
+
+
+function getColorRowCount(colour) {
+
+
+    var count = 0;
+
+
+    for (var i = 0; i < skuVariants.length; i++) {
+
+
+        if (skuVariants[i].colour === colour) count++;
+
+
+        else if (count > 0) break;
+
+
+    }
+
+
+    return count || 1;
+
+
+}
+window.getColorRowCount = getColorRowCount;
+
+
+
+
+
+function updateVariantField(idx, field, value) {
+
+
+    if (!skuVariants[idx]) return;
+
+
+    if (field === 'price') skuVariants[idx].price = parseFloat(value) || 0;
+
+
+    else if (field === 'stock') skuVariants[idx].stock = parseInt(value) || 0;
+
+
+    else skuVariants[idx][field] = value;
+
+
+}
+window.updateVariantField = updateVariantField;
+
+
+
+
+
+function updateTotalCount() {
+
+
+    document.getElementById('total-variants-count').textContent = skuVariants.length.toString();
+
+
+}
+window.updateTotalCount = updateTotalCount;
+
+
+
+
+
+// SKU表格标签页切换
+
+
+function switchSkuTableTab(tabName, el) {
+
+
+    document.querySelectorAll('.sku-table-tab').forEach(function(t){ t.classList.remove('active');});
+
+
+    el.classList.add('active');
+
+
+    var batchBar = document.getElementById('batch-fill-bar');
+
+
+    batchBar.style.display = tabName === 'batch' ? 'flex' : 'none';
+
+
+}
+window.switchSkuTableTab = switchSkuTableTab;
+
+
+
+
+
+// 批量填充
+
+
+function applyBatchFill() {
+
+
+    if (skuVariants.length === 0) { showNotification('没有变体可操作！', 'error'); return; }
+
+
+    var price = parseFloat(document.getElementById('batch-price').value);
+
+
+    var stock = parseInt(document.getElementById('batch-stock').value);
+
+
+    var volL = document.getElementById('batch-vol-l').value;
+
+
+    var volW = document.getElementById('batch-vol-w').value;
+
+
+    var volH = document.getElementById('batch-vol-h').value;
+
+
+    var weight = document.getElementById('batch-weight').value;
+
+
+    
+
+
+    skuVariants.forEach(function(v) {
+
+
+        if (!isNaN(price)) v.price = price;
+
+
+        if (!isNaN(stock)) v.stock = stock;
+
+
+        if (volL) v.volL = volL;
+
+
+        if (volW) v.volW = volW;
+
+
+        if (volH) v.volH = volH;
+
+
+        if (weight) v.weight = weight;
+
+
+    });
+
+
+    
+
+
+    updateVariantDisplay();
+
+
+    showNotification('批量填充已应用到 ' + skuVariants.length + ' 个变体', 'success');
+
+
+}
+window.applyBatchFill = applyBatchFill;
+
+
+
+
+
+// 批量改价
+
+
+function applyPriceToAllColors() {
+
+
+    var price = prompt('输入统一价格 (AUD):', '29.99');
+
+
+    if (price !== null) {
+
+
+        var p = parseFloat(price);
+
+
+        skuVariants.forEach(function(v) { v.price = p; });
+
+
+        updateVariantDisplay();
+
+
+        showNotification('已统一价格为 ' + p, 'success');
+
+
+    }
+
+
+}
+window.applyPriceToAllColors = applyPriceToAllColors;
+
+
+
+
+
+// 批量改库存
+
+
+function applyStockToAllColors() {
+
+
+    var stock = prompt('输入统一库存:', '999');
+
+
+    if (stock !== null) {
+
+
+        var s = parseInt(stock);
+
+
+        skuVariants.forEach(function(v) { v.stock = s; });
+
+
+        updateVariantDisplay();
+
+
+        showNotification('已统一库存为 ' + s, 'success');
+
+
+    }
+
+
+}
+window.applyStockToAllColors = applyStockToAllColors;
+
+
+
+
+
+// 清空所有
+
+
+function clearAllVariants() {
+
+
+    if (!confirm('确定清空所有颜色、尺码和变体？')) return;
+
+
+    colorInputs = [];
+
+
+    selectedSizes = [];
+
+
+    skuVariants = [];
+
+
+    renderColorInputList();
+
+
+    renderSizeCheckGrid();
+
+
+    showNotification('已清空所有变体', 'info');
+
+
+}
+window.clearAllVariants = clearAllVariants;
+
+
+
+
+
+
+
+
+// ==================== SKU 清理函数 ====================
+
+
+function cleanSku(s) {
+
+
+    // 仅保留字母、数字、横杠(-)，移除空格和所有特殊符号
+
+
+    return String(s).replace(/[^a-zA-Z0-9\-]/g, '');
+
+
+}
+window.cleanSku = cleanSku;
+
+
+// ==================== SKU 辅助函数 ====================
+
+
+function colorAbbr(color) {
+
+
+    // 先将中文转为英文（关键修复！）
+
+
+    var enColor = getColorForExport(color);
+
+
+    // 取英文前3-4个大写字母作为缩写
+
+
+    var name = enColor.replace(/[^a-zA-Z]/g,'').substring(0,4).toUpperCase();
+
+
+    if (name.length >= 2) return name;
+
+
+    // 兜底
+
+
+    return enColor.substring(0,2).toUpperCase();
+
+
+}
+window.colorAbbr = colorAbbr;
+
+
+
+
+
+function padSizeForSku(size) {
+
+
+    var str = String(size);
+
+
+    // 数字型码数补零（移除括号等特殊字符）
+
+
+    str = str.replace(/[\(\)\[\]\{\}\/]/g, '');
+
+
+    if (/^\d+$/.test(str) || /^\d+\.\d$/.test(str)) {
+
+
+        if (str.length <= 2 && !str.includes('.')) return str.length < 2 ? '0' + str : str;
+
+
+        // 半码如 31.5 -> 315
+
+
+        return str.replace('.', '');
+
+
+    }
+
+
+    // 字母码也清理特殊字符
+
+
+    return str.replace(/[^a-zA-Z0-9]/g, '');
+
+
+}
+window.padSizeForSku = padSizeForSku;
+
+
+
+
+
+function escAttr(s) { return String(s).replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+
+
+
+
+// ==================== 自动生成Parent SKU ====================
+
+
+// V1.5: 自动生成父SKU - 不重复版本
+// 维护已生成SKU历史，确保每次生成的新SKU都不重复
+function _loadUsedSkus() {
+    var raw = dszLoad('used_skus') || '[]';
+    try { return JSON.parse(raw); } catch(e) { return []; }
+}
+function _saveUsedSkus(arr) {
+    dszSave('used_skus', JSON.stringify(arr));
+}
+window._loadUsedSkus = _loadUsedSkus;
+window._saveUsedSkus = _saveUsedSkus;
+
+function autoGenParentSku() {
+
+
+    var cat = document.getElementById('product-category').value;
+
+
+    var prefix = 'PROD';
+
+
+    var map = { 'womens-clothing':'DRESS','mens-clothing':'APP','womens-shoes':'SHOE','mens-shoes':'SHOE','kids-shoes':'KSHOE','kids-clothing':'KID' };
+
+
+    prefix = map[cat] || 'PROD';
+
+
+    // V1.5: 按品类添加性别前缀（M-/W-/K-）
+
+
+    var genderPrefix = '';
+
+
+    // kids 品类 map 值已内置 K- 前缀（KSHOE/KID），不再重复添加
+    if (cat.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
+
+
+    else if (cat.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
+
+
+    prefix = genderPrefix + prefix;
+
+    // V1.5: 防重复逻辑 - 读取已生成历史，生成时检查
+    var usedSkus = _loadUsedSkus();
+    var maxTries = 50; // 最多尝试50次
+    var sku = '';
+    var num = 0;
+    for (var i = 0; i < maxTries; i++) {
+        // 扩大范围：5位数（10000-99999），碰撞概率更低
+        num = Math.floor(Math.random() * 90000) + 10000;
+        sku = prefix + '-' + num;
+        if (usedSkus.indexOf(sku) === -1) {
+            break; // 找到不重复的
+        }
+        if (i === maxTries - 1) {
+            // 50次都重复了，用6位数兜底
+            num = Math.floor(Math.random() * 900000) + 100000;
+            sku = prefix + '-' + num;
+        }
+    }
+
+    // 记录到历史
+    usedSkus.push(sku);
+    // 历史最多保留500条，超出删除最早的
+    if (usedSkus.length > 500) usedSkus = usedSkus.slice(-500);
+    _saveUsedSkus(usedSkus);
+
+
+    document.getElementById('parent-sku').value = sku;
+
+
+    showNotification('已生成: ' + sku + ' (历史共' + usedSkus.length + '个)', 'success');
+
+
+    if (skuVariants.length > 0) rebuildVariantsFromSelection();
+
+
+}
+window.autoGenParentSku = autoGenParentSku;
+window.escAttr = escAttr;
+
+
+
+
+
+function syncParentSkuTitle() {
+
+
+    if (skuVariants.length > 0) rebuildVariantsFromSelection();
+
+
+}
+window.syncParentSkuTitle = syncParentSkuTitle;
+
+
+
+
+
+// ==================== 图片管理 (支持ZIP) ====================
+
+
+var uploadedImages = [];
+
+
+var mainImageIndex = 0;
+
+
+
+
+
+function saveCloudinaryConfig() {
+    var cEl = document.getElementById('cloudinary-cloud');
+    var pEl = document.getElementById('cloudinary-preset');
+    var fEl = document.getElementById('cloudinary-folder');
+    if (!cEl || !pEl || !fEl) { console.error('[DSZ] saveCloudinaryConfig: input elements not found'); return; }
+    // V1.5.1: 三重存储
+    dszSave('cloud_name', cEl.value);
+    dszSave('cloud_preset', pEl.value);
+    dszSave('cloud_folder', fEl.value);
+    console.log('[DSZ] Cloudinary config saved:', cEl.value, pEl.value, fEl.value);
+    showCloudinaryDebug();
+    showNotification('图床配置已保存 ✓', 'success');
+}
+window.saveCloudinaryConfig = saveCloudinaryConfig;
+
+function resetCloudinaryConfig() {
+    localStorage.removeItem('dsz_cloud_name');
+    try { setCookie('dsz_cloud_name', '', -1); } catch(e) {}
+    localStorage.removeItem('dsz_cloud_preset');
+    try { setCookie('dsz_cloud_preset', '', -1); } catch(e) {}
+    localStorage.removeItem('dsz_cloud_folder');
+    try { setCookie('dsz_cloud_folder', '', -1); } catch(e) {}
+    document.getElementById('cloudinary-cloud').value = 'dusqywjm5';
+    document.getElementById('cloudinary-preset').value = 'dsz_upload';
+    document.getElementById('cloudinary-folder').value = 'dropshipzone/products';
+    showCloudinaryDebug();
+    showNotification('已重置为默认配置，请确认后重新保存', 'warning');
+}
+window.resetCloudinaryConfig = resetCloudinaryConfig;
+
+function showCloudinaryDebug() {
+    var el = document.getElementById('cloudinary-debug');
+    if (!el) return;
+    var cloudInput = document.getElementById('cloudinary-cloud').value.trim();
+    var cloudLS = localStorage.getItem('dsz_cloud_name') || '(未保存)';
+    var presetInput = document.getElementById('cloudinary-preset').value.trim();
+    var presetLS = localStorage.getItem('dsz_cloud_preset') || '(未保存)';
+    el.style.display = 'block';
+    el.innerHTML = '当前上传目标 → Cloud: <b>' + cloudInput + '</b> | Preset: <b>' + presetInput + '</b> &nbsp;|&nbsp; localStorage → Cloud: <b>' + cloudLS + '</b> | Preset: <b>' + presetLS + '</b>';
+}
+window.showCloudinaryDebug = showCloudinaryDebug;
+
+
+// ==================== Cookie 读写辅助函数 ====================
+function setCookie(name, value, days) {
+    days = days || 365;
+    var expires = '';
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = '; expires=' + date.toUTCString();
+    }
+    document.cookie = name + '=' + encodeURIComponent(value) + expires + '; path=/';
+}
+window.setCookie = setCookie;
+function getCookie(name) {
+    var m = document.cookie.match(new RegExp('(?:^|;\\s*)' + name + '=([^;]*)'));
+    return m ? decodeURIComponent(m[1]) : null;
+}
+window.getCookie = getCookie;
+
+// ==================== 三重存储系统（localStorage + sessionStorage + window.name + 文件导出） ====================
+// 解决浏览器"关闭时清除网站数据"导致 localStorage 被清空的问题
+
+var DSZ_CONFIG_PREFIX = 'dsz_';
+
+// 三重写入：同时写入3个位置，确保至少一个能存活
+function dszSave(key, value) {
+    var k = DSZ_CONFIG_PREFIX + key;
+    try { localStorage.setItem(k, value); } catch(e) {}
+    try { sessionStorage.setItem(k, value); } catch(e) {}
+    // window.name 也存一份（最不容易被清除）
+    try {
+        if (!window._dszData) { window._dszData = {}; }
+        window._dszData[key] = value;
+        window.name = JSON.stringify(window._dszData);
+    } catch(e2) {}
+}
+window.dszSave = dszSave;
+
+// 三重读取：优先级 localStorage > sessionStorage > window.name
+function dszLoad(key) {
+    var k = DSZ_CONFIG_PREFIX + key;
+    // 1. 优先 localStorage
+    var v = localStorage.getItem(k);
+    if (v && v !== '' && v !== 'undefined') return v;
+    // 2. fallback sessionStorage
+    v = sessionStorage.getItem(k);
+    if (v && v !== '' && v !== 'undefined') return v;
+    // 3. fallback window.name
+    try {
+        if (!window._dszData && window.name) {
+            try { window._dszData = JSON.parse(window.name); } catch(e) { window._dszData = {}; }
+        }
+        if (window._dszData && window._dszData[key]) return window._dszData[key];
+    } catch(e3) {}
+    return null;
+}
+window.dszLoad = dszLoad;
+
+// 导出所有配置为JSON文件下载（终极备份）
+function dszExportAllConfig() {
+    var config = {};
+    var keys = [
+        'dsz_deepseek_key', 'dsz_doubao_key',
+        'dsz_cloud_name', 'dsz_cloud_preset', 'dsz_cloud_folder'
+    ];
+    keys.forEach(function(k) {
+        config[k] = localStorage.getItem(k) || '';
+    });
+    // 加上 window.name 里的
+    if (window._dszData) {
+        for (var k in window._dszData) { config['dsz_' + k] = window._dszData[k]; }
+    }
+    var blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'DSZ_config_backup.json';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+window.dszExportAllConfig = dszExportAllConfig;
+
+// 从文件导入配置（通过 input[type=file]）
+window._dszImportHandler = null;
+function dszImportConfig(jsonText) {
+    try {
+        var config = JSON.parse(jsonText);
+        var count = 0;
+        for (var k in config) {
+            if (config[k]) {
+                localStorage.setItem(k, config[k]);
+                // 同时同步到其他存储
+                var shortKey = k.replace('dsz_', '');
+                dszSave(shortKey, config[k]);
+                count++;
+            }
+        }
+        alert('✅ 已导入 ' + count + ' 项配置，请刷新页面生效');
+        return true;
+    } catch(e) {
+        alert('❌ 配置文件格式错误: ' + e.message);
+        return false;
+    }
+}
+window.dszImportConfig = dszImportConfig;
+
+// ==================== API 配置一键保存 ====================
+// 诊断 localStorage 是否可用
+function _testStorage() {
+    var result = { ls: false, cookie: false, lsError: '', cookieError: '' };
+    try {
+        localStorage.setItem('_dsz_test', '1');
+        if (localStorage.getItem('_dsz_test') === '1') { result.ls = true; }
+        localStorage.removeItem('_dsz_test');
+    } catch(e) { result.lsError = e.message; }
+    try {
+        document.cookie = '_dsz_test=1;path=/;max-age=60';
+        if (document.cookie.indexOf('_dsz_test=1') !== -1) { result.cookie = true; }
+        document.cookie = '_dsz_test=;path=/;max-age=0';
+    } catch(e) { result.cookieError = e.message; }
+    return result;
+}
+window._testStorage = _testStorage;
+
+function saveAllApiConfig() {
+    var deepseekEl = document.getElementById('deepseek-key');
+    var doubaoEl = document.getElementById('doubao-key');
+    var saved = [];
+
+    // 三重保存 DeepSeek Key
+    if (deepseekEl && deepseekEl.value.trim()) {
+        dszSave('deepseek_key', deepseekEl.value.trim());
+        saved.push('DeepSeek Key ✓(三重存储)');
+    }
+    // 三重保存豆包 Key
+    if (doubaoEl && doubaoEl.value.trim()) {
+        dszSave('doubao_key', doubaoEl.value.trim());
+        saved.push('豆包 Key ✓(三重存储)');
+    }
+
+
+    // 同时保存图床配置
+    var cEl = document.getElementById('cloudinary-cloud');
+    var pEl = document.getElementById('cloudinary-preset');
+    var fEl = document.getElementById('cloudinary-folder');
+    if (cEl && cEl.value.trim()) dszSave('cloud_name', cEl.value.trim());
+    if (pEl && pEl.value.trim()) dszSave('cloud_preset', pEl.value.trim());
+    if (fEl && fEl.value.trim()) dszSave('cloud_folder', fEl.value.trim());
+
+    if (saved.length > 0) {
+        var msg = '✅ 已三重保存：' + saved.join('、') + '\n';
+        msg += '--- 存储位置 ---\n';
+        msg += '① localStorage: ' + (localStorage.getItem('dsz_deepseek_key') ? '✅' : '❌') + '\n';
+        msg += '② sessionStorage: ' + (sessionStorage.getItem('dsz_deepseek_key') ? '✅' : '❌') + '\n';
+        msg += '③ window.name: ' + ((window._dszData||{}).deepseek_key ? '✅' : '❌') + '\n';
+        console.log('[DSZ] saveAllApiConfig:', saved);
+        alert(msg);
+    } else {
+        alert('请先填写 API Key');
+    }
+}
+window.saveAllApiConfig = saveAllApiConfig;
+// ================================================================
+function restoreCloudinaryConfig() {
+    // 三重读取
+    var cloud = dszLoad('cloud_name');
+    var preset = dszLoad('cloud_preset');
+    var folder = dszLoad('cloud_folder');
+    console.log('[DSZ] restoreCloudinaryConfig (triple-read):', {cloud, preset, folder});
+    if (cloud) document.getElementById('cloudinary-cloud').value = cloud;
+    if (preset) document.getElementById('cloudinary-preset').value = preset;
+    if (folder) document.getElementById('cloudinary-folder').value = folder;
+    showCloudinaryDebug();
+}
+window.restoreCloudinaryConfig = restoreCloudinaryConfig;
+
+// V1.5: API Key 恢复（带cookie fallback）
+function _restoreWithFallback(lsKey, inputId) {
+    // 三重读取：dszLoad 优先级 localStorage > sessionStorage > window.name
+    var val = dszLoad(lsKey);
+    // 兼容旧的 dsz_ 前缀 key
+    if (!val && lsKey.indexOf('dsz_') !== 0) {
+        val = dszLoad(lsKey);
+    }
+    var el = document.getElementById(inputId);
+    if (el && val) {
+        el.value = val;
+        console.log('[DSZ] Restored ' + inputId + ' (source: triple-read)');
+        return true;
+    }
+    return false;
+}
+window._restoreWithFallback = _restoreWithFallback;
+
+
+
+
+
+
+
+async function handleFileUpload(files) {
+
+
+    if (!files || files.length === 0) return;
+
+
+    var cloud = document.getElementById('cloudinary-cloud').value.trim();
+
+
+    var preset = document.getElementById('cloudinary-preset').value.trim();
+
+
+    var folder = document.getElementById('cloudinary-folder').value.trim();
+
+
+    if (!cloud || !preset) { showNotification('请填写Cloud Name和Upload Preset！', 'error'); return; }
+
+
+    var statusEl = document.getElementById('upload-status');
+
+
+    var progressEl = document.getElementById('upload-progress');
+
+
+    var containerEl = document.getElementById('upload-progress-container');
+
+
+    if (!statusEl || !progressEl || !containerEl) { console.error('[DSZ] 上传相关DOM元素缺失'); return; }
+
+
+    containerEl.style.display = 'block';
+
+
+    var imageFiles = [];
+
+
+    var zipFiles = [];
+
+
+    for (var f = 0; f < files.length; f++) {
+
+
+        var fileName = files[f].name.toLowerCase();
+
+
+        if (fileName.endsWith('.zip')) zipFiles.push(files[f]);
+
+
+        else imageFiles.push(files[f]);
+
+
+    }
+
+
+    var totalUploaded = uploadedImages.length;
+    var failedCount = 0;
+
+    // 并发上传常量
+    var CONCURRENCY = 3;
+
+
+    for (var i = 0; i < imageFiles.length; i += CONCURRENCY) {
+
+
+        var batch = [];
+
+
+        for (var j = i; j < Math.min(i + CONCURRENCY, imageFiles.length); j++) {
+
+
+            batch.push(uploadSingleImage(imageFiles[j], cloud, preset, folder, statusEl));
+
+
+        }
+
+
+        statusEl.textContent = '压缩并上传 ' + (i+1) + '-' + Math.min(i+CONCURRENCY, imageFiles.length) + '/' + imageFiles.length;
+
+
+        progressEl.style.width = Math.round((i / imageFiles.length) * 100) + '%';
+
+
+        var batchResults = await Promise.allSettled(batch);
+        batchResults.forEach(function(r) { if (r.status === 'rejected') failedCount++; });
+
+
+    }
+
+
+    for (var z = 0; z < zipFiles.length; z++) {
+
+
+        try {
+            await processZipFile(zipFiles[z], cloud, preset, folder, statusEl, progressEl, imageFiles.length, files.length, z);
+        } catch(zipErr) {
+            console.error('[DSZ] ZIP处理失败:', zipErr);
+            failedCount++;
+        }
+
+
+    }
+
+
+    progressEl.style.width = '100%';
+
+
+    var successCount = uploadedImages.length - totalUploaded;
+    var msg = '上传完成！共 <strong>' + uploadedImages.length + '</strong> 张图片 (新增 ' + successCount + ')';
+    if (failedCount > 0) msg += ' <span style="color:#e74c3c;">失败 ' + failedCount + ' 张</span>';
+    statusEl.innerHTML = msg;
+
+
+    renderGallery();
+
+
+    if (failedCount === 0) {
+        showNotification('图片上传完成！', 'success');
+    } else if (successCount > 0) {
+        showNotification('上传部分完成，' + failedCount + ' 张失败', 'warning');
+    } else {
+        showNotification('上传全部失败，请检查网络或配置', 'error');
+    }
+
+
+}
+
+
+
+
+
+async function uploadSingleImage(file, cloud, preset, folder, statusEl) {
+
+
+    // V1.5: 增强版上传 - 超时保护、内存清理、压缩失败回退、重试
+    var MAX_RETRIES = 2;
+    var UPLOAD_TIMEOUT = 30000; // 30秒超时
+
+
+    for (var attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        try {
+            // 1. 压缩图片（最长边1200px，质量80%），失败时用原图
+            var uploadBlob = file;
+            var url = null;
+            try {
+                uploadBlob = await new Promise((resolve, reject) => {
+                    var img = new Image();
+                    url = URL.createObjectURL(file);
+                    var cleanup = function() { if (url) { URL.revokeObjectURL(url); url = null; } };
+                    img.onload = function() {
+                        try {
+                            var canvas = document.createElement('canvas');
+                            var w = img.width, h = img.height;
+                            var maxWidth = 1200;
+                            if (w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
+                            canvas.width = w; canvas.height = h;
+                            var ctx = canvas.getContext('2d');
+                            ctx.drawImage(img, 0, 0, w, h);
+                            canvas.toBlob(function(blob) {
+                                cleanup();
+                                resolve(blob || file);
+                            }, 'image/jpeg', 0.8);
+                        } catch(e) { cleanup(); resolve(file); }
+                    };
+                    img.onerror = function() { cleanup(); resolve(file); };
+                    img.src = url;
+                });
+            } catch(compressErr) {
+                if (url) URL.revokeObjectURL(url);
+                uploadBlob = file;
+                console.warn('[DSZ] 压缩失败，使用原图:', file.name, compressErr.message);
+            }
+
+
+            // 2. 上传到Cloudinary（带超时）
+            var formData = new FormData();
+            formData.append('file', uploadBlob, file.name);
+            formData.append('upload_preset', preset);
+            if (folder) formData.append('folder', folder);
+
+
+            var response = await fetchWithTimeout(
+                'https://api.cloudinary.com/v1_1/' + cloud + '/image/upload',
+                { method: 'POST', body: formData },
+                UPLOAD_TIMEOUT
+            );
+
+
+            var data = await response.json();
+
+
+            if (!response.ok) throw new Error((data.error && data.error.message) || 'HTTP ' + response.status);
+
+
+            uploadedImages.push({ url: data.secure_url, name: file.name });
+            return; // 成功则返回
+
+
+        } catch(err) {
+            if (attempt < MAX_RETRIES) {
+                console.warn('[DSZ] ' + file.name + ' 上传失败(第'+(attempt+1)+'次)，重试中...', err.message);
+                if (statusEl) statusEl.textContent = '重试 ' + (attempt+1) + '/' + MAX_RETRIES + ': ' + file.name;
+                await new Promise(function(r) { setTimeout(r, 800 * (attempt + 1)); }); // 递增延迟
+            } else {
+                showNotification(file.name + ' 上传失败: ' + err.message, 'error');
+                console.error('[DSZ] 最终上传失败:', file.name, err);
+                throw err;
+            }
+        }
+    }
+
+
+}
+
+// fetch超时封装
+async function fetchWithTimeout(url, options, timeoutMs) {
+    var controller = new AbortController();
+    var timeoutId = setTimeout(function() { controller.abort(); }, timeoutMs);
+    try {
+        var opts = Object.assign({}, options, { signal: controller.signal });
+        return await fetch(url, opts);
+    } finally {
+        clearTimeout(timeoutId);
+    }
+}
+window.fetchWithTimeout = fetchWithTimeout;
+window.uploadSingleImage = uploadSingleImage;
+window.processZipFile = processZipFile;
+
+
+
+
+
+async function processZipFile(zipFile, cloud, preset, folder, statusEl, progressEl, baseIdx, totalFiles, zipIdx) {
+
+
+    statusEl.textContent = '正在解压ZIP: ' + zipFile.name + '...';
+
+
+    try {
+
+
+        var arrayBuffer = await zipFile.arrayBuffer();
+
+
+        var zip = await JSZip.loadAsync(arrayBuffer);
+
+
+        var imgEntries = [];
+
+
+        zip.forEach(function(relativePath, zipEntry) {
+
+
+            var name = zipEntry.name.toLowerCase();
+
+
+            if (!zipEntry.dir && (name.endsWith('.jpg') || name.endsWith('.jpeg') || name.endsWith('.png') || name.endsWith('.gif') || name.endsWith('.webp'))) {
+
+
+                imgEntries.push(zipEntry);
+
+
+            }
+
+
+        });
+
+
+        if (imgEntries.length === 0) { showNotification('ZIP "' + zipFile.name + '" 中没有找到图片文件', 'warning'); return; }
+
+
+        showNotification('ZIP "' + zipFile.name + '" 中发现 ' + imgEntries.length + ' 张图片，开始上传...', 'info');
+
+
+        for (var e = 0; e < imgEntries.length; e++) {
+
+
+            var entry = imgEntries[e];
+
+
+            var overallIdx = baseIdx + (zipIdx * imgEntries.length) + e;
+
+
+            statusEl.textContent = 'ZIP[' + (zipIdx+1) + '] 上传 ' + (e+1) + '/' + imgEntries.length + ': ' + entry.name;
+
+
+            progressEl.style.width = Math.round((overallIdx / (totalFiles + imgEntries.length)) * 100) + '%';
+
+
+            try {
+
+
+                var blob = await entry.async('blob');
+
+
+                var ext = entry.name.split('.').pop().toLowerCase();
+
+
+                var mimeType = { jpg:'image/jpeg', jpeg:'image/jpeg', png:'image/png', gif:'image/gif', webp:'image/webp' }[ext] || 'image/jpeg';
+
+
+                var imgFile = new File([blob], entry.name, { type: mimeType });
+
+
+                await uploadSingleImage(imgFile, cloud, preset, folder, statusEl);
+
+
+            } catch(imgErr) {
+                console.error('[DSZ] ZIP内图片上传失败:', entry.name, imgErr);
+                showNotification(entry.name + ' 上传失败: ' + imgErr.message, 'error');
+                // 继续处理下一张，不中断
+            }
+
+
+        }
+
+
+    } catch(zipErr) {
+        console.error('[DSZ] ZIP解压失败:', zipFile.name, zipErr);
+        showNotification('ZIP解压失败 "' + zipFile.name + '": ' + zipErr.message, 'error');
+        throw zipErr; // 抛出，让上层统计失败数
+    }
+
+
+}
+
+
+
+
+
+function renderGallery() {
+
+
+    if (uploadedImages.length === 0) { document.getElementById('image-gallery').innerHTML = ''; return; }
+
+
+    var html = '';
+
+
+    uploadedImages.forEach(function(img, i) {
+
+
+        var mainBadge = i === mainImageIndex ? '<span class="main-badge">主图</span>' : '';
+
+
+        html += '<div class="image-card" draggable="true" ondragstart="imgDragStart(event,' + i + ')" ondragover="imgDragOver(event)" ondrop="imgDrop(event,' + i + ')" ondragend="imgDragEnd(event)">' +
+
+
+            mainBadge + '<img src="' + img.url + '" alt="' + img.name + '" loading="lazy">' +
+
+
+            '<div class="actions">' +
+
+
+            '<button class="btn btn-sm btn-success" onclick="setMainImage(' + i + ')">主图</button>' +
+
+
+            '<button class="btn btn-sm btn-secondary" onclick="copyImageUrl(' + i + ')">复制</button>' +
+
+
+            '<button class="btn btn-sm btn-danger" onclick="deleteImage(' + i + ')">删除</button>' +
+
+
+            '</div></div>';
+
+
+    });
+
+
+    document.getElementById('image-gallery').innerHTML = html;
+
+
+
+
+    setTimeout(bindImagePreview, 80);
+}
+
+
+
+
+
+function setMainImage(index) { mainImageIndex = index; renderGallery(); showNotification('已设为主图', 'success'); }
+window.setMainImage = setMainImage;
+
+
+function copyImageUrl(index) { var url = uploadedImages[index].url; navigator.clipboard.writeText(url).then(function() { showNotification('已复制: ' + url, 'success'); }); }
+window.copyImageUrl = copyImageUrl;
+
+
+function deleteImage(index) { uploadedImages.splice(index, 1); if (mainImageIndex >= uploadedImages.length) mainImageIndex = 0; renderGallery(); showNotification('已删除图片', 'info'); }
+window.deleteImage = deleteImage;
+
+
+function copyAllImageUrls() { var urls = uploadedImages.map(function(img){return img.url;}).join(','); navigator.clipboard.writeText(urls).then(function(){showNotification('已复制 '+uploadedImages.length+'个URL','success');}); }
+
+
+function clearAllImages() { if(confirm('确定清空所有图片？')){uploadedImages=[];mainImageIndex=0;renderGallery();document.getElementById('upload-status').innerHTML='';document.getElementById('upload-progress-container').style.display='none';showNotification('已清空图片','info');}}
+
+
+
+
+
+var dragSrcIndex = -1;
+
+
+function imgDragStart(e,index){dragSrcIndex=index;e.currentTarget.classList.add('dragging');}
+
+
+function imgDragOver(e){e.preventDefault();e.currentTarget.classList.add('drag-over');}
+
+
+function imgDrop(e,index){
+
+
+    e.preventDefault();e.currentTarget.classList.remove('drag-over');
+
+
+    if(dragSrcIndex>=0&&dragSrcIndex!==index){var tmp=uploadedImages[dragSrcIndex];uploadedImages[dragSrcIndex]=uploadedImages[index];uploadedImages[index]=tmp;if(mainImageIndex===dragSrcIndex)mainImageIndex=index;else if(mainImageIndex===index)mainImageIndex=dragSrcIndex;renderGallery();}
+
+
+}
+window.renderGallery = renderGallery;
+
+
+function imgDragEnd(e){e.currentTarget.classList.remove('dragging');document.querySelectorAll('.image-card').forEach(function(c){c.classList.remove('drag-over');});}
+
+
+
+
+
+// ==================== AI文案 ====================
+
+
+function loadApiKey() {
+    var r = _restoreWithFallback('deepseek_key', 'deepseek-key');
+    console.log('[DSZ] loadApiKey result:', r, 'value=', (document.getElementById('deepseek-key')||{}).value ? '(已填入)' : '(空)');
+}
+window.imgDragStart = imgDragStart;
+window.imgDragOver = imgDragOver;
+window.imgDrop = imgDrop;
+window.imgDragEnd = imgDragEnd;
+
+function saveApiKey() {
+    var el = document.getElementById('deepseek-key');
+    if (el) {
+        dszSave('deepseek_key', el.value);
+        console.log('[DSZ] DeepSeek API Key saved');
+        showNotification('DeepSeek API Key 已保存', 'success');
+    }
+}
+window.saveApiKey = saveApiKey;
+window.saveApiKey = saveApiKey;
+
+function loadDoubaoKey() {
+    var r = _restoreWithFallback('doubao_key', 'doubao-key');
+    console.log('[DSZ] loadDoubaoKey result:', r, 'value=', (document.getElementById('doubao-key')||{}).value ? '(已填入)' : '(空)');
+}
+window.loadDoubaoKey = loadDoubaoKey;
+
+function saveDoubaoKey() {
+    var el = document.getElementById('doubao-key');
+    if (el) {
+        dszSave('doubao_key', el.value);
+        console.log('[DSZ] Doubao API Key saved');
+        showNotification('豆包 API Key 已保存', 'success');
+    }
+}
+window.saveDoubaoKey = saveDoubaoKey;
+
+
+
+
+
+
+
+
+async function generateAICopy() {
+    // V1.5.1: 豆包识图 + DeepSeek润色 流水线
+    var keyword = document.getElementById('ai-keyword').value.trim();
+    var btn = document.getElementById('ai-generate-btn');
+    var originalText = btn.textContent;
+    btn.textContent = '准备中...';
+    btn.disabled = true;
+
+    var MAX_RETRIES = 2;
+    var REQUEST_TIMEOUT = 60000;
+
+    // Reset flow indicator
+    setFlowStep(1, 'pending');
+    setFlowStep(2, 'pending');
+    setFlowStep(3, 'pending');
+
+    try {
+        // === Step 1: 获取选中图片并转为base64 ===
+        var imageBase64 = null;
+        if (window._aiSelectedImageDataUrl) {
+            imageBase64 = window._aiSelectedImageDataUrl;
+        } else if (window._aiSelectedFile) {
+            imageBase64 = await new Promise(function(resolve, reject) {
+                var reader = new FileReader();
+                reader.onload = function(e) { resolve(e.target.result); };
+                reader.onerror = function(e) { reject(new Error('文件读取失败')); };
+                reader.readAsDataURL(window._aiSelectedFile);
+            });
+        }
+
+        if (!imageBase64) {
+            // 没有图片，直接用关键词生成
+            if (!keyword) {
+                showNotification('请选择产品图片或输入关键词！', 'error');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+            // 跳过豆包识图，直接进入DeepSeek润色
+            setFlowStep(1, 'skipped');
+        }
+
+        var imageDescription = '';
+
+        // === Step 1: 豆包识图 ===
+        if (imageBase64) {
+            setFlowStep(1, 'active');
+            btn.textContent = '豆包识图中...';
+
+            var doubaoKey = document.getElementById('doubao-key').value.trim();
+            if (!doubaoKey) {
+                showNotification('请填写豆包API Key用于图片识别！', 'error');
+                setFlowStep(1, 'failed');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+
+            var visionSuccess = false;
+            for (var vAttempt = 0; vAttempt <= MAX_RETRIES; vAttempt++) {
+                try {
+                    var visionResp = await fetchWithTimeout('https://ark.cn-beijing.volces.com/api/v3/chat/completions', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + doubaoKey },
+                        body: JSON.stringify({
+                            model: 'doubao-1.5-vision-pro-32k',
+                            messages: [{
+                                role: 'user',
+                                content: [
+                                    { type: 'image_url', image_url: { url: imageBase64 } },
+                                    { type: 'text', text: '请用中文简单描述这张图片中的产品，包括颜色、款式、材质、特点等，100字以内。' }
+                                ]
+                            }]
+                        })
+                    }, REQUEST_TIMEOUT);
+
+                    if (!visionResp.ok) {
+                        var vErrData = await visionResp.json().catch(function() { return {}; });
+                        throw new Error((vErrData.error && vErrData.error.message) || 'HTTP ' + visionResp.status);
+                    }
+
+                    var vData = await visionResp.json();
+                    if (!vData.choices || !vData.choices[0] || !vData.choices[0].message) {
+                        throw new Error('豆包API返回数据格式异常');
+                    }
+                    imageDescription = vData.choices[0].message.content || '';
+                    visionSuccess = true;
+                    break;
+                } catch(err) {
+                    console.warn('[DSZ] 豆包识图第' + (vAttempt + 1) + '次失败:', err.message);
+                    if (vAttempt < MAX_RETRIES) {
+                        await new Promise(function(r) { setTimeout(r, 1500 * (vAttempt + 1)); });
+                    }
+                }
+            }
+
+            if (!visionSuccess || !imageDescription) {
+                showNotification('图片识别失败，请重试', 'error');
+                setFlowStep(1, 'failed');
+                btn.textContent = originalText;
+                btn.disabled = false;
+                return;
+            }
+            setFlowStep(1, 'done');
+        }
+
+        // === Step 2: DeepSeek润色 ===
+        setFlowStep(2, 'active');
+        btn.textContent = 'DeepSeek润色中...';
+
+        var deepseekKey = document.getElementById('deepseek-key').value.trim();
+        if (!deepseekKey) {
+            showNotification('请填写DeepSeek API Key！', 'error');
+            setFlowStep(2, 'failed');
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+        }
+
+        // Build prompt
+        var promptParts = ['You are an e-commerce copywriter for the Australian market.'];
+        if (imageDescription) {
+            promptParts.push('Product image description: ' + imageDescription);
+        }
+        if (keyword) {
+            promptParts.push('Additional keywords/info: ' + keyword);
+        }
+        promptParts.push('');
+        promptParts.push('Based on the above, write an optimized 200-300 word English product description in Australian e-commerce style.');
+        promptParts.push('');
+        promptParts.push('Return ONLY valid JSON (no markdown code blocks, no extra text) with these fields:');
+        promptParts.push('{"title_en":"product title in English","title_zh":"产品标题中文","description_en":"<p>Complete HTML product description (200-300 words). At the end, append these TWO sections EXACTLY as follows:</p><h3>Returns, Refunds and Replacements</h3><p>Products that are received faulty, damaged, or not as described are eligible for a return, refund, or replacement in accordance with the Australian Consumer Law (ACL). We are committed to ensuring all products meet the standards of quality and reliability expected by our customers. However, please note that we do not accept returns or provide refunds for change of mind. We encourage you to carefully consider your purchase to ensure it meets your needs and expectations.</p><h3>Delivery Timeframe</h3><p>Please note that we cannot guarantee the exact date of arrival, and the delivery timeframes (excluding weekends and public holidays) are as follows: For customers in Victoria, approximately 7-10 working days; For customers in NSW, SA, ACT, and QLD, approximately 9-12 working days; For customers in WA, NT, and TAS, approximately 9-12 working days.</p>","bullets_en":"- bullet1\\n- bullet2\\n- bullet3\\n- bullet4\\n- bullet5","keywords_en":"keyword1, keyword2, keyword3, ...","keywords_zh":"关键词1, 关键词2, ..."}');
+        promptParts.push('');
+        promptParts.push('IMPORTANT: The description_en field MUST end with the Returns/Refunds and Delivery Timeframe sections exactly as provided above. Do not modify or summarize them.');
+
+        var prompt = promptParts.join('\n');
+
+        var dsResult = null;
+        for (var dsAttempt = 0; dsAttempt <= MAX_RETRIES; dsAttempt++) {
+            try {
+                var dsResp = await fetchWithTimeout('https://api.deepseek.com/v1/chat/completions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + deepseekKey },
+                    body: JSON.stringify({
+                        model: 'deepseek-chat',
+                        messages: [{ role: 'user', content: prompt }],
+                        temperature: 0.7,
+                        max_tokens: 3000
+                    })
+                }, REQUEST_TIMEOUT);
+
+                if (!dsResp.ok) {
+                    var dsErrData = await dsResp.json().catch(function() { return {}; });
+                    throw new Error((dsErrData.error && dsErrData.error.message) || 'HTTP ' + dsResp.status);
+                }
+
+                var dsData = await dsResp.json();
+                if (!dsData.choices || !dsData.choices[0] || !dsData.choices[0].message) {
+                    throw new Error('DeepSeek API返回数据格式异常');
+                }
+                dsResult = dsData.choices[0].message.content;
+                break;
+            } catch(err) {
+                console.warn('[DSZ] DeepSeek润色第' + (dsAttempt + 1) + '次失败:', err.message);
+                if (dsAttempt < MAX_RETRIES) {
+                    await new Promise(function(r) { setTimeout(r, 1500 * (dsAttempt + 1)); });
+                }
+                if (dsAttempt === MAX_RETRIES) {
+                    showNotification('文案润色失败: ' + err.message, 'error');
+                    setFlowStep(2, 'failed');
+                    btn.textContent = originalText;
+                    btn.disabled = false;
+                    return;
+                }
+            }
+        }
+
+        if (!dsResult) {
+            showNotification('文案润色失败，未获取到结果', 'error');
+            setFlowStep(2, 'failed');
+            btn.textContent = originalText;
+            btn.disabled = false;
+            return;
+        }
+        setFlowStep(2, 'done');
+
+        // === Step 3: 解析并输出结果 ===
+        setFlowStep(3, 'active');
+        btn.textContent = '解析结果中...';
+
+        var parsed = null;
+        var jsonMatch = dsResult.match(/```json\s*([\s\S]*?)```/) || dsResult.match(/```\s*([\s\S]*?)```/);
+        if (jsonMatch) {
+            try { parsed = JSON.parse(jsonMatch[1].trim()); } catch(e1) {}
+        }
+        if (!parsed) {
+            var rawMatch = dsResult.match(/\{[\s\S]*\}/);
+            if (rawMatch) {
+                try { parsed = JSON.parse(rawMatch[0]); } catch(e2) {
+                    try { parsed = JSON.parse(rawMatch[0].replace(/,(\s*[}\]])/g, '$1')); } catch(e3) {}
+                }
+            }
+        }
+
+        if (parsed) {
+            var safeSet = function(id, val, useTextContent) {
+                var el = document.getElementById(id);
+                if (!el) { console.warn('[DSZ] 元素不存在:', id); return; }
+                if (useTextContent) el.textContent = val || '';
+                else el.value = val || '';
+            };
+            safeSet('ai-title-en', parsed.title_en, true);
+            safeSet('ai-title-zh', parsed.title_zh, true);
+            safeSet('ai-description-en', parsed.description_en, true);
+            safeSet('ai-bullets-en', parsed.bullets_en, true);
+            safeSet('ai-keywords-en', parsed.keywords_en, true);
+            safeSet('ai-keywords-zh', parsed.keywords_zh, true);
+
+            var resultsEl = document.getElementById('ai-results');
+            if (resultsEl) resultsEl.style.display = 'block';
+            setFlowStep(3, 'done');
+            showNotification('AI文案生成成功！', 'success');
+        } else {
+            console.error('[DSZ] AI返回内容无法解析为JSON:', dsResult.substring(0, 500));
+            showNotification('AI返回格式异常（无法解析JSON），请重试', 'error');
+            setFlowStep(3, 'failed');
+        }
+
+    } catch(err) {
+        console.error('[DSZ] generateAICopy error:', err);
+        showNotification('生成失败: ' + err.message, 'error');
+    } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+    }
+}
+window.generateAICopy = generateAICopy;
+
+// ==================== V1.5.1: AI图片选择辅助函数 ====================
+
+function renderAiImageThumbnails() {
+    var container = document.getElementById('ai-image-thumbnails');
+    if (!container) return;
+    if (typeof uploadedImages === 'undefined' || uploadedImages.length === 0) {
+        container.innerHTML = '<span style="color:#999;font-size:13px;">请先在图片管理中心上传图片</span>';
+        return;
+    }
+    // 只显示主图
+    var img = uploadedImages[mainImageIndex] || uploadedImages[0];
+    var isSelected = (window._aiSelectedImageIndex === (mainImageIndex || 0));
+    var borderStyle = isSelected ? 'border:3px solid #667eea;' : 'border:1px solid #e0e0e0;';
+    var imgSrc = img.dataUrl || img.url || '';
+    var html = '<div class="ai-thumb-item" onclick="selectAiThumbnail(' + (mainImageIndex || 0) + ')" style="width:160px;height:160px;overflow:hidden;border-radius:6px;cursor:pointer;' + borderStyle + 'flex-shrink:0;position:relative;">';
+    html += '<img src="' + imgSrc + '" style="width:100%;height:100%;object-fit:cover;cursor:zoom-in;" onclick="event.stopPropagation();openLightbox(\'' + imgSrc.replace(/'/g, "\\'") + '\',[\'' + imgSrc.replace(/'/g, "\\'") + '\'],0)" onerror="this.style.display=\'none\';this.parentElement.innerHTML=\'<span style=font-size:10px;color:#999>图</span>\'">';
+    if (isSelected) {
+        html += '<div style="position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#667eea;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;">✓</div>';
+    }
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+function selectAiThumbnail(index) {
+    if (window._aiSelectedImageIndex === index) {
+        // Deselect
+        window._aiSelectedImageIndex = null;
+        window._aiSelectedImageDataUrl = null;
+        renderAiImageThumbnails();
+        clearAiImageSelection();
+        return;
+    }
+    window._aiSelectedImageIndex = index;
+    var img = uploadedImages[index];
+    if (!img) return;
+
+    // Use dataUrl if available, otherwise fetch
+    if (img.dataUrl) {
+        window._aiSelectedImageDataUrl = img.dataUrl;
+        showAiImagePreview(img.dataUrl);
+    } else if (img.url) {
+        // Try to fetch via canvas
+        fetchImageAsBase64(img.url, function(dataUrl) {
+            window._aiSelectedImageDataUrl = dataUrl;
+            img.dataUrl = dataUrl;
+            showAiImagePreview(dataUrl);
+        }, function() {
+            // fallback: use URL directly
+            window._aiSelectedImageDataUrl = img.url;
+            showAiImagePreview(img.url);
+        });
+    }
+    renderAiImageThumbnails();
+    document.getElementById('ai-clear-img-btn').style.display = 'inline-flex';
+}
+window.selectAiThumbnail = selectAiThumbnail;
+
+function showAiImagePreview(src) {
+    var preview = document.getElementById('ai-image-preview');
+    if (!preview) return;
+    preview.style.display = 'block';
+    preview.innerHTML = '<img src="' + src + '" style="max-width:200px;max-height:200px;border-radius:8px;border:1px solid #e0e0e0;">';
+}
+
+function clearAiImageSelection() {
+    window._aiSelectedImageIndex = null;
+    window._aiSelectedImageDataUrl = null;
+    window._aiSelectedFile = null;
+    var preview = document.getElementById('ai-image-preview');
+    if (preview) preview.style.display = 'none';
+    var btn = document.getElementById('ai-clear-img-btn');
+    if (btn) btn.style.display = 'none';
+    var fileInput = document.getElementById('ai-local-file');
+    if (fileInput) fileInput.value = '';
+    renderAiImageThumbnails();
+}
+
+function handleAiLocalFile(input) {
+    if (!input.files || input.files.length === 0) return;
+    var file = input.files[0];
+    window._aiSelectedFile = file;
+    window._aiSelectedImageIndex = null;
+    window._aiSelectedImageDataUrl = null;
+
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        window._aiSelectedImageDataUrl = e.target.result;
+        showAiImagePreview(e.target.result);
+    };
+    reader.readAsDataURL(file);
+
+    document.getElementById('ai-clear-img-btn').style.display = 'inline-flex';
+    renderAiImageThumbnails();
+}
+
+function fetchImageAsBase64(url, onSuccess, onError) {
+    var img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = function() {
+        try {
+            var canvas = document.createElement('canvas');
+            canvas.width = img.naturalWidth;
+            canvas.height = img.naturalHeight;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+            var dataUrl = canvas.toDataURL('image/jpeg', 0.9);
+            onSuccess(dataUrl);
+        } catch(e) {
+            if (onError) onError(e);
+        }
+    };
+    img.onerror = function(e) {
+        if (onError) onError(e);
+    };
+    img.src = url;
+}
+
+function setFlowStep(step, status) {
+    // status: 'pending', 'active', 'done', 'failed', 'skipped'
+    var dot = document.querySelector('#flow-step-' + step + ' .flow-dot');
+    var line = null;
+    if (step < 3) {
+        line = document.querySelectorAll('.flow-line')[step - 1];
+    }
+    var colors = {
+        'pending': { bg: '#e2e8f0', color: '#64748b', lineBg: '#e2e8f0' },
+        'active': { bg: '#667eea', color: '#ffffff', lineBg: '#667eea' },
+        'done': { bg: '#38a169', color: '#ffffff', lineBg: '#38a169' },
+        'failed': { bg: '#e53e3e', color: '#ffffff', lineBg: '#e53e3e' },
+        'skipped': { bg: '#a0aec0', color: '#ffffff', lineBg: '#a0aec0' }
+    };
+    var c = colors[status] || colors['pending'];
+    if (dot) {
+        dot.style.background = c.bg;
+        dot.style.color = c.color;
+    }
+    if (line) {
+        line.style.background = c.lineBg;
+    }
+}
+
+// Hook: when AI tab becomes visible, refresh thumbnails
+var _origSwitchTab = switchTab;
+switchTab = function(tabName) {
+    _origSwitchTab(tabName);
+    if (tabName === 'tab-ai') {
+        setTimeout(function() { renderAiImageThumbnails(); }, 100);
+    }
+};
+window.switchTab = switchTab;
+
+function applyToField(fieldId,sourceId){var text=document.getElementById(sourceId).textContent;var field=document.getElementById(fieldId);if(field){field.value=text;showNotification('已应用到 '+fieldId,'success');}}
+
+
+function appendBulletsToDescription(){var bullets=document.getElementById('ai-bullets-en').textContent;var desc=document.getElementById('html-description').value;document.getElementById('html-description').value=desc+'\n<h3>Key Features</h3>\n'+bullets.replace(/\n/g,'<br>\n');updateDescriptionPreview();showNotification('已追加到描述','success');}
+
+
+function applyAllAIResults(){
+
+
+    var pairs=[['product-name-cn','ai-title-zh'],['html-description','ai-description-en'],['seo-keywords-en','ai-keywords-en'],['seo-keywords-cn','ai-keywords-zh']];
+
+
+    pairs.forEach(function(p){var text=document.getElementById(p[1]).textContent;var field=document.getElementById(p[0]);if(field)field.value=text;});
+
+
+    applySEOKeywordsToProductName();updateDescriptionPreview();showNotification('所有AI结果已应用！产品名称(EN)从SEO关键词生成','success');
+
+
+}
+window.applyToField = applyToField;
+
+
+
+
+
+// ==================== SEO ====================
+
+
+function keywordsToProductName(keywords){var parts=keywords.split(',').map(function(k){return k.trim();}).filter(function(k){return k;});var name=parts.join(' ');name=name.toLowerCase().replace(/\b\w/g,function(c){return c.toUpperCase();});if(name.length>80){name=name.substring(0,80);var lastSpace=name.lastIndexOf(' ');if(lastSpace>40)name=name.substring(0,lastSpace);}return name;}
+
+
+function applySEOKeywordsToProductName(){var keywords=document.getElementById('seo-keywords-en').value.trim();if(!keywords){showNotification('请先输入SEO关键词！','error');return;}var name=keywordsToProductName(keywords);document.getElementById('product-name-en').value=name;showNotification('产品名称(EN)已从关键词生成: '+name,'success');}
+
+
+var _syncTimer=null;
+
+
+function debouncedSyncProductName(){clearTimeout(_syncTimer);_syncTimer=setTimeout(function(){var keywords=document.getElementById('seo-keywords-en').value.trim();if(keywords)document.getElementById('product-name-en').value=keywordsToProductName(keywords);},500);}
+
+
+function generateSEOTags(){var keyword=document.getElementById('ai-keyword').value.trim()||document.getElementById('product-name-en').value.trim();if(!keyword){showNotification('请先输入产品关键词！','error');return;}var enKeywords=keyword+', '+keyword+' online, buy '+keyword+' australia, best '+keyword+', '+keyword+' sale';document.getElementById('seo-keywords-en').value=enKeywords;document.getElementById('meta-title-en').value=keyword.charAt(0).toUpperCase()+keyword.slice(1)+' | Buy Online in Australia';document.getElementById('meta-desc-en').value='Shop quality '+keyword+' at great prices. Fast shipping across Australia. Order now!';debouncedSyncProductName();showNotification('SEO标签已生成！','success');}
+
+
+function renderRecommendedTags(){var tags=['dress','shirt','pants','jeans','skirt','jacket','coat','sneakers','boots','sandals','heels','t-shirt','hoodie','sweater','shorts','activewear','lingerie','swimwear','accessories','sale','online','australia','free shipping','new arrival','trending'];var html='';tags.forEach(function(t){html+='<span class="size-pill" onclick="addKeyword(\''+t+'\')" style="cursor:pointer;">'+t+'</span>';});document.getElementById('recommended-tags').innerHTML=html;}
+
+
+function addKeyword(keyword){var current=document.getElementById('seo-keywords-en').value.trim();var keywords=current?current.split(',').map(function(k){return k.trim();}):[];if(keywords.indexOf(keyword)<0){keywords.push(keyword);document.getElementById('seo-keywords-en').value=keywords.join(', ');debouncedSyncProductName();showNotification('已添加: '+keyword,'success');}else{showNotification('关键词已存在','info');}}
+
+
+
+
+
+// ==================== 尺码表 ====================
+
+
+var SIZE_CHART_DATA={
+
+
+    'womens-clothing':{title:'Women\'s Clothing Size Chart (AU)',headers:['AU','US','UK','EU','Bust(cm)','Waist(cm)'],rows:[['6','2','6','34','84','64'],['8','4','8','36','88','68'],['10','6','10','38','92','72'],['12','8','12','40','96','76'],['14','10','14','42','100','80'],['16','12','16','44','104','84'],['18','14','18','46','110','90']]},
+
+
+    'mens-clothing':{title:'Men\'s Clothing Size Chart',headers:['Size','Chest(cm)','Waist(cm)'],rows:[['S','96','80'],['M','100','84'],['L','104','88'],['XL','112','96'],['2XL','120','104'],['3XL','128','112']]},
+
+
+    'womens-shoes':{title:'Women\'s Shoes Size Chart (AU)',headers:['AU','US','UK','EU','Foot Length(cm)'],rows:[['5','7','5','37','23.0'],['6','8','6','38','23.8'],['7','9','7','39','24.6'],['8','10','8','40','25.4'],['9','11','9','41','26.2'],['10','12','10','42','27.0']]},
+
+
+    'mens-shoes':{title:'Men\'s Shoes Size Chart (AU)',headers:['AU','US','UK','EU','Foot Length(cm)'],rows:[['7','8','7','41','25.4'],['8','9','8','42','26.0'],['9','10','9','43','26.7'],['10','11','10','44','27.3'],['11','12','11','45','27.9'],['12','13','12','46','28.6']]},
+
+
+    'kids-shoes':{title:'Kids\' Shoes Size Chart (AU)',headers:['AU','EU','Foot Length(cm)','Approx Age'],rows:[['10','27','16.5','3-4 yrs'],['11','28','17.1','4-5 yrs'],['12','29','17.7','5-6 yrs'],['13','30','18.4','6-7 yrs'],['1','31','19.0','7-8 yrs'],['2','32','19.7','8-9 yrs'],['3','33','20.4','9-10 yrs']]},
+
+
+    'kids-clothing':{title:'Kids\' Clothing Size Chart (AU)',headers:['AU','Age','Height(cm)'],rows:[['2','2T','92'],['4','4T','104'],['6','6','116'],['8','8','128'],['10','10','140'],['12','12','152'],['14','14','164']]},
+    'womens-underwear':{title:"Women's Underwear Size Chart (AU)",headers:['AU','UK','EU','Bust(cm)','Waist(cm)','Hip(cm)'],rows:[['6','6','34','84','64','90'],['8','8','36','88','68','94'],['10','10','38','92','72','98'],['12','12','40','96','76','102'],['14','14','42','100','80','106'],['16','16','44','104','84','110']]},
+    'womens-sleepwear':{title:"Women's Sleepwear Size Chart (AU)",headers:['AU','UK','EU','Bust(cm)','Waist(cm)','Hip(cm)'],rows:[['6','6','34','84','64','90'],['8','8','36','88','68','94'],['10','10','38','92','72','98'],['12','12','40','96','76','102'],['14','14','42','100','80','106'],['16','16','44','104','84','110']]},
+    'womens-swimwear':{title:"Women's Swimwear Size Chart (AU)",headers:['AU','UK','EU','Bust(cm)','Waist(cm)','Hip(cm)'],rows:[['6','6','34','84','64','90'],['8','8','36','88','68','94'],['10','10','38','92','72','98'],['12','12','40','96','76','102'],['14','14','42','100','80','106'],['16','16','44','104','84','110']]}
+
+
+}
+window.keywordsToProductName = keywordsToProductName;;
+
+
+function generateSizeChart(){var cat=document.getElementById('product-category').value;var chart=SIZE_CHART_DATA[cat];if(!chart)return;var html='<h4 style="margin-bottom:10px;color:#667eea;">'+chart.title+'</h4>';html+='<table class="size-chart-table"><thead><tr>';chart.headers.forEach(function(h){html+='<th>'+h+'</th>';});html+='</tr></thead><tbody>';chart.rows.forEach(function(row){html+='<tr>';row.forEach(function(cell){html+='<td>'+cell+'</td>';});html+='</tr>';});html+='</tbody></table>';document.getElementById('size-chart-preview').innerHTML=html;}
+
+
+function getSizeChartHTML(){var cat=document.getElementById('product-category').value;var chart=SIZE_CHART_DATA[cat];if(!chart)return'';var html='<h3>'+chart.title+'</h3><table style="width:100%;border-collapse:collapse;margin:10px 0;">';html+='<tr>';chart.headers.forEach(function(h){html+='<th style="border:1px solid #ddd;padding:8px;background:#667eea;color:#fff;">'+h+'</th>';});html+='</tr>';chart.rows.forEach(function(row){html+='<tr>';row.forEach(function(cell){html+='<td style="border:1px solid #ddd;padding:8px;text-align:center;">'+cell+'</td>';});html+='</tr>';});html+='</table>';return html;}
+
+
+function insertSizeChartToDescription(){var desc=document.getElementById('html-description').value;document.getElementById('html-description').value=desc+'\n'+getSizeChartHTML();updateDescriptionPreview();showNotification('尺码表已插入描述','success');}
+
+
+function copySizeChartHTML(){navigator.clipboard.writeText(getSizeChartHTML()).then(function(){showNotification('尺码表HTML已复制','success');});}
+
+
+
+
+
+// ==================== 运费计算 ====================
+
+
+function calcCBM(){var l=parseFloat(document.getElementById('package-length').value)||0;var w=parseFloat(document.getElementById('package-width').value)||0;var h=parseFloat(document.getElementById('package-height').value)||0;var cbm=(l*w*h)/1000000;document.getElementById('package-cbm').value=cbm.toFixed(4);}
+
+
+
+
+
+// ==================== 导出 ====================
+
+
+var EXPORT_HEADERS=[
+
+
+    'SKU','SKU Title','Parent SKU','Parent SKU Title','Option1 Name','Option1 Value','Option2 Name','Option2 Value',
+
+
+    'EAN Code','Description','Status','Brand Name','Colour','Package Weight(kg)','Package Length(cm)','Package Width(cm)',
+
+
+    'Package Height(cm)','Package CBM(m3)','Price (Incl. GST)','RRP (Incl. GST)','Stock','Sub-subcategory','Images',
+
+
+    'ACT','NSW_M','NSW_R','NT_M','NT_R','QLD_M','QLD_R','REMOTE','SA_M','SA_R','TAS_M','TAS_R','VIC_M','VIC_R','WA_M','WA_R',
+
+
+    'Canberra','NT Near Country','NT Far Country','SA Country','Adelaide','WA Far Country','Perth','WA Near Country',
+
+
+    'Sydney','Gosford','NSW Country North','Newcastle','Tweed Heads','Wollongong','NSW Country South',
+
+
+    'QLD Near Country','Brisbane','Gold Coast','Coolangatta','Ipswich','QLD Mid Country','Sunshine Coast','QLD Far Country',
+
+
+    'Norfolk Island','Christmas Island','Cocos Islands','Australian Antarctic Territory',
+
+
+    'Melbourne','Geelong','VIC Near Country','Ballarat','VIC Far Country',
+
+
+    'Tasmania Metro','Tasmania Country','Albury','Albury PO Boxes','Canberra','Canberra Fringe','Canberra PO Boxes',
+
+
+    'Coffs Harbour','Hunter Valley','Lord Howe Island','Mudgee','Newcastle','Newcastle PO Boxes','Newcastle Surrounds',
+
+
+    'Newcastle Surrounds PO Boxes','Norfolk Island (external territory)','Northern Border NSW','Orange','Outer NSW','Outer NSW PO Boxes',
+
+
+    'Riverina','Tweed Heads','Wagga Wagga','Blue Mountains','Camden','Central Coast','Central Coast PO Boxes',
+
+
+    'Hawkesbury River Region','Sydney','Sydney Fringe','Sydney PO Boxes','Wollongong','Wollongong North','Wollongong PO Boxes','Wollongong South',
+
+
+    'Darwin','Darwin PO Boxes','Northern Territory Remote','Northern Territory Remote PO Boxes','Northern Territory Rural','Northern Territory Rural PO Boxes',
+
+
+    'Brisbane','Brisbane PO Boxes','Brisbane South West','Brisbane Surrounds','Coolangatta','Gold Coast','Gold Coast North','Gold Coast PO Boxes',
+
+
+    'Scenic Rim Redlands Coast','Scenic Rim Redlands Coast PO Boxes','Central QLD Regional','Ipswich North','Mackay','Rockhampton','Sunshine Coast','Sunshine Coast Fringe',
+
+
+    'Cairns','North QLD Regional','North QLD Regional PO Boxes','Townsville','Granite Belt','Hervey Bay','Ipswich','Ipswich West',
+
+
+    'South West QLD Regional','Toowoomba','Toowoomba PO Boxes',
+
+
+    'Adelaide','Adelaide Fringe','Adelaide Hills','Adelaide Hills Surrounds','Adelaide PO Boxes','Barossa','Broken Hill and Surrounds','Outer SA',
+
+
+    'Antarctic Bases (external territory)',
+
+
+    'Hobart','Hobart Fringe','Hobart PO Boxes','Launceston','Regional TAS',
+
+
+    'Geelong','Geelong Surrounds','Greater Melbourne','Macedon','Macedon Surrounds','Melbourne','Melbourne PO Boxes','Peninsula','Yarra Valley',
+
+
+    'Ballarat','Ballarat PO Boxes','Ballarat Surrounds','Bendigo','Mildura','NSW VIC Border','Outer VIC','Outer VIC PO Boxes','Shepparton','Wodonga','Wodonga PO Boxes',
+
+
+    'Bullsbrook','Bullsbrook Surrounds','Lancelin','Perth','Perth Fringe','Perth Fringe PO Boxes','Perth PO Boxes','Pinjarra',
+
+
+    'Christmas Island (external territory)','Cocos (keeling) Island (external territory)','Northern WA Regional','Northern WA Regional PO Boxes',
+
+
+    'Margaret River','South West WA','South West WA PO Boxes','NZ'
+
+
+];
+
+
+
+
+
+function updateExportSummary() {
+
+
+    var html = '<div class="info-box">';
+
+
+    html += '<strong>导出概览:</strong><br>';
+
+
+    html += '变体数量: ' + skuVariants.length + '<br>';
+
+
+    html += '颜色数量: ' + colorInputs.length + '<br>';
+
+
+    html += '尺码数量: ' + selectedSizes.length + '<br>';
+
+
+    html += 'Parent SKU: ' + (document.getElementById('parent-sku').value || '未填写') + '<br>';
+
+
+    html += '图片数量: ' + uploadedImages.length + '<br>';
+
+
+    html += '品类: ' + CATEGORY_LABELS[document.getElementById('product-category').value] + '<br>';
+
+
+    html += '导出列数: ' + EXPORT_HEADERS.length + ' 列';
+
+
+    html += '</div>';
+
+
+    document.getElementById('export-summary').innerHTML = html;
+
+
+    if (skuVariants.length > 0) {
+
+
+        var previewHtml = '<h4>预览 (前5行):</h4><table style="font-size:12px;"><thead><tr><th>SKU</th><th>Parent</th><th>Size</th><th>Colour</th><th>Price</th><th>Stock</th></tr></thead><tbody>';
+
+
+        var count = Math.min(5, skuVariants.length);
+
+
+        for (var i = 0; i < count; i++) {
+
+
+            previewHtml += '<tr><td>' + skuVariants[i].sku + '</td><td>' + skuVariants[i].parentSku + '</td><td>' + skuVariants[i].size + '</td><td>' + skuVariants[i].colour + '</td><td>' + skuVariants[i].price + '</td><td>' + skuVariants[i].stock + '</td></tr>';
+
+
+        }
+
+
+        previewHtml += '</tbody></table>';
+
+
+        document.getElementById('export-preview').innerHTML = previewHtml;
+
+
+    }
+
+
+}
+window.updateExportSummary = updateExportSummary;
+window.generateSizeChart = generateSizeChart;
+
+
+
+
+
+function exportToExcel() {
+
+
+    if (skuVariants.length === 0) { showNotification('请先添加颜色和码数生成变体！', 'error'); return; }
+
+
+    var parentSku = document.getElementById('parent-sku').value.trim();
+
+
+    if (!parentSku) { showNotification('请先填写Parent SKU！', 'error'); return; }
+
+
+
+
+
+    var desc = document.getElementById('html-description').value;
+
+
+    var brand = document.getElementById('brand-name').value;
+
+
+    var ean = document.getElementById('ean-code').value;
+
+
+    var status = document.getElementById('product-status').value;
+
+
+    var weight = document.getElementById('package-weight').value;
+
+
+    var plength = document.getElementById('package-length').value;
+
+
+    var pwidth = document.getElementById('package-width').value;
+
+
+    var pheight = document.getElementById('package-height').value;
+
+
+    var pcbm = document.getElementById('package-cbm').value;
+
+
+    var rrp = document.getElementById('product-rrp').value;
+
+
+    var subcat = document.getElementById('sub-subcategory').value;
+
+
+    var images = uploadedImages.map(function(img){return img.url;}).join(',');
+
+
+    var parentTitle = document.getElementById('product-name-en').value;
+
+
+    /* V1.4-fix: 自动将产品名称中的中文颜色替换为英文 */
+
+
+    parentTitle = parentTitle.replace(/银色/g, 'Silver').replace(/金色/g, 'Gold').replace(/红色/g, 'Red').replace(/蓝色/g, 'Blue')
+
+
+        .replace(/黑色/g, 'Black').replace(/白色/g, 'White').replace(/绿色/g, 'Green').replace(/黄色/g, 'Yellow')
+
+
+        .replace(/紫色/g, 'Purple').replace(/橙色/g, 'Orange').replace(/粉色/g, 'Pink').replace(/玫红/g, 'Rose')
+
+
+        .replace(/棕色/g, 'Brown').replace(/灰色/g, 'Gray').replace(/米色/g, 'Beige').replace(/卡其色/g, 'Khaki')
+
+
+        .replace(/海军蓝/g, 'Navy').replace(/酒红色/g, 'Burgundy').replace(/藏青/g, 'Navy').replace(/咖啡色/g, 'Coffee');
+
+
+
+
+
+    // 如果变体有独立的体积/重量，优先使用；否则用全局值
+
+
+    function getVal(v, field, fallback) { return v[field] || fallback; }
+
+
+
+
+
+    var ws_data = [];
+
+
+    ws_data.push(EXPORT_HEADERS);
+
+
+
+
+
+    skuVariants.forEach(function(v) {
+
+
+        var row = new Array(EXPORT_HEADERS.length).fill('');
+
+
+        row[0] = cleanSku(v.sku);  // 强制清理：仅保留字母数字和横杠
+
+
+        row[1] = v.skuTitle;
+
+
+        // V1.4: 导出时Parent SKU也带性别前缀（先剥离旧前缀再添加）
+
+
+        var category = document.getElementById('product-category').value || '';
+
+
+        var genderPrefix = '';
+        // 注意：'womens'包含子串'mens'，必须先检查womens
+        if (category.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
+
+
+        else if (category.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
+
+
+        else if (category.indexOf('kids') !== -1) { genderPrefix = 'K-'; }
+
+
+        var cleanParent = cleanSku(parentSku);
+
+
+        // 先移除任何已有的M-/W-/K-性别前缀
+        var gpList = ['M-', 'W-', 'K-'];
+        for (var gpi = 0; gpi < gpList.length; gpi++) {
+            if (cleanParent.indexOf(gpList[gpi]) === 0) {
+                cleanParent = cleanParent.substring(gpList[gpi].length);
+                break;
+            }
+        }
+
+
+        var parentSkuWithPrefix = cleanParent;
+        if (genderPrefix && cleanParent) {
+            parentSkuWithPrefix = genderPrefix + cleanParent;
+        }
+
+
+        row[2] = parentSkuWithPrefix;
+
+
+        row[3] = parentTitle.replace(/[^a-zA-Z0-9\-_\s\(\)\/]/g, '');  // 清理特殊符号
+
+
+        row[4] = 'Size';
+
+
+        row[5] = v.size;
+
+
+        row[6] = 'Colour';
+
+
+        row[7] = getColorForExport(v.colour);
+
+
+        row[8] = ean;
+
+
+        row[9] = desc;
+
+
+        row[10] = status;
+
+
+        row[11] = brand;
+
+
+        row[12] = getColorForExport(v.colour);
+
+
+        row[13] = weight || '';
+
+
+        row[14] = getVal(v,'volL',plength);
+
+
+        row[15] = getVal(v,'volW',pwidth);
+
+
+        row[16] = getVal(v,'volH',pheight);
+
+
+        row[17] = pcbm;
+
+
+        row[18] = v.price;
+
+
+        row[19] = (v.price * 1.5).toFixed(2);  // V1.4-fix: RRP = 价格 × 1.5
+
+
+        row[20] = v.stock;
+
+
+        row[21] = subcat;
+
+
+        row[22] = images;
+
+
+        for (var i = 23; i < EXPORT_HEADERS.length; i++) {
+
+
+            if (EXPORT_HEADERS[i] === 'REMOTE') row[i] = 9999;
+
+
+            else if (EXPORT_HEADERS[i] === 'NZ') row[i] = 9999;
+
+
+            else row[i] = 0;
+
+
+        }
+
+
+        ws_data.push(row);
+
+
+    });
+
+
+
+
+
+    var ws = XLSX.utils.aoa_to_sheet(ws_data);
+
+
+    var wb = XLSX.utils.book_new();
+
+
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+
+    var filename = 'dropshipzone_' + (parentSku || 'products') + '_' + Date.now() + '.xlsx';
+
+
+    XLSX.writeFile(wb, filename);
+
+
+    showNotification('导出成功！' + skuVariants.length + ' 个变体，' + EXPORT_HEADERS.length + ' 列', 'success');
+
+
+}
+window.exportToExcel = exportToExcel;
+
+
+
+
+
+// ==================== 悬浮翻译 ====================
+
+
+function toggleTranslator() {
+
+
+    var el = document.getElementById('dsz-translator');
+
+
+    if (!el) return;
+
+
+    var wasHidden = el.classList.contains('hidden');
+
+
+    if (wasHidden) {
+
+
+        el.classList.remove('hidden', 'collapsed');
+
+
+    } else {
+
+
+        el.classList.toggle('collapsed');
+
+
+    }
+
+
+    updateTranslatorBtnText(el);
+
+
+}
+function hideTranslator() {
+
+
+    var el = document.getElementById('dsz-translator');
+
+
+    if (!el) return;
+
+
+    el.classList.add('hidden');
+
+
+    updateTranslatorBtnText(el);
+
+
+}
+function updateTranslatorBtnText(el) {
+
+
+    var isHidden = el.classList.contains('hidden');
+
+
+    var isCollapsed = el.classList.contains('collapsed');
+
+
+    var btns = document.querySelectorAll('[onclick*="toggleTranslator"]');
+
+
+    for (var j = 0; j < btns.length; j++) {
+
+
+        if (btns[j].tagName === 'BUTTON') {
+
+
+            btns[j].textContent = isHidden ? '展开翻译' : (isCollapsed ? '展开翻译' : '收起翻译');
+
+
+        }
+
+
+    }
+
+
+}
+window.toggleTranslator = toggleTranslator;
+window.hideTranslator = hideTranslator;
+
+// ===== 翻译框拖拽功能 =====
+(function() {
+    var translator = document.getElementById('dsz-translator');
+    var header = translator ? translator.querySelector('.trans-header') : null;
+    if (!translator || !header) return;
+
+    var isDragging = false;
+    var startX, startY, startLeft, startTop;
+
+    function onStart(e) {
+        // 只在点击 header 本身时拖拽，排除内部按钮
+        isDragging = true;
+        translator.classList.add('dragging');
+        var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        startLeft = translator.offsetLeft;
+        startTop = translator.offsetTop;
+        translator.style.left = startLeft + 'px';
+        translator.style.top = startTop + 'px';
+        translator.style.right = 'auto';
+        translator.style.bottom = 'auto';
+        e.preventDefault();
+    }
+
+    function onMove(e) {
+        if (!isDragging) return;
+        var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        var dx = clientX - startX;
+        var dy = clientY - startY;
+        var newLeft = Math.max(0, Math.min(window.innerWidth - translator.offsetWidth, startLeft + dx));
+        var newTop = Math.max(0, Math.min(window.innerHeight - 40, startTop + dy));
+        translator.style.left = newLeft + 'px';
+        translator.style.top = newTop + 'px';
+        e.preventDefault();
+    }
+
+    function onEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        translator.classList.remove('dragging');
+    }
+
+    header.addEventListener('mousedown', onStart);
+    header.addEventListener('touchstart', onStart, {passive: false});
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove, {passive: false});
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchend', onEnd);
+})();
+
+
+async function doTranslate(){
+
+
+    var input=document.getElementById('trans-input').value.trim();if(!input){showNotification('请输入要翻译的文本','error');return;}
+
+
+    var dir=document.getElementById('trans-direction').value;var style=document.getElementById('trans-style').value;
+
+
+    var resultEl=document.getElementById('trans-result');resultEl.textContent='翻译中...';
+
+
+    var fromLang=dir==='en2zh'?'English':'Chinese';var toLang=dir==='en2zh'?'Chinese':'English';
+
+
+    var styleHint={direct:'Translate directly.',ecommerce:'Use e-commerce marketing style.',formal:'Use formal professional tone.',casual:'Use casual conversational tone.'}[style];
+
+
+    var prompt='Translate from '+fromLang+' to '+toLang+'. '+styleHint+' Text: '+input;
+
+
+    try{
+
+
+        var provider='deepseek';var result;
+
+
+        if(provider==='deepseek'){var apiKey=localStorage.getItem('dsz_deepseek_key')||document.getElementById('deepseek-key').value.trim();
+
+
+            var resp=await fetch('https://api.deepseek.com/v1/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+apiKey},body:JSON.stringify({model:'deepseek-chat',messages:[{role:'user',content:prompt}],temperature:0.3})});
+
+
+            var data=await resp.json();result=data.choices[0].message.content;
+
+
+        }else{var doubaoKey=localStorage.getItem('dsz_doubao_key')||document.getElementById('doubao-key').value.trim();
+
+
+            var resp2=await fetch('https://ark.cn-beijing.volces.com/api/v3/chat/completions',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+doubaoKey},body:JSON.stringify({model:'doubao-pro-32k',messages:[{role:'user',content:prompt}],temperature:0.3})});
+
+
+            var data2=await resp2.json();result=data2.choices[0].message.content;}
+
+
+        resultEl.textContent=result;
+
+
+    }catch(err){resultEl.textContent='翻译失败: '+err.message;}
+
+
+}
+window.doTranslate = doTranslate;
+
+function copyTransResult(){var text=document.getElementById('trans-result').textContent;navigator.clipboard.writeText(text).then(function(){showNotification('已复制','success');});}
+window.copyTransResult = copyTransResult;
+
+
+
+
+
+// Ctrl+Enter翻译
+
+
+
+
+
+// ==================== 启动 ====================
+
+
+// V1.3修复版：已移除登录功能，直接显示主界面
+
+
+
+
+
+setTimeout(function() { renderCategoryTree(); }, 500);
+
+
+
+
+
+
+
+
+// 直接初始化，无需登录
+
+
+initApp();
+
+
+
+
+
+
+
+
+
+
+
+/* 亮度调节 */
+
+
+var currentBrightness = 100;
+
+
+function updateBrightness(val) {
+
+
+    currentBrightness = parseInt(val);
+
+
+    var overlay = document.getElementById('brightness-filter');
+
+
+    if (overlay) {
+
+
+        if (val < 100) {
+
+
+            overlay.style.background = 'rgba(0,0,0,' + ((100-val)/100*0.5) + ')';
+
+
+        } else if (val > 100) {
+
+
+            overlay.style.background = 'rgba(255,255,255,' + ((val-100)/100*0.4) + ')';
+
+
+        } else {
+
+
+            overlay.style.background = 'transparent';
+
+
+        }
+
+
+        document.getElementById('brightness-val').textContent = val + '%';
+
+
+    }
+
+
+    localStorage.setItem('page-brightness', val);
+
+
+}
+
+
+
+
+
+/* 护眼模式（完整版） */
+
+
+function toggleEyeProtection() {
+
+
+    var body = document.body;
+
+
+    var btn = document.getElementById('eye-protection-btn');
+
+
+    body.classList.toggle('eye-protection');
+
+
+    var on = body.classList.contains('eye-protection');
+
+
+    if (btn) {
+
+
+        btn.textContent = on ? '👁️ 护眼中' : '👁️ 护眼';
+
+
+        btn.style.background = on ? 'rgba(74,158,143,0.15)' : 'rgba(255,255,255,0.85)';
+
+
+        btn.style.color = on ? '#2D3A2E' : '#2DA44E';
+
+
+    }
+
+
+    localStorage.setItem('eye-protection', on ? 'on' : 'off');
+
+
+}
+window.toggleEyeProtection = toggleEyeProtection;
+
+
+
+
+
+
+
+
+// ===== V1.4.2: 全局函数挂载 =====
+
+
+
+;
+
+
+
+
+
+
+
+
+
+// ===== 图片灯箱预览 =====
+var lbImgs = [];
+var lbIdx = 0;
+
+function openLightbox(src, imgs, idx) {
+    lbImgs = imgs || [];
+    lbIdx = (idx >= 0 && idx < lbImgs.length) ? idx : 0;
+    var img = document.getElementById('lb-img');
+    if (img) img.src = src;
+    var box = document.getElementById('img-lightbox');
+    if (box) box.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    updateLbCounter();
+}
+window.openLightbox = openLightbox;
+
+function closeLightbox() {
+    var box = document.getElementById('img-lightbox');
+    if (box) box.style.display = 'none';
+    document.body.style.overflow = '';
+}
+window.closeLightbox = closeLightbox;
+
+function lbNav(dir) {
+    if (lbImgs.length === 0) return;
+    lbIdx += dir;
+    if (lbIdx < 0) lbIdx = lbImgs.length - 1;
+    if (lbIdx >= lbImgs.length) lbIdx = 0;
+    var img = document.getElementById('lb-img');
+    if (img) img.src = lbImgs[lbIdx];
+    updateLbCounter();
+}
+window.lbNav = lbNav;
+
+function updateLbCounter() {
+    var c = document.getElementById('lb-counter');
+    if (c && lbImgs.length > 1) {
+        c.textContent = (lbIdx + 1) + ' / ' + lbImgs.length;
+        c.style.display = 'block';
+    } else if (c) {
+        c.style.display = 'none';
+    }
+}
+window.updateLbCounter = updateLbCounter;
+
+function bindImagePreview() {
+    var cards = document.querySelectorAll('.image-card img');
+    cards.forEach(function(img) {
+        img.style.cursor = 'zoom-in';
+        img.onclick = function(ev) {
+            ev.stopPropagation();
+            var allImgs = Array.from(document.querySelectorAll('.image-card img')).map(function(x) { return x.src; });
+            var idx = allImgs.indexOf(img.src);
+            openLightbox(img.src, allImgs, idx);
+        };
+    });
+}
+window.bindImagePreview = bindImagePreview;
+
+document.addEventListener('keydown', function(e) {
+    var box = document.getElementById('img-lightbox');
+    if (!box || box.style.display !== 'flex') return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') { e.preventDefault(); lbNav(-1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); lbNav(1); }
+});
+
+
+
+
+// ==================== V1.5 批量补全 window 暴露 (18个) ====================
+window.updateBrightness = updateBrightness;
+window.handleFileUpload = handleFileUpload;
+window.copyAllImageUrls = copyAllImageUrls;
+window.clearAllImages = clearAllImages;
+window.appendBulletsToDescription = appendBulletsToDescription;
+window.applyAllAIResults = applyAllAIResults;
+window.debouncedSyncProductName = debouncedSyncProductName;
+window.generateSEOTags = generateSEOTags;
+window.applySEOKeywordsToProductName = applySEOKeywordsToProductName;
+window.insertSizeChartToDescription = insertSizeChartToDescription;
+window.copySizeChartHTML = copySizeChartHTML;
+window.calcCBM = calcCBM;
+window.doTranslate = doTranslate;
+window.copyTransResult = copyTransResult;
+window.setMainImage = setMainImage;
+window.copyImageUrl = copyImageUrl;
+window.deleteImage = deleteImage;
+window.selectAiThumbnail = selectAiThumbnail;
+window.updateExportSummary = updateExportSummary;
+window.clearAiImageSelection = clearAiImageSelection;
+window.addKeyword = addKeyword;
+window.selectColorOption = selectColorOption;
+window.showCustomColorInput = showCustomColorInput;
+window.toggleColorDropdown = toggleColorDropdown;
+window.confirmCustomColor = confirmCustomColor;
+
+// ==================== V1.5 全局错误处理 & 安全包装 ====================
+// 1. 全局错误捕获 - 防止单个错误导致整个页面崩溃
+window.addEventListener('error', function(e) {
+    console.error('[DSZ 全局错误]', e.message, 'at', e.filename + ':' + e.lineno);
+    // 不阻止默认行为，让控制台仍能显示
+});
+
+// 2. 未捕获的Promise rejection
+window.addEventListener('unhandledrejection', function(e) {
+    console.error('[DSZ Promise未捕获]', e.reason && e.reason.message ? e.reason.message : e.reason);
+});
+
+// 3. 安全执行包装器 - 防止回调中的错误中断其他代码
+function _safeRun(fn, fallback) {
+    try {
+        var result = fn && fn();
+        return result;
+    } catch(e) {
+        console.error('[DSZ _safeRun]', e.message);
+        return fallback;
+    }
+}
+window._safeRun = _safeRun;
+
+// 4. 安全的DOM访问辅助函数
+function _getEl(id) {
+    var el = document.getElementById(id);
+    if (!el) console.warn('[DSZ] 元素不存在:', id);
+    return el;
+}
+window._getEl = _getEl;
+
+function _getVal(id, defaultVal) {
+    var el = document.getElementById(id);
+    return el ? el.value : (defaultVal || '');
+}
+window._getVal = _getVal;
+
+function _setVal(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.value = val;
+}
+window._setVal = _setVal;
+
+// 5. 防抖工具函数（统一版）
+function _debounce(fn, wait) {
+    var t = null;
+    return function() {
+        var ctx = this, args = arguments;
+        clearTimeout(t);
+        t = setTimeout(function() { fn.apply(ctx, args); }, wait || 300);
+    };
+}
+window._debounce = _debounce;
+
+console.log('[DSZ] V1.5 全局错误处理 & 安全包装 已加载 ✓');
+
+</script>
+
+<!-- 图片灯箱预览 -->
+
+
+<div class="img-lightbox" id="img-lightbox" onclick="closeLightbox()">
+
+
+    <button class="lightbox-close" onclick="closeLightbox()">×</button>
+
+
+    <button class="lightbox-nav lightbox-prev" onclick="lbNav(-1)">‹</button>
+
+
+    <img id="lb-img" src="" alt="预览">
+
+
+    <button class="lightbox-nav lightbox-next" onclick="lbNav(1)">›</button>
+
+
+    <div class="lightbox-counter" id="lb-counter"></div>
+
+
+</div>
+
+
+</body>
+
+
+</html>
