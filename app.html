@@ -994,10 +994,12 @@ table tr:hover td { background: #f5f5f5; }
 
 
 
-#dsz-translator { position: fixed; bottom: 20px; right: 20px; width: 360px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 99999; overflow: hidden; transition: all 0.3s; }
+#dsz-translator { position: fixed; left: calc(100vw - 380px); top: calc(100vh - 200px); width: 360px; background: #fff; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); z-index: 99999; overflow: hidden; transition: box-shadow 0.3s; }
+#dsz-translator.dragging { box-shadow: 0 8px 30px rgba(0,0,0,0.25); transition: none; }
 
 
-#dsz-translator .trans-header { background: #ffffff; color: #2d3748; padding: 10px 15px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; }
+#dsz-translator .trans-header { background: #ffffff; color: #2d3748; padding: 10px 15px; cursor: grab; display: flex; justify-content: space-between; align-items: center; font-size: 14px; font-weight: 600; user-select: none; -webkit-user-select: none; touch-action: none; }
+#dsz-translator .trans-header:active { cursor: grabbing; }
 
 
 #dsz-translator .trans-body { padding: 15px; display: block; }
@@ -5138,6 +5140,11 @@ function renderColorInputList() {
         var displayEn = getColorDisplay(c.colorEn);
         // 构建下拉选项
         var optionsHtml = '';
+        // 自定义颜色放在最上面
+        optionsHtml += '<div class="color-select-option color-select-option-custom" onclick="showCustomColorInput(' + idx + ')">' +
+            '<span class="color-option-dot" style="background:#ccc;border-style:dashed;"></span>' +
+            '+ 自定义颜色...' +
+            '</div>';
         COLOR_PRESETS_ENRICHED.forEach(function(opt) {
             var selAttr = (c.colorEn === opt.zh) ? ' selected="selected"' : '';
             optionsHtml += '<div class="color-select-option' + (c.colorEn === opt.zh ? ' selected' : '') + '" data-value="' + opt.zh + '" onclick="selectColorOption(this,' + idx + ')">' +
@@ -5145,11 +5152,6 @@ function renderColorInputList() {
                 opt.en + ' ' + opt.zh +
                 '</div>';
         });
-        // 添加自定义颜色选项
-        optionsHtml += '<div class="color-select-option color-select-option-custom" onclick="showCustomColorInput(' + idx + ')">' +
-            '<span class="color-option-dot" style="background:#ccc;border-style:dashed;"></span>' +
-            '+ 自定义颜色...' +
-            '</div>';
 
         html += '<div class="color-input-row">' +
             '<span class="color-dot" style="background:' + pureHex + ';border-color:' + pureHex + ';"></span>' +
@@ -5710,16 +5712,17 @@ function rebuildVariantsFromSelection() {
     var genderPrefix = '';
 
 
-    if (category.indexOf('mens') !== -1) {
-
-
-        genderPrefix = 'M-';
-
-
-    } else if (category.indexOf('womens') !== -1) {
+    // 注意：'womens'包含子串'mens'，必须先检查womens
+    if (category.indexOf('womens') !== -1) {
 
 
         genderPrefix = 'W-';
+
+
+    } else if (category.indexOf('mens') !== -1) {
+
+
+        genderPrefix = 'M-';
 
 
     } else if (category.indexOf('kids') !== -1) {
@@ -7947,10 +7950,11 @@ function exportToExcel() {
 
 
         var genderPrefix = '';
-        if (category.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
+        // 注意：'womens'包含子串'mens'，必须先检查womens
+        if (category.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
 
 
-        else if (category.indexOf('womens') !== -1) { genderPrefix = 'W-'; }
+        else if (category.indexOf('mens') !== -1) { genderPrefix = 'M-'; }
 
 
         else if (category.indexOf('kids') !== -1) { genderPrefix = 'K-'; }
@@ -8119,6 +8123,59 @@ function toggleTranslator() {
 
 }
 window.toggleTranslator = toggleTranslator;
+
+// ===== 翻译框拖拽功能 =====
+(function() {
+    var translator = document.getElementById('dsz-translator');
+    var header = translator ? translator.querySelector('.trans-header') : null;
+    if (!translator || !header) return;
+
+    var isDragging = false;
+    var startX, startY, startLeft, startTop;
+
+    function onStart(e) {
+        // 只在点击 header 本身时拖拽，排除内部按钮
+        isDragging = true;
+        translator.classList.add('dragging');
+        var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        startX = clientX;
+        startY = clientY;
+        startLeft = translator.offsetLeft;
+        startTop = translator.offsetTop;
+        translator.style.left = startLeft + 'px';
+        translator.style.top = startTop + 'px';
+        translator.style.right = 'auto';
+        translator.style.bottom = 'auto';
+        e.preventDefault();
+    }
+
+    function onMove(e) {
+        if (!isDragging) return;
+        var clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        var clientY = e.touches ? e.touches[0].clientY : e.clientY;
+        var dx = clientX - startX;
+        var dy = clientY - startY;
+        var newLeft = Math.max(0, Math.min(window.innerWidth - translator.offsetWidth, startLeft + dx));
+        var newTop = Math.max(0, Math.min(window.innerHeight - 40, startTop + dy));
+        translator.style.left = newLeft + 'px';
+        translator.style.top = newTop + 'px';
+        e.preventDefault();
+    }
+
+    function onEnd(e) {
+        if (!isDragging) return;
+        isDragging = false;
+        translator.classList.remove('dragging');
+    }
+
+    header.addEventListener('mousedown', onStart);
+    header.addEventListener('touchstart', onStart, {passive: false});
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('touchmove', onMove, {passive: false});
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchend', onEnd);
+})();
 
 
 async function doTranslate(){

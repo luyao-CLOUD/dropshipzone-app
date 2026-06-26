@@ -1,1 +1,1 @@
-{"version": "7.5.1", "changelog": "修复TAB切换报错：renderGallery()函数缺少闭合括号导致SyntaxError"}
+﻿{"version": "7.5.4", "changelog": "1. 变体颜色下拉列表中自定义颜色移至最上方；2. 翻译框支持拖拽移动。"}
