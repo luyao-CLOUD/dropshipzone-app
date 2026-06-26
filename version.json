@@ -1,1 +1,1 @@
-﻿{"version": "7.5.4", "changelog": "1. 变体颜色下拉列表中自定义颜色移至最上方；2. 翻译框支持拖拽移动。"}
+﻿{"version": "7.6.0", "changelog": "V7.6: 追加隐藏TOKEN消耗追踪功能(Ctrl+Shift+T)。每次AI API调用自动记录DeepSeek/豆包/OpenAI/Kimi的prompt/completion/total tokens，按模型+操作分类汇总，支持SKU级追踪，数据持久化到localStorage。"}

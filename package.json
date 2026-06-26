@@ -32,9 +32,8 @@
       "!node_modules/**/docs/**"
     ],
     "publish": {
-      "provider": "github",
-      "owner": "luyao-CLOUD",
-      "repo": "dropshipzone-app"
+      "provider": "generic",
+      "url": "http://139.199.227.163:3456/updates/dropshipzone/"
     }
   },
   "devDependencies": {
