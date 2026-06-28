@@ -239,6 +239,11 @@
         .image-card .btn-remove { position: absolute; top: 8px; right: 8px; background: #dc3545; color: white; width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; font-size: 16px; z-index: 2; display: flex; align-items: center; justify-content: center; }
         .image-card.dragging { opacity: 0.5; transform: scale(0.95); border-color: #667eea !important; box-shadow: 0 5px 20px rgba(102,126,234,0.3) !important; z-index: 100; cursor: grabbing !important; }
         .image-card.drag-over { border-color: #667eea !important; box-shadow: inset 0 0 0 3px #667eea !important; }
+        /* V7.4 变体预览图 */
+        .variant-preview-cell { width: 60px; text-align: center; }
+        .variant-preview-img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid #e0e0e0; cursor: pointer; background: #f5f6fa; }
+        .variant-preview-upload { width: 48px; height: 48px; border: 1px dashed #ccc; border-radius: 4px; background: #fafafa; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; color: #aaa; transition: all 0.2s; }
+        .variant-preview-upload:hover { border-color: #667eea; color: #667eea; background: #f0f2ff; }
         .category-selector { background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 25px; border: 2px solid #e9ecef; }
         .category-selector h4 { color: #667eea; margin-bottom: 15px; }
         .category-path { background: white; border: 2px solid #dee2e6; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 15px; }
@@ -3148,9 +3153,13 @@ window.closeAdminPanel = function() {
                     const fromIdx = parseInt(e.dataTransfer.getData('text/plain') || '-1');
                     const toIdx = parseInt(this.dataset.index);
                     if (!isNaN(fromIdx) && !isNaN(toIdx) && fromIdx !== toIdx) {
-                        // 拖拽排序：取出元素，插入到目标位置
+                        // 拖拽排序：取出元素，插入到目标位置（同步URL数组）
                         var item = uploadedImages.splice(fromIdx, 1)[0];
                         uploadedImages.splice(toIdx, 0, item);
+                        if (uploadedImageUrls.length > 0) {
+                            var urlItem = uploadedImageUrls.splice(fromIdx, 1)[0];
+                            uploadedImageUrls.splice(toIdx, 0, urlItem);
+                        }
                         // 更新主图索引
                         if (mainImageIndex === fromIdx) mainImageIndex = toIdx;
                         else if (fromIdx < mainImageIndex && toIdx >= mainImageIndex) mainImageIndex--;
@@ -3180,6 +3189,7 @@ window.closeAdminPanel = function() {
         }
         function removeImage(index) {
             uploadedImages.splice(index, 1);
+            uploadedImageUrls.splice(index, 1);
             if (mainImageIndex >= uploadedImages.length) mainImageIndex = 0;
             renderGallery();
             if (uploadedImages.length === 0) { updateStep(1); _resetUploadProgress(); }
@@ -3192,11 +3202,24 @@ window.closeAdminPanel = function() {
             _resetUploadProgress();
             showNotification("已清空所有图片", "info");
         }
-        function setMainImage(index) { mainImageIndex = index; renderGallery(); showNotification("已设为主图", "success"); }
+        function setMainImage(index) {
+            if (uploadedImages.length <= 1) { mainImageIndex = index; renderGallery(); showNotification("已设为主图", "success"); return; }
+            // 将主图移至数组首位，URL数组同步
+            var img = uploadedImages.splice(index, 1)[0];
+            uploadedImages.unshift(img);
+            if (uploadedImageUrls.length > 0) {
+                var url = uploadedImageUrls.splice(index, 1)[0];
+                uploadedImageUrls.unshift(url);
+            }
+            mainImageIndex = 0;
+            renderGallery();
+            showNotification("已设为主图并移至首位", "success");
+        }
         function moveImage(index, direction) {
             const newIndex = index + direction;
             if (newIndex < 0 || newIndex >= uploadedImages.length) return;
             [uploadedImages[index], uploadedImages[newIndex]] = [uploadedImages[newIndex], uploadedImages[index]];
+            if (uploadedImageUrls.length > 0) [uploadedImageUrls[index], uploadedImageUrls[newIndex]] = [uploadedImageUrls[newIndex], uploadedImageUrls[index]];
             if (mainImageIndex === index) mainImageIndex = newIndex;
             else if (mainImageIndex === newIndex) mainImageIndex = index;
             renderGallery();
@@ -3999,6 +4022,7 @@ function autoCalcBasicCBM() {
                         stock: item.stock || _stock,
                         subsubcategory: selectedCategory.id || '',
                         images: _images,
+                        previewImage: item.previewImage || '',
                         zones: JSON.parse(JSON.stringify(_zones))
                     };
                     // 自动计算CBM
@@ -4176,7 +4200,7 @@ function filterBatchProducts(query) {
             emptyMsg.style.display = "none";
             let html = '<div class="batch-card-grid">';
             batchProducts.forEach(function(p) {
-                const firstImg = (p.images || '').split(',')[0].trim();
+                const firstImg = (p.previewImage || (p.images || '').split(',')[0].trim());
                 let thumbHtml;
                 if (firstImg) { thumbHtml = '<img class="batch-card-thumb" src="' + escHtml(firstImg) + '" onerror="this.outerHTML=\'<div class=batch-card-thumb-placeholder>?</div>\'">'; }
                 else { thumbHtml = '<div class="batch-card-thumb-placeholder">?</div>'; }
@@ -5883,7 +5907,13 @@ function filterBatchProducts(query) {
         var BATCH_STORAGE_KEY = 'dsz_batch_products';
         var BATCH_COUNTER_KEY = 'dsz_batch_counter';
         function saveBatchToStorage() {
-            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(batchProducts)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
+            // 排除 previewImage（base64过大）仅保留其他字段
+            var saveData = batchProducts.map(function(p) {
+                var o = {};
+                for (var k in p) { if (k !== 'previewImage') o[k] = p[k]; }
+                return o;
+            });
+            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(saveData)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
         }
         function loadBatchFromStorage() {
             try {
@@ -6387,6 +6417,7 @@ function filterBatchProducts(query) {
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:80px;">📦 CBM(m³)</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:70px;">库存</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:50px;">启用</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">🖼 预览图</th>';
             html += '</tr></thead><tbody>';
 
             _ttMatrixData.forEach(function(item, i) {
@@ -6404,6 +6435,11 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-cbm" data-idx="' + i + '" value="' + cbmVal + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;background:#f0f2ff;color:#667eea;font-weight:700;" readonly></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-stock" data-idx="' + i + '" value="' + ttEsc(item.stock) + '" placeholder="' + defStock + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'stock\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
+                // 变体预览图
+                var prevImgHtml = item.previewImage
+                    ? '<img class="variant-preview-img" src="' + item.previewImage + '" onclick="ttUploadVariantPreview(' + i + ')" title="点击更换预览图">'
+                    : '<div class="variant-preview-upload" onclick="ttUploadVariantPreview(' + i + ')" title="上传该变体预览图">+</div>';
+                html += '<td class="variant-preview-cell" style="padding:2px;border:1px solid #eee;">' + prevImgHtml + '</td>';
                 html += '</tr>';
             });
             html += '</tbody></table>';
@@ -6425,6 +6461,27 @@ function filterBatchProducts(query) {
                     if (cbmCell) cbmCell.value = item.cbm;
                 }
             }
+        }
+
+        // V7.4: 上传变体预览图
+        function ttUploadVariantPreview(idx) {
+            var inp = document.createElement('input');
+            inp.type = 'file';
+            inp.accept = 'image/*';
+            inp.onchange = function() {
+                var file = inp.files && inp.files[0];
+                if (!file) return;
+                var reader = new FileReader();
+                reader.onload = function() {
+                    if (idx >= 0 && idx < _ttMatrixData.length) {
+                        _ttMatrixData[idx].previewImage = reader.result;
+                        ttRenderMatrix();
+                        showNotification('变体预览图已更新', 'success');
+                    }
+                };
+                reader.readAsDataURL(file);
+            };
+            inp.click();
         }
 
         // === 重新生成（保留用户编辑的子SKU） ===
