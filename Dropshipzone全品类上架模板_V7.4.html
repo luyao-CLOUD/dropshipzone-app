@@ -239,11 +239,15 @@
         .image-card .btn-remove { position: absolute; top: 8px; right: 8px; background: #dc3545; color: white; width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; font-size: 16px; z-index: 2; display: flex; align-items: center; justify-content: center; }
         .image-card.dragging { opacity: 0.5; transform: scale(0.95); border-color: #667eea !important; box-shadow: 0 5px 20px rgba(102,126,234,0.3) !important; z-index: 100; cursor: grabbing !important; }
         .image-card.drag-over { border-color: #667eea !important; box-shadow: inset 0 0 0 3px #667eea !important; }
-        /* V7.4 变体预览图 */
-        .variant-preview-cell { width: 60px; text-align: center; }
-        .variant-preview-img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid #e0e0e0; cursor: pointer; background: #f5f6fa; }
-        .variant-preview-upload { width: 48px; height: 48px; border: 1px dashed #ccc; border-radius: 4px; background: #fafafa; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; color: #aaa; transition: all 0.2s; }
-        .variant-preview-upload:hover { border-color: #667eea; color: #667eea; background: #f0f2ff; }
+        /* V7.4 变体首图 */
+        .variant-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; border: 2px solid #e0e0e0; cursor: pointer; transition: border-color 0.2s; }
+        .variant-thumb:hover { border-color: #667eea; }
+        /* 变体图片选择弹出层 */
+        .variant-img-popover { position: fixed; z-index: 100001; background: #fff; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.18); padding: 10px; display: none; }
+        .variant-img-popover .popover-imgs { display: flex; gap: 8px; flex-wrap: wrap; max-width: 300px; }
+        .variant-img-popover .popover-imgs img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 2px solid transparent; cursor: pointer; transition: border-color 0.15s; }
+        .variant-img-popover .popover-imgs img:hover { border-color: #667eea; }
+        .variant-img-popover .popover-imgs img.active { border-color: #28a745; }
         .category-selector { background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 25px; border: 2px solid #e9ecef; }
         .category-selector h4 { color: #667eea; margin-bottom: 15px; }
         .category-path { background: white; border: 2px solid #dee2e6; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 15px; }
@@ -4021,8 +4025,8 @@ function autoCalcBasicCBM() {
                         rrp: item.rrp || rrp || (function(){ var p=parseFloat(item.price||_price); return p>0?(p*1.3).toFixed(2):""; })(),
                         stock: item.stock || _stock,
                         subsubcategory: selectedCategory.id || '',
-                        images: _images,
-                        previewImage: item.previewImage || '',
+                        images: ttBuildVariantImageList(item),
+                        variantMainImageIdx: item.variantMainImageIdx !== undefined ? item.variantMainImageIdx : 0,
                         zones: JSON.parse(JSON.stringify(_zones))
                     };
                     // 自动计算CBM
@@ -4200,7 +4204,7 @@ function filterBatchProducts(query) {
             emptyMsg.style.display = "none";
             let html = '<div class="batch-card-grid">';
             batchProducts.forEach(function(p) {
-                const firstImg = (p.previewImage || (p.images || '').split(',')[0].trim());
+                const firstImg = (p.images || '').split(',')[0].trim();
                 let thumbHtml;
                 if (firstImg) { thumbHtml = '<img class="batch-card-thumb" src="' + escHtml(firstImg) + '" onerror="this.outerHTML=\'<div class=batch-card-thumb-placeholder>?</div>\'">'; }
                 else { thumbHtml = '<div class="batch-card-thumb-placeholder">?</div>'; }
@@ -5907,13 +5911,7 @@ function filterBatchProducts(query) {
         var BATCH_STORAGE_KEY = 'dsz_batch_products';
         var BATCH_COUNTER_KEY = 'dsz_batch_counter';
         function saveBatchToStorage() {
-            // 排除 previewImage（base64过大）仅保留其他字段
-            var saveData = batchProducts.map(function(p) {
-                var o = {};
-                for (var k in p) { if (k !== 'previewImage') o[k] = p[k]; }
-                return o;
-            });
-            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(saveData)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
+            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(batchProducts)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
         }
         function loadBatchFromStorage() {
             try {
@@ -6435,11 +6433,8 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-cbm" data-idx="' + i + '" value="' + cbmVal + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;background:#f0f2ff;color:#667eea;font-weight:700;" readonly></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-stock" data-idx="' + i + '" value="' + ttEsc(item.stock) + '" placeholder="' + defStock + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'stock\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
-                // 变体预览图
-                var prevImgHtml = item.previewImage
-                    ? '<img class="variant-preview-img" src="' + item.previewImage + '" onclick="ttUploadVariantPreview(' + i + ')" title="点击更换预览图">'
-                    : '<div class="variant-preview-upload" onclick="ttUploadVariantPreview(' + i + ')" title="上传该变体预览图">+</div>';
-                html += '<td class="variant-preview-cell" style="padding:2px;border:1px solid #eee;">' + prevImgHtml + '</td>';
+                // 变体首图：从图库中选择
+                html += '<td style="padding:2px;border:1px solid #eee;text-align:center;">' + buildVariantThumbCell(i) + '</td>';
                 html += '</tr>';
             });
             html += '</tbody></table>';
@@ -6463,25 +6458,61 @@ function filterBatchProducts(query) {
             }
         }
 
-        // V7.4: 上传变体预览图
-        function ttUploadVariantPreview(idx) {
-            var inp = document.createElement('input');
-            inp.type = 'file';
-            inp.accept = 'image/*';
-            inp.onchange = function() {
-                var file = inp.files && inp.files[0];
-                if (!file) return;
-                var reader = new FileReader();
-                reader.onload = function() {
-                    if (idx >= 0 && idx < _ttMatrixData.length) {
-                        _ttMatrixData[idx].previewImage = reader.result;
-                        ttRenderMatrix();
-                        showNotification('变体预览图已更新', 'success');
-                    }
-                };
-                reader.readAsDataURL(file);
-            };
-            inp.click();
+        // V7.4: 变体首图（从图库选择）
+        function buildVariantThumbCell(idx) {
+            if (typeof uploadedImages === 'undefined' || uploadedImages.length === 0) return '<span style="color:#ccc;font-size:11px">无图</span>';
+            var item = _ttMatrixData[idx];
+            var mIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : 0;
+            if (mIdx >= uploadedImages.length) mIdx = 0;
+            var url = uploadedImages[mIdx].data;
+            return '<img src="' + url + '" class="variant-thumb" onclick="event.stopPropagation();openVariantImgPopover(event,' + idx + ')" title="点击选择首图">';
+        }
+        function openVariantImgPopover(e, idx) {
+            var popover = document.getElementById('variant-img-popover');
+            var imgsDiv = document.getElementById('popover-imgs');
+            if (!popover || !imgsDiv) return;
+            var item = _ttMatrixData[idx];
+            var curIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : 0;
+            var html = '';
+            for (var i = 0; i < uploadedImages.length; i++) {
+                html += '<img src="' + uploadedImages[i].data + '" class="' + (i === curIdx ? 'active' : '') + '" onclick="selectVariantImage(' + idx + ',' + i + ')" title="' + (i === 0 ? '主图' : ('图片' + (i+1))) + '">';
+            }
+            imgsDiv.innerHTML = html;
+            popover.style.display = 'block';
+            var x = e.clientX - 150;
+            var y = e.clientY + 10;
+            if (x < 5) x = 5;
+            if (y < 5) y = 5;
+            popover.style.left = x + 'px';
+            popover.style.top = y + 'px';
+            popover._idx = idx;
+            setTimeout(function() {
+                document.addEventListener('click', closeVariantImgPopover);
+            }, 0);
+        }
+        function selectVariantImage(idx, imgIdx) {
+            if (idx >= 0 && idx < _ttMatrixData.length) {
+                _ttMatrixData[idx].variantMainImageIdx = imgIdx;
+            }
+            closeVariantImgPopover();
+            ttRenderMatrix();
+        }
+        function closeVariantImgPopover() {
+            var popover = document.getElementById('variant-img-popover');
+            if (popover) popover.style.display = 'none';
+            document.removeEventListener('click', closeVariantImgPopover);
+        }
+        // 变体首图排序：每个变体按自己的首图排列图片顺序
+        function ttBuildVariantImageList(item) {
+            if (typeof uploadedImageUrls === 'undefined' || uploadedImageUrls.length === 0) return '';
+            var mIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : (mainImageIndex || 0);
+            if (mIdx >= uploadedImageUrls.length) mIdx = 0;
+            var urls = [];
+            urls.push(uploadedImageUrls[mIdx]);
+            for (var i = 0; i < uploadedImageUrls.length; i++) {
+                if (i !== mIdx) urls.push(uploadedImageUrls[i]);
+            }
+            return urls.join(',');
         }
 
         // === 重新生成（保留用户编辑的子SKU） ===
@@ -7341,6 +7372,10 @@ function filterBatchProducts(query) {
                     </div>
                     <div id="tt-variant-matrix" style="max-height:420px;overflow:auto;border:1px solid #e9ecef;border-radius:8px;">
                         <p style="color:#999;text-align:center;padding:40px;">&#128269; 请先添加颜色和规格，变体将在此生成</p>
+                    </div>
+                    <!-- 变体首图选择弹出层 -->
+                    <div class="variant-img-popover" id="variant-img-popover">
+                      <div class="popover-imgs" id="popover-imgs"></div>
                     </div>
                 </div>
             </div>
