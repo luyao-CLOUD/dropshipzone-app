@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Dropshipzone全品类上架模板 V7.4</title>
+    <title>Dropshipzone全品类上架模板 V7.7</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -102,8 +102,7 @@
     backdrop-filter: blur(10px);
 }
 .btn-secondary:hover {
-    background: #e2e8f0;
-    color: #334155;
+    background: #f8fafc;
     box-shadow: 0 2px 10px rgba(100,116,139,0.12);
 }
         
@@ -115,8 +114,7 @@
     box-shadow: 0 1px 3px rgba(52, 199, 89, 0.25);
 }
 .btn-success:hover {
-    background: #1a7f34;
-    color: #ffffff;
+    background: #f0fdf4;
     box-shadow: 0 4px 16px rgba(34,197,94,0.25);
 }
         
@@ -128,8 +126,7 @@
     box-shadow: 0 1px 3px rgba(255, 59, 48, 0.25);
 }
 .btn-danger:hover {
-    background: #c0392b;
-    color: #ffffff;
+    background: #fef2f2;
     box-shadow: 0 4px 16px rgba(239,68,68,0.25);
 }
         
@@ -141,10 +138,10 @@
     box-shadow: 0 1px 3px rgba(255, 159, 10, 0.25);
 }
 .btn-warning:hover {
-    background: #e68900;
-    color: #ffffff;
+    background: #fffbeb;
     box-shadow: 0 4px 16px rgba(245,158,11,0.25);
 }
+        .btn-warning:hover { background: #e0a800; }
         .btn-copy {
     background: #ffffff;
     color: #22c55e;
@@ -239,11 +236,6 @@
         .image-card .btn-remove { position: absolute; top: 8px; right: 8px; background: #dc3545; color: white; width: 28px; height: 28px; border-radius: 50%; border: none; cursor: pointer; font-size: 16px; z-index: 2; display: flex; align-items: center; justify-content: center; }
         .image-card.dragging { opacity: 0.5; transform: scale(0.95); border-color: #667eea !important; box-shadow: 0 5px 20px rgba(102,126,234,0.3) !important; z-index: 100; cursor: grabbing !important; }
         .image-card.drag-over { border-color: #667eea !important; box-shadow: inset 0 0 0 3px #667eea !important; }
-        /* V7.4 变体预览图 */
-        .variant-preview-cell { width: 60px; text-align: center; }
-        .variant-preview-img { width: 48px; height: 48px; object-fit: cover; border-radius: 4px; border: 1px solid #e0e0e0; cursor: pointer; background: #f5f6fa; }
-        .variant-preview-upload { width: 48px; height: 48px; border: 1px dashed #ccc; border-radius: 4px; background: #fafafa; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; font-size: 18px; color: #aaa; transition: all 0.2s; }
-        .variant-preview-upload:hover { border-color: #667eea; color: #667eea; background: #f0f2ff; }
         .category-selector { background: #f8f9fa; border-radius: 12px; padding: 25px; margin-bottom: 25px; border: 2px solid #e9ecef; }
         .category-selector h4 { color: #667eea; margin-bottom: 15px; }
         .category-path { background: white; border: 2px solid #dee2e6; border-radius: 8px; padding: 15px; margin-top: 15px; font-size: 15px; }
@@ -640,54 +632,29 @@
 }
 
 /* ===== 玻璃质感侧边栏 Glassmorphism ===== */
-.sidebar-nav {
-    width: 200px;
-    min-width: 200px;
-    background: rgba(246,247,250,0.82);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    border-right: 0.5px solid rgba(0,0,0,0.08);
-    padding: 12px 8px;
-    display: flex;
-    flex-direction: column;
-    overflow-y: auto;
-    overflow-x: hidden;
-    flex-shrink: 0;
-}
+/* removed dup-sidebar */
 
 /* 隐藏旧的顶部导航 */
 .nav-tabs {
     display: none !important;
 }
 
+/* 新的导航项样式 */
 /* 玻璃质感导航项 */
-.nav-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    margin: 2px 4px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    color: #333333;
-    transition: all 0.2s ease;
-    background: transparent;
-    user-select: none;
-    white-space: nowrap;
-}
-
+.sidebar-nav /* removed old nav-item */
 .nav-item:hover {
     background: rgba(0, 0, 0, 0.05);
     color: #000000;
 }
+/* removed old nav-item */
 
-.nav-item.active {
-    background: rgba(0,100,255,0.12);
-    color: #0064ff;
-    font-weight: 600;
-}
+
+.sidebar-nav 
+.sidebar-nav 
+
+.sidebar-nav 
+
+.sidebar-nav 
 
 .sidebar-nav .nav-icon {
     font-size: 19px;
@@ -700,295 +667,26 @@
 /* 内容区域 */
 .content-area {
     flex: 1;
-    padding: 25px 30px;
-    background: #ffffff;
+    padding: 28px 32px;
+    background: transparent;
     overflow-y: auto;
+
+    flex: 1;
+    padding: 25px 30px;
+    overflow-y: auto;
+    background: #ffffff;
     min-width: 0;
 }
 
-/* 响应式 - 移动端导航切换为水平滚动标签栏 */
+/* 响应式 */
 @media (max-width: 900px) {
     .main-layout {
         flex-direction: column;
     }
-    .sidebar-nav {
-        width: 100% !important;
-        min-width: 100% !important;
-        max-height: 56px;
-        flex-direction: row;
-        overflow-x: auto;
-        overflow-y: hidden;
-        padding: 8px 6px;
-        gap: 4px;
-        flex-shrink: 0;
-        border-right: none;
-        border-bottom: 0.5px solid rgba(0,0,0,0.08);
-    }
-    .sidebar-nav .nav-item {
-        flex-shrink: 0;
-        padding: 7px 12px;
-        margin: 0 2px;
-        font-size: 12px;
-        border-radius: 16px;
-    }
-    .sidebar-nav .nav-icon {
-        font-size: 16px;
-        width: auto;
-    }
-    .content-area {
-        padding: 16px 12px;
-    }
+    /* removed dup-sidebar */
+    .sidebar-nav 
+    .sidebar-nav 
 }
-
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
-/* V7.5 Token追踪面板（隐藏，Ctrl+Shift+T 切换） */
-#token-debug-panel {
-    display: none;
-    position: fixed;
-    top: 60px;
-    right: 12px;
-    width: 520px;
-    max-height: 75vh;
-    background: #0d1117;
-    border: 1px solid #30363d;
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.6);
-    z-index: 99998;
-    overflow: hidden;
-    font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
-}
-#token-panel-header {
-    background: #161b22;
-    padding: 10px 16px;
-    font-size: 13px;
-    font-weight: 700;
-    color: #c9d1d9;
-    border-bottom: 1px solid #30363d;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-#token-panel-close {
-    background: none;
-    border: none;
-    color: #8b949e;
-    font-size: 18px;
-    cursor: pointer;
-    padding: 0 4px;
-}
-#token-panel-body {
-    padding: 12px 16px;
-    overflow-y: auto;
-    max-height: calc(75vh - 45px);
-    color: #c9d1d9;
-}
-
-/* 变体首图缩略图 */
-.variant-thumb {
-    width: 44px; height: 44px; border-radius: 6px; object-fit: cover;
-    cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s;
-    display: block; margin: 0 auto;
-}
-.variant-thumb:hover { border-color: #667eea; }
-.variant-thumb-placeholder {
-    width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
-    background: #f0f0f0; border-radius: 6px; color: #999; font-size: 11px;
-    border: 2px solid #e0e0e0; margin: 0 auto;
-}
-/* 图片选择弹出层 */
-.variant-img-popover {
-    display: none; position: fixed; z-index: 100001; background: #fff;
-    border: 1px solid #dee2e6; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
-    padding: 12px; max-width: 420px;
-}
-.popover-imgs { display: flex; flex-wrap: wrap; gap: 6px; }
-.popover-imgs img {
-    width: 60px; height: 60px; object-fit: cover; border-radius: 4px;
-    cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s;
-}
-.popover-imgs img:hover { border-color: #667eea; }
-.popover-imgs img.active { border-color: #27AE60; }
-.popover-imgs .popover-empty { color: #999; font-size: 12px; padding: 8px; }
 
 </style>
     <!-- ===== Electron localStorage 持久化 (Node.js fs 兜底) ===== -->
@@ -1077,197 +775,19 @@
 /* 强制应用左侧导航 */
 .main-layout {
     display: flex !important;
+    align-items: flex-start !important;
 }
+/* removed dup-sidebar */
 .content-area {
     flex: 1 !important;
     padding: 25px 30px !important;
     background: #ffffff !important;
     overflow-y: auto !important;
+    margin-left: 200px !important;
 }
 .nav-tabs {
     display: none !important;
 }
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
 </style>
 
 
@@ -1302,6 +822,7 @@ button:hover, .btn:hover {
     }
 
 /* ========== 强制导航栏玻璃效果 =========== */
+/* removed dup-sidebar */
 
 
 
@@ -1319,187 +840,6 @@ select,
 .image-card { border-radius: 12px !important; }
 .upload-zone { border-radius: 16px !important; }
 .product-card { border-radius: 14px !important; }
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
 </style>
 
 
@@ -1598,191 +938,44 @@ input, select, textarea {
     z-index: 10 !important;
 }
 
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
+/* 变体首图缩略图 */
+.variant-thumb {
+    width: 44px; height: 44px; border-radius: 6px; object-fit: cover;
+    cursor: pointer; border: 2px solid transparent; transition: border-color 0.2s;
+    display: block; margin: 0 auto;
 }
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
+.variant-thumb:hover { border-color: #667eea; }
+.variant-thumb-placeholder {
+    width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+    background: #f0f0f0; border-radius: 6px; color: #999; font-size: 11px;
+    border: 2px solid #e0e0e0; margin: 0 auto;
 }
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
+/* 图片选择弹出层 */
+.variant-img-popover {
+    display: none; position: fixed; z-index: 100001; background: #fff;
+    border: 1px solid #dee2e6; border-radius: 10px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    padding: 12px; max-width: 560px;
 }
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
+.popover-imgs { display: flex; flex-wrap: wrap; gap: 6px; }
+.popover-imgs img {
+    width: 60px; height: 60px; object-fit: cover; border-radius: 4px;
+    cursor: pointer; border: 2px solid transparent; transition: border-color 0.15s;
 }
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
+.popover-imgs img:hover { border-color: #667eea; }
+.popover-imgs img.active { border-color: #27AE60; }
+.popover-imgs .popover-empty { color: #999; font-size: 12px; padding: 8px; }
 </style>
 
 </head>
 <body>
-<div class="titlebar-custom" id="custom-titlebar"><div class="titlebar-buttons"><button class="titlebar-btn btn-min" id="tb-min" title="最小化"><span class="btn-symbol">−</span></button><button class="titlebar-btn btn-max" id="tb-max" title="最大化"><span class="btn-symbol">□</span></button><button class="titlebar-btn btn-close" id="tb-close" title="关闭"><span class="btn-symbol">✕</span></button></div></div>
+<div class="titlebar-custom" id="custom-titlebar">
+    <span class="titlebar-title">Dropshipzone 全品类上架模板 V7.7</span>
+    <div class="titlebar-buttons">
+        <button class="titlebar-btn btn-min" id="tb-min" title="最小化"><span class="btn-symbol">−</span></button>
+        <button class="titlebar-btn btn-max" id="tb-max" title="最大化"><span class="btn-symbol">□</span></button>
+        <button class="titlebar-btn btn-close" id="tb-close" title="关闭"><span class="btn-symbol">✕</span></button>
+    </div>
+</div>
 
 <div id="brightness-filter" style="position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;background:transparent;opacity:1;transition:background 0.3s;"></div>
     <!-- 图片灯箱预览 -->
@@ -1889,15 +1082,12 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
-    <button id="translate-toggle-btn" onclick="toggleTranslatePanel()" title="显示/隐藏翻译框" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
+    <button id="translate-toggle-btn" onclick="toggleTranslatePanel()" title="拖拽移动 · 点击显示/隐藏翻译框" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:grab;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:transform 0.2s,box-shadow 0.2s;backdrop-filter:blur(8px);user-select:none;" onmousedown="startDragTranslate(event)" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="if(!dragState.translateDragging){this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'}">🌐</button>
 
     <div class="container">
-    <div class="header">
-            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.4 (2026-06-21)</span></h1>
-
-
+    <div class="header" style="display:flex;justify-content:flex-end;align-items:center;min-height:44px;padding:4px 0;">
         <!-- Header工具栏：统一右侧布局 -->
-        <div style="position:absolute;right:140px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:8px;z-index:100;">
+        <div style="display:flex;align-items:center;gap:8px;z-index:100;margin-right:120px;">
             <!-- 护眼模式 -->
             <button id="eye-protection-btn" onclick="toggleEyeProtection()"
                     title="护眼模式（暖色低蓝光）"
@@ -2029,9 +1219,9 @@ input, select, textarea {
                 <div class="step" id="step7"><div class="step-circle">7</div><div class="step-label" style="font-size:11px">Batch</div></div>
                 <div class="step" id="step8"><div class="step-circle">8</div><div class="step-label" style="font-size:11px">Export</div></div>
             </div>
-            <!-- V7.4 - Parent SKU / 子SKU 功能说明 -->
+            <!-- V7.7 - Parent SKU / 子SKU 功能说明 -->
             <div style="background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:#fff;padding:16px 20px;border-radius:12px;margin-bottom:16px;box-shadow:0 4px 15px rgba(102,126,234,0.3);">
-                <div style="font-size:15px;font-weight:700;margin-bottom:8px;">🧪 V7.4 - Parent SKU / 子SKU 功能</div>
+                <div style="font-size:15px;font-weight:700;margin-bottom:8px;">🧪 V7.7 - Parent SKU / 子SKU 功能</div>
                 <div style="font-size:13px;line-height:1.7;opacity:0.95;">
                     <b>📦 父SKU (Parent SKU)</b> = 产品级标识，同一款所有变体共享（如 DRESS-1201）<br>
                     <b>🔖 子SKU (Child SKU)</b> = 变体级标识，自动生成 = 父SKU + 颜色 + 尺码（如 DRESS-1201-BLK-8）<br>
@@ -2105,7 +1295,7 @@ input, select, textarea {
 
     <script>
 
-        // ==================== V7.4 颜色码映射（优化版）====================
+        // ==================== V7.7 颜色码映射（优化版）====================
         // 标准电商颜色码缩写（3-4字母），支持中英文
         var DSZ_COLOR_CODE = {
             // 中文 → 代码
@@ -2992,7 +2182,7 @@ window.closeAdminPanel = function() {
                         var mi = uploadedImages[mainImageIndex || 0];
                         if (mi && mi.data) { pImg.src = mi.data; pImg.style.display = 'block'; if (pMsg) pMsg.style.display = 'none'; }
                     }
-                    // [V7.4 TikTok] 刷新按规格的定价变体表
+                    // [V7.7 TikTok] 刷新按规格的定价变体表
                     if (typeof ttBuildPricingTable === 'function') ttBuildPricingTable();
                 }, 50);
             }
@@ -3180,13 +2370,9 @@ window.closeAdminPanel = function() {
                     const fromIdx = parseInt(e.dataTransfer.getData('text/plain') || '-1');
                     const toIdx = parseInt(this.dataset.index);
                     if (!isNaN(fromIdx) && !isNaN(toIdx) && fromIdx !== toIdx) {
-                        // 拖拽排序：取出元素，插入到目标位置（同步URL数组）
+                        // 拖拽排序：取出元素，插入到目标位置
                         var item = uploadedImages.splice(fromIdx, 1)[0];
                         uploadedImages.splice(toIdx, 0, item);
-                        if (uploadedImageUrls.length > 0) {
-                            var urlItem = uploadedImageUrls.splice(fromIdx, 1)[0];
-                            uploadedImageUrls.splice(toIdx, 0, urlItem);
-                        }
                         // 更新主图索引
                         if (mainImageIndex === fromIdx) mainImageIndex = toIdx;
                         else if (fromIdx < mainImageIndex && toIdx >= mainImageIndex) mainImageIndex--;
@@ -3216,7 +2402,6 @@ window.closeAdminPanel = function() {
         }
         function removeImage(index) {
             uploadedImages.splice(index, 1);
-            uploadedImageUrls.splice(index, 1);
             if (mainImageIndex >= uploadedImages.length) mainImageIndex = 0;
             renderGallery();
             if (uploadedImages.length === 0) { updateStep(1); _resetUploadProgress(); }
@@ -3229,24 +2414,11 @@ window.closeAdminPanel = function() {
             _resetUploadProgress();
             showNotification("已清空所有图片", "info");
         }
-        function setMainImage(index) {
-            if (uploadedImages.length <= 1) { mainImageIndex = index; renderGallery(); showNotification("已设为主图", "success"); return; }
-            // 将主图移至数组首位，URL数组同步
-            var img = uploadedImages.splice(index, 1)[0];
-            uploadedImages.unshift(img);
-            if (uploadedImageUrls.length > 0) {
-                var url = uploadedImageUrls.splice(index, 1)[0];
-                uploadedImageUrls.unshift(url);
-            }
-            mainImageIndex = 0;
-            renderGallery();
-            showNotification("已设为主图并移至首位", "success");
-        }
+        function setMainImage(index) { mainImageIndex = index; renderGallery(); showNotification("已设为主图", "success"); }
         function moveImage(index, direction) {
             const newIndex = index + direction;
             if (newIndex < 0 || newIndex >= uploadedImages.length) return;
             [uploadedImages[index], uploadedImages[newIndex]] = [uploadedImages[newIndex], uploadedImages[index]];
-            if (uploadedImageUrls.length > 0) [uploadedImageUrls[index], uploadedImageUrls[newIndex]] = [uploadedImageUrls[newIndex], uploadedImageUrls[index]];
             if (mainImageIndex === index) mainImageIndex = newIndex;
             else if (mainImageIndex === newIndex) mainImageIndex = index;
             renderGallery();
@@ -3461,7 +2633,6 @@ function autoCalcBasicCBM() {
                 });
                 if (!response.ok) throw new Error("翻译API错误: " + response.status);
                 var data = await response.json();
-                if (data.usage) _trackToken("DeepSeek", "SEO翻译", data.usage, _inferSkuHint());
                 var text = (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) || "";
                 var clean = text.replace(/```json|```/g, "").trim();
                 var result = JSON.parse(clean);
@@ -3984,7 +3155,7 @@ function autoCalcBasicCBM() {
         let batchProducts = [];
         let batchProductIdCounter = 1;
 
-        // V7.4: 批量添加产品 — 自动按变体矩阵展开（每个子SKU一行）
+        // V7.7: 批量添加产品 — 自动按变体矩阵展开（每个子SKU一行）
         function addBatchProduct() {
             var sku = (document.getElementById("sku") && document.getElementById("sku").value || "").trim();
             var name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
@@ -4048,8 +3219,7 @@ function autoCalcBasicCBM() {
                         rrp: item.rrp || rrp || (function(){ var p=parseFloat(item.price||_price); return p>0?(p*1.3).toFixed(2):""; })(),
                         stock: item.stock || _stock,
                         subsubcategory: selectedCategory.id || '',
-                        images: buildVariantImageList(item),
-                        previewImage: item.previewImage || '',
+                        images: buildVariantImageList(item) || '',
                         zones: JSON.parse(JSON.stringify(_zones))
                     };
                     // 自动计算CBM
@@ -4227,7 +3397,7 @@ function filterBatchProducts(query) {
             emptyMsg.style.display = "none";
             let html = '<div class="batch-card-grid">';
             batchProducts.forEach(function(p) {
-                const firstImg = (p.previewImage || (p.images || '').split(',')[0].trim());
+                const firstImg = (p.images || '').split(',')[0].trim();
                 let thumbHtml;
                 if (firstImg) { thumbHtml = '<img class="batch-card-thumb" src="' + escHtml(firstImg) + '" onerror="this.outerHTML=\'<div class=batch-card-thumb-placeholder>?</div>\'">'; }
                 else { thumbHtml = '<div class="batch-card-thumb-placeholder">?</div>'; }
@@ -4432,7 +3602,7 @@ function filterBatchProducts(query) {
         function exportBatchToExcel() {
             if (batchProducts.length === 0) { showNotification("批量列表为空，无法导出", "error"); return; }
 
-            // [V7.4测试版] Parent SKU 统计
+            // [V7.7测试版] Parent SKU 统计
             try {
                 var _parentSkus = {};
                 var _totalVariants = 0;
@@ -4442,12 +3612,12 @@ function filterBatchProducts(query) {
                     _parentSkus[_psk]++;
                     _totalVariants++;
                 });
-                var _msg = '[V7.4测试版] Parent SKU 统计\n\n';
+                var _msg = '[V7.7测试版] Parent SKU 统计\n\n';
                 _msg += '父SKU数量: ' + Object.keys(_parentSkus).length + '\n';
                 _msg += '子SKU(变体)总数: ' + _totalVariants + '\n';
                 for (var k in _parentSkus) { _msg += '  • ' + k + ' → ' + _parentSkus[k] + ' 个变体\n'; }
                 alert(_msg);
-            } catch(e) { console.warn('[V7.4] Parent SKU统计:', e); }
+            } catch(e) { console.warn('[V7.7] Parent SKU统计:', e); }
 
             var headers = getFullExportHeaders();
             var aoa = [headers];
@@ -4515,12 +3685,12 @@ function filterBatchProducts(query) {
         function exportSingleToExcel() {
             var p = buildSingleProductObject();
 
-            // [V7.4测试版] Parent SKU 提示
+            // [V7.7测试版] Parent SKU 提示
             try {
                 var _psk = p.parentSku || p.sku || '(无)';
                 var _childSkus = (p.variants || []).length;
-                alert('[V7.4测试版] 单个产品导出\n\n父SKU: ' + _psk + '\n子SKU(变体)数: ' + _childSkus);
-            } catch(e) { console.warn('[V7.4] Single Parent SKU:', e); }
+                alert('[V7.7测试版] 单个产品导出\n\n父SKU: ' + _psk + '\n子SKU(变体)数: ' + _childSkus);
+            } catch(e) { console.warn('[V7.7] Single Parent SKU:', e); }
 
             var headers = getFullExportHeaders();
             var aoa = [headers, buildProductExportRow(p)];
@@ -4564,7 +3734,7 @@ function filterBatchProducts(query) {
             var _name = (document.getElementById("product-name-en") && document.getElementById("product-name-en").value || "").trim();
             return {
                 sku: _sku, skuTitle: _name,
-                // V7.4: 单产品也设置parentSku指向自己
+                // V7.7: 单产品也设置parentSku指向自己
                 parentSku: _sku, parentSkuTitle: _name,
                 option1Name:"", option1Value:"", option2Name:"", option2Value:"",
                 ean: document.getElementById("ean").value||"N/A", description: document.getElementById("html-description").value||"",
@@ -4613,24 +3783,18 @@ function filterBatchProducts(query) {
                         var coreKeyMap = { "SKU":"sku","SKU Title":"skuTitle","Parent SKU":"parentSku","Parent SKU Title":"parentSkuTitle","Option1 Name":"option1Name","Option1 Value":"option1Value","Option2 Name":"option2Name","Option2 Value":"option2Value","EAN Code":"ean","Description":"description","Status":"status","Brand Name":"brand","Colour":"colour","Package Weight(kg)":"weight","Package Length(cm)":"length","Package Width(cm)":"width","Package Height(cm)":"height","Package CBM(m3)":"cbm","Price (Incl. GST)":"price","RRP (Incl. GST)":"rrp","Stock":"stock","Sub-subcategory":"subsubcategory","Images":"images" };
                         var zoneColKeys = {};
                         SHIPPING_ZONE_COLUMNS.forEach(function(z){ zoneColKeys[z.col] = true; });
-                        // v7.4-fix: Match zone columns by position (col index),
-                        // since the XLSX template has duplicate header names
-                        var zoneKeys = Object.keys(jsonData[0] || {});
-                        var zoneColMap = {};
-                        zoneKeys.forEach(function(hdr, pos) {
-                            var zIdx = pos - 23;  // first 23 cols are core fields
-                            if (zIdx >= 0 && zIdx < SHIPPING_ZONE_COLUMNS.length) {
-                                zoneColMap[hdr] = SHIPPING_ZONE_COLUMNS[zIdx].col;
-                            }
-                        });
                         batchProducts = [];
                         jsonData.forEach(function(row) {
                             var product = { id: batchProductIdCounter++, zones: {} };
+                            // Build header-to-col-index map from the first row's keys
                             Object.keys(row).forEach(function(k) {
                                 var key = coreKeyMap[k];
                                 if (key) { product[key] = String(row[k]||'').trim(); }
-                                var zCol = zoneColMap[k];
-                                if (zCol) {
+                            });
+                            // Parse zone columns by position (SheetJS uses header names as keys)
+                            Object.keys(row).forEach(function(k, idx) {
+                                if (idx >= 23 && SHIPPING_ZONE_COLUMNS[idx - 23]) {
+                                    var zCol = SHIPPING_ZONE_COLUMNS[idx - 23].col;
                                     var val = String(row[k]||'').trim();
                                     if (val) product.zones[zCol] = val;
                                 }
@@ -4650,30 +3814,6 @@ function filterBatchProducts(query) {
                 handleCSVImport(file);
             }
         }
-// v7.4-fix: CSV行解析器，正确处理引号包裹字段中的逗号
-        function parseCSVLine(line) {
-            var result = [];
-            var current = '';
-            var inQuotes = false;
-            for (var i = 0; i < line.length; i++) {
-                var ch = line[i];
-                if (ch === '"') {
-                    if (inQuotes && i + 1 < line.length && line[i + 1] === '"') {
-                        current += '"';
-                        i++;
-                    } else {
-                        inQuotes = !inQuotes;
-                    }
-                } else if (ch === ',' && !inQuotes) {
-                    result.push(current);
-                    current = '';
-                } else {
-                    current += ch;
-                }
-            }
-            result.push(current);
-            return result;
-        }
         function handleCSVImport(file) {
             const status = document.getElementById("import-status");
             status.textContent = "Reading CSV file...";
@@ -4687,15 +3827,14 @@ function filterBatchProducts(query) {
                     var coreKeyMap = { "SKU":"sku","SKU Title":"skuTitle","Parent SKU":"parentSku","Parent SKU Title":"parentSkuTitle","Option1 Name":"option1Name","Option1 Value":"option1Value","Option2 Name":"option2Name","Option2 Value":"option2Value","EAN Code":"ean","Description":"description","Status":"status","Brand Name":"brand","Colour":"colour","Package Weight(kg)":"weight","Package Length(cm)":"length","Package Width(cm)":"width","Package Height(cm)":"height","Package CBM(m3)":"cbm","Price (Incl. GST)":"price","RRP (Incl. GST)":"rrp","Stock":"stock","Sub-subcategory":"subsubcategory","Images":"images" };
                     batchProducts = [];
                     for (var i = 1; i < lines.length; i++) {
-                        // v7.4-fix: proper CSV parsing that handles quoted commas
-                        var values = parseCSVLine(lines[i]);
+                        var values = lines[i].split(",");
                         var product = { id: batchProductIdCounter++, zones: {} };
                         headers.forEach(function(h, idx) {
                             var key = coreKeyMap[h];
-                            if (key) { product[key] = values[idx] ? values[idx].trim() : ""; }
+                            if (key) { product[key] = values[idx] ? values[idx].trim().replace(/^"|"$/g, '') : ""; }
                             if (idx >= 23 && SHIPPING_ZONE_COLUMNS[idx - 23]) {
                                 var zCol = SHIPPING_ZONE_COLUMNS[idx - 23].col;
-                                product.zones[zCol] = values[idx] ? values[idx].trim() : "";
+                                product.zones[zCol] = values[idx] ? values[idx].trim().replace(/^"|"$/g, '') : "";
                             }
                         });
                         batchProducts.push(product);
@@ -4801,87 +3940,6 @@ function filterBatchProducts(query) {
 
         // ==================== AI文案助手 ====================
         let selectedAIModel = "doubao+deepseek";
-        // ==================== V7.5 Token 消耗追踪（隐藏功能 Ctrl+Shift+T） ====================
-        const TOKEN_LOG_KEY = "dsz_token_log_v7";
-        let tokenLog = [];
-        (function _initTokenLog() {
-            try { const saved = localStorage.getItem(TOKEN_LOG_KEY); if (saved) tokenLog = JSON.parse(saved); } catch(e) { tokenLog = []; }
-        })();
-        function _saveTokenLog() {
-            try { localStorage.setItem(TOKEN_LOG_KEY, JSON.stringify(tokenLog)); } catch(e) {}
-        }
-        function _trackToken(modelName, operation, usage, skuHint) {
-            const entry = {
-                ts: Date.now(),
-                time: new Date().toLocaleString("zh-CN",{hour12:false}),
-                model: modelName,
-                op: operation,
-                prompt: usage.prompt_tokens || 0,
-                completion: usage.completion_tokens || 0,
-                total: usage.total_tokens || ((usage.prompt_tokens||0)+(usage.completion_tokens||0)),
-                sku: skuHint || "unknown"
-            };
-            tokenLog.push(entry);
-            if (tokenLog.length > 2000) tokenLog = tokenLog.slice(-2000);
-            _saveTokenLog();
-            _refreshTokenPanel();
-        }
-        function _refreshTokenPanel() {
-            const panel = document.getElementById("token-panel-body");
-            if (!panel || panel.parentElement.style.display === "none") return;
-            const summary = {};
-            let grandTotal = 0;
-            tokenLog.forEach(e => {
-                const key = e.model + "|" + e.op;
-                if (!summary[key]) summary[key] = { model: e.model, op: e.op, count: 0, prompt: 0, completion: 0, total: 0 };
-                summary[key].count++;
-                summary[key].prompt += e.prompt;
-                summary[key].completion += e.completion;
-                summary[key].total += e.total;
-                grandTotal += e.total;
-            });
-            const sorted = Object.values(summary).sort((a,b) => b.total - a.total);
-            let html = '<div style="margin-bottom:8px;font-size:12px;color:#999;">总计调用 '+tokenLog.length+' 次 | 累计消耗 <b style="color:#e74c3c;">' + grandTotal.toLocaleString() + '</b> tokens</div>';
-            html += '<table style="width:100%;border-collapse:collapse;font-size:11px;"><tr style="background:#1a2332;"><th style="padding:4px 6px;text-align:left;">模型</th><th>操作</th><th>次数</th><th>Prompt</th><th>Completion</th><th>Total</th></tr>';
-            sorted.forEach(s => {
-                html += '<tr style="border-bottom:1px solid #1e2d3d;"><td style="padding:3px 6px;">' + s.model + '</td><td>' + s.op + '</td><td>' + s.count + '</td><td style="color:#f39c12;">' + s.prompt.toLocaleString() + '</td><td style="color:#3498db;">' + s.completion.toLocaleString() + '</td><td style="color:#e74c3c;font-weight:600;">' + s.total.toLocaleString() + '</td></tr>';
-            });
-            html += '</table>';
-            html += '<div style="margin-top:8px;font-size:11px;color:#999;">最近10条记录：</div>';
-            const recent = tokenLog.slice(-10).reverse();
-            recent.forEach(r => {
-                html += '<div style="font-size:10px;color:#aaa;padding:2px 0;border-bottom:1px solid #111;">[' + r.time + '] <b>' + r.model + '</b> ' + r.op + ' | prompt:' + r.prompt + ' comp:' + r.completion + ' total:' + r.total + ' | SKU:' + (r.sku||'-') + '</div>';
-            });
-            html += '<div style="margin-top:8px;text-align:right;"><button onclick="_clearTokenLog()" style="background:#e74c3c;color:#fff;border:none;padding:3px 10px;border-radius:3px;font-size:10px;cursor:pointer;">清除记录</button></div>';
-            panel.innerHTML = html;
-        }
-        function _clearTokenLog() { tokenLog = []; _saveTokenLog(); _refreshTokenPanel(); showNotification("Token 日志已清除", "info"); }
-        function _toggleTokenPanel() {
-            const panel = document.getElementById("token-debug-panel");
-            if (!panel) return;
-            if (panel.style.display === "none" || panel.style.display === "") {
-                panel.style.display = "block";
-                _refreshTokenPanel();
-            } else {
-                panel.style.display = "none";
-            }
-        }
-        document.addEventListener("keydown", function(e) {
-            if (e.ctrlKey && e.shiftKey && e.key === "T") {
-                e.preventDefault();
-                _toggleTokenPanel();
-            }
-        });
-        // 尝试从当前上下文推断 SKU
-        function _inferSkuHint() {
-            try {
-                const el = document.getElementById("sku") || document.getElementById("product-sku");
-                if (el && el.value && el.value.trim()) return el.value.trim();
-                const nameEl = document.getElementById("product-name-en");
-                if (nameEl && nameEl.value && nameEl.value.trim()) return nameEl.value.trim().substring(0,30);
-            } catch(e) {}
-            return null;
-        }
         function selectAIModel(model, element) {
             selectedAIModel = model;
             document.querySelectorAll(".ai-model-option").forEach(el => el.classList.remove("selected"));
@@ -5001,7 +4059,6 @@ function filterBatchProducts(query) {
             });
             if (!response.ok) { const errData = await response.json().catch(() => ({})); throw new Error("Doubao API Error " + response.status + ": " + (errData.error?.message || response.statusText)); }
             const data = await response.json();
-            if (data.usage) _trackToken("Doubao", "文案生成", data.usage, _inferSkuHint());
             const text = data.choices[0].message.content || "";
             return parseAIResponse(text);
         }
@@ -5016,7 +4073,6 @@ function filterBatchProducts(query) {
             });
             if (!response.ok) throw new Error("API Error: " + response.status);
             const data = await response.json();
-            if (data.usage) _trackToken("OpenAI", "文案生成", data.usage, _inferSkuHint());
             const text = data.choices[0].message.content || "";
             return parseAIResponse(text);
         }
@@ -5040,7 +4096,6 @@ function filterBatchProducts(query) {
             });
             if (!response.ok) { const errData = await response.json().catch(() => ({})); throw new Error("DeepSeek API Error " + response.status + ": " + (errData.error?.message || response.statusText)); }
             const data = await response.json();
-            if (data.usage) _trackToken("DeepSeek", "文案生成", data.usage, _inferSkuHint());
             const text = data.choices[0].message.content || "";
             return parseAIResponse(text);
         }
@@ -5066,7 +4121,6 @@ function filterBatchProducts(query) {
             });
             if (!doubaoResp.ok) { const err = await doubaoResp.json().catch(() => ({})); throw new Error("豆包 API Error " + doubaoResp.status + ": " + (err.error?.message || doubaoResp.statusText)); }
             const doubaoData = await doubaoResp.json();
-            if (doubaoData.usage) _trackToken("Doubao(Combo-识图)", "文案生成", doubaoData.usage, _inferSkuHint());
             const draftText = doubaoData.choices[0].message.content || "";
             const draftResult = parseAIResponse(draftText);
             // Step 2: DeepSeek 润色优化
@@ -5086,7 +4140,6 @@ function filterBatchProducts(query) {
             });
             if (!dsResp.ok) { const err = await dsResp.json().catch(() => ({})); throw new Error("DeepSeek API Error " + dsResp.status + ": " + (err.error?.message || dsResp.statusText)); }
             const dsData = await dsResp.json();
-            if (dsData.usage) _trackToken("DeepSeek(Combo-润色)", "文案生成", dsData.usage, _inferSkuHint());
             const finalText = dsData.choices[0].message.content || "";
             return parseAIResponse(finalText);
         }
@@ -5116,7 +4169,6 @@ function filterBatchProducts(query) {
                 throw new Error("Kimi API Error " + response.status + ": " + (errData.message || response.statusText));
             }
             const data = await response.json();
-            if (data.usage) _trackToken("Kimi", "文案生成", data.usage, _inferSkuHint());
             const text = data.choices[0].message.content || "";
             return parseAIResponse(text);
         }
@@ -5128,10 +4180,7 @@ function filterBatchProducts(query) {
             try {
                 const parsed = JSON.parse(jsonStr);
                 return { title: parsed.title || parsed.productTitle || "Premium Product", sku: parsed.sku || "", bullets: Array.isArray(parsed.bullets) ? parsed.bullets.join("\n") : (parsed.bullets || ""), description: parsed.description || parsed.htmlDescription || "", keywords: parsed.keywords || parsed.seoKeywords || "", tips: Array.isArray(parsed.tips) ? parsed.tips.join("\n") : (parsed.tips || "") };
-            } catch (e) {
-                console.warn('[DSZ] AI response parse failed:', e.message, 'Raw text length:', text.length);
-                return { title: "Premium Product", sku: "", bullets: "AI response parse failed. Please retry.", description: "<p>Failed to parse AI response. Raw: " + text.substring(0, 200).replace(/</g,'&lt;') + "...</p>", keywords: "", tips: "Please retry generation" };
-            }
+            } catch (e) { return { title: text.substring(0, 80), bullets: text, description: text, keywords: "", tips: "" }; }
         }
         const RETURNS_POLICY_HTML = '<h2>Returns, Refunds and Replacements</h2>' +
             '<p>Products that are received faulty, damaged, or not as described are eligible for a return, refund, or replacement in accordance with the Australian Consumer Law (ACL). We are committed to ensuring all products meet the standards of quality and reliability expected by our customers. However, please note that we do not accept returns or provide refunds for change of mind. We encourage you to carefully consider your purchase to ensure it meets your needs and expectations.</p>' +
@@ -5934,13 +4983,7 @@ function filterBatchProducts(query) {
         var BATCH_STORAGE_KEY = 'dsz_batch_products';
         var BATCH_COUNTER_KEY = 'dsz_batch_counter';
         function saveBatchToStorage() {
-            // 排除 previewImage（base64过大）仅保留其他字段
-            var saveData = batchProducts.map(function(p) {
-                var o = {};
-                for (var k in p) { if (k !== 'previewImage') o[k] = p[k]; }
-                return o;
-            });
-            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(saveData)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
+            try { localStorage.setItem(BATCH_STORAGE_KEY, JSON.stringify(batchProducts)); localStorage.setItem(BATCH_COUNTER_KEY, String(batchProductIdCounter)); } catch (e) { if (e.name === 'QuotaExceededError') { console.warn('[DSZ v5.1] Storage quota exceeded'); } else { throw e; } }
         }
         function loadBatchFromStorage() {
             try {
@@ -5975,7 +5018,7 @@ function filterBatchProducts(query) {
             var basePrice = parseFloat(document.getElementById('selling-price').value) || 0;
             var rrpInput = document.getElementById('rrp-price');
             var rrp = rrpInput && rrpInput.value ? rrpInput.value : (basePrice ? (basePrice * 1.3).toFixed(2) : '');
-            // [V7.4 TikTok] 尺寸/重量/库存从变体矩阵中获取，此处留空
+            // [V7.7 TikTok] 尺寸/重量/库存从变体矩阵中获取，此处留空
             var weight = '';
             var len = '';
             var w = '';
@@ -5989,7 +5032,7 @@ function filterBatchProducts(query) {
                     var colorEn = getColorEn(color);
                     sizeArr.forEach(function(size) {
                         var sizeClean = size.replace(/\s+/g,'');
-                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.4修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: 'N/A', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
+                        variants.push({ id: batchProductIdCounter++, sku: sku + '-' + colorCode + '-' + sizeClean, skuTitle: name + ' - ' + (colorEn || color) + ' / ' + size, parentSku: sku, parentSkuTitle: name, /* ⚡V7.7修正: Option1=Size, Option2=Colour */ option1Name: 'Size', option1Value: size, option2Name: 'Colour', option2Value: colorEn || color, ean: 'N/A', description: '', status: '1', brand: document.getElementById('brand').value || '', colour: colorEn || color, weight: weight, length: len, width: w, height: h, cbm: cbm, price: String(basePrice), rrp: rrp, stock: stock, subsubcategory: selectedCategory.id || '', images: uploadedImageUrls.join(',') || '', zones: getDefaultShippingTemplate() });
                     });
                 });
             } else if (colorArr.length > 0) {
@@ -6012,7 +5055,7 @@ function filterBatchProducts(query) {
             showNotification("Generated " + variants.length + " variants!", "success");
         }
 
-        // ==================== V7.4-TT: TikTok风格变体矩阵 ====================
+        // ==================== V7.7-TT: TikTok风格变体矩阵 ====================
         var _ttMatrixData = [];  // [{color, colorCode, spec, childSku, length, width, height, weight, stock, enabled}]
         var _ttBatchMenuOpen = false;
 
@@ -6034,143 +5077,7 @@ function filterBatchProducts(query) {
             if (menu) { menu.style.display = 'none'; _ttBatchMenuOpen = false; }
         }
 
-        // ==================== V7.4 颜色选择器数据 ====================
-        var DSZ_COLOR_OPTIONS = [
-            {value:"Black", label:"Black 黑色", color:"#000000"},
-            {value:"White", label:"White 白色", color:"#FFFFFF"},
-            {value:"Red", label:"Red 红色", color:"#E74C3C"},
-            {value:"Blue", label:"Blue 蓝色", color:"#3498DB"},
-            {value:"Green", label:"Green 绿色", color:"#27AE60"},
-            {value:"Yellow", label:"Yellow 黄色", color:"#F1C40F"},
-            {value:"Pink", label:"Pink 粉色", color:"#FF69B4"},
-            {value:"Purple", label:"Purple 紫色", color:"#9B59B6"},
-            {value:"Gray", label:"Gray 灰色", color:"#808080"},
-            {value:"Navy", label:"Navy 深蓝", color:"#000080"},
-            {value:"Brown", label:"Brown 棕色", color:"#8B4513"},
-            {value:"Orange", label:"Orange 橙色", color:"#FF8C00"},
-            {value:"Beige", label:"Beige 米色", color:"#F5F5DC"},
-            {value:"Gold", label:"Gold 金色", color:"#FFD700"},
-            {value:"Silver", label:"Silver 银色", color:"#C0C0C0"},
-            {value:"Camel", label:"Camel 驼色", color:"#C19A6B"},
-            {value:"Khaki", label:"Khaki 卡其", color:"#C3B091"},
-            {value:"Burgundy", label:"Burgundy 酒红", color:"#800020"},
-            {value:"Ivory", label:"Ivory 象牙白", color:"#FFFFF0"},
-            {value:"Charcoal", label:"Charcoal 炭灰", color:"#36454F"},
-            {value:"Lavender", label:"Lavender 薰衣草紫", color:"#E6E6FA"},
-            {value:"Mint", label:"Mint 薄荷绿", color:"#98FF98"},
-            {value:"Coral", label:"Coral 珊瑚色", color:"#FF7F50"},
-            {value:"Teal", label:"Teal 深青", color:"#008080"},
-            {value:"Maroon", label:"Maroon 褐红", color:"#800000"},
-            {value:"Olive", label:"Olive 橄榄绿", color:"#808000"},
-            {value:"Cream", label:"Cream 奶油色", color:"#FFFDD0"},
-            {value:"Mustard", label:"Mustard 芥末黄", color:"#E1AD01"},
-            {value:"Rose", label:"Rose 玫瑰色", color:"#FF007F"},
-            {value:"Sky Blue", label:"Sky Blue 天蓝", color:"#87CEEB"},
-            {value:"Royal Blue", label:"Royal Blue 宝蓝", color:"#4169E1"},
-            {value:"Turquoise", label:"Turquoise 湖蓝", color:"#40E0D0"},
-            {value:"Slate Blue", label:"Slate Blue 灰蓝", color:"#6A5ACD"},
-            {value:"Cyan", label:"Cyan 青色", color:"#00FFFF"},
-            {value:"Indigo", label:"Indigo 靛蓝", color:"#4B0082"},
-            {value:"Dark Green", label:"Dark Green 深绿", color:"#006400"},
-            {value:"Light Green", label:"Light Green 浅绿", color:"#90EE90"},
-            {value:"Neon Green", label:"Neon Green 荧光绿", color:"#39FF14"},
-            {value:"Neon Yellow", label:"Neon Yellow 荧光黄", color:"#E5FF00"},
-            {value:"Neon Orange", label:"Neon Orange 荧光橙", color:"#FF5F1F"},
-            {value:"Neon Pink", label:"Neon Pink 荧光粉", color:"#FF10F0"},
-            {value:"Dark Gray", label:"Dark Gray 深灰", color:"#555555"},
-            {value:"Light Gray", label:"Light Gray 浅灰", color:"#D3D3D3"},
-            {value:"Dark Brown", label:"Dark Brown 深棕", color:"#4A3728"},
-            {value:"Light Brown", label:"Light Brown 浅棕", color:"#B5651D"},
-            {value:"Bronze", label:"Bronze 古铜", color:"#CD7F32"},
-            {value:"Peach", label:"Peach 桃色", color:"#FFCBA4"},
-            {value:"Mocha", label:"Mocha 摩卡", color:"#967969"},
-            {value:"Nude", label:"Nude 裸色", color:"#F5DEB3"},
-            {value:"Clear", label:"Clear 透明", color:"transparent"},
-            {value:"Camouflage", label:"Camouflage 迷彩", color:"#78866B"},
-            {value:"Multi", label:"Multi 彩色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
-            {value:"Multi-color", label:"Multi-color 多色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
-            {value:"Rainbow", label:"Rainbow 彩虹色", color:"linear-gradient(90deg,red,orange,yellow,green,blue,indigo,violet)"},
-            {value:"Tie-dye", label:"Tie-dye 扎染", color:"#9B59B6"},
-            {value:"Leopard", label:"Leopard 豹纹", color:"#D4A574"},
-            {value:"Snake", label:"Snake 蛇纹", color:"#6B8E23"},
-            {value:"Tiger", label:"Tiger 虎纹", color:"#E67E22"},
-            {value:"Plaid", label:"Plaid 格纹", color:"#C0392B"},
-            {value:"Stripe", label:"Stripe 条纹", color:"#2C3E50"},
-            {value:"Polka Dot", label:"Polka Dot 波点", color:"#E74C3C"},
-            {value:"Floral", label:"Floral 碎花", color:"#E91E63"},
-            {value:"Print", label:"Print 印花", color:"#8E44AD"},
-            {value:"Denim", label:"Denim 牛仔", color:"#1565C0"}
-        ];
-
-        // === 颜色行管理（V7.4 自定义下拉UI） ===
-        function ttBuildColorDropdownList(listEl, currentValue) {
-            var html = '';
-            // V7.4: 自定义颜色放在最顶部
-            html += '<div class="dsz-dropdown-item custom-entry" data-val="__custom__" onclick="ttColorOptionClick(this)">';
-            html += '<span class="dsz-item-swatch" style="background:#ccc;"></span>';
-            html += '<span class="dsz-item-label">✏️ 自定义颜色...</span>';
-            html += '<span class="dsz-item-indicator">&#10003;</span>';
-            html += '</div>';
-            DSZ_COLOR_OPTIONS.forEach(function(opt) {
-                var selClass = (opt.value === currentValue) ? ' selected' : '';
-                var swatchStyle = 'background:' + opt.color + ';';
-                html += '<div class="dsz-dropdown-item' + selClass + '" data-val="' + ttEsc(opt.value) + '" onclick="ttColorOptionClick(this)">';
-                html += '<span class="dsz-item-swatch" style="' + swatchStyle + '"></span>';
-                html += '<span class="dsz-item-label">' + ttEsc(opt.label) + '</span>';
-                html += '<span class="dsz-item-indicator">&#10003;</span>';
-                html += '</div>';
-            });
-            listEl.innerHTML = html;
-        }
-
-        function ttToggleColorDropdown(trigger) {
-            var wrapper = trigger.parentElement;
-            var list = wrapper.querySelector('.dsz-dropdown-list');
-            var isOpen = list.classList.contains('open');
-            document.querySelectorAll('.dsz-dropdown-list.open').forEach(function(l) { l.classList.remove('open'); });
-            document.querySelectorAll('.dsz-dropdown-trigger.open').forEach(function(t) { t.classList.remove('open'); });
-            if (!isOpen) {
-                var hiddenVal = wrapper.querySelector('.tt-color-value');
-                var currentValue = hiddenVal.value;
-                ttBuildColorDropdownList(list, currentValue);
-                list.classList.add('open');
-                trigger.classList.add('open');
-            }
-        }
-
-        function ttColorOptionClick(item) {
-            var wrapper = item.closest('.dsz-dropdown-wrapper');
-            var list = wrapper.querySelector('.dsz-dropdown-list');
-            var trigger = wrapper.querySelector('.dsz-dropdown-trigger');
-            var hiddenVal = wrapper.querySelector('.tt-color-value');
-            var dot = wrapper.querySelector('.dsz-color-dot');
-            var label = wrapper.querySelector('.dsz-trigger-label');
-            var row = wrapper.closest('.tt-color-row');
-            var customInput = row.querySelector('.tt-color-custom');
-            var cancelLink = row.querySelector('.tt-color-cancel');
-
-            if (item.getAttribute('data-val') === '__custom__') {
-                wrapper.style.display = 'none';
-                customInput.style.display = 'block';
-                cancelLink.style.display = 'inline';
-                customInput.focus();
-                list.classList.remove('open');
-                trigger.classList.remove('open');
-            } else {
-                var val = item.getAttribute('data-val');
-                hiddenVal.value = val;
-                var optData = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === val; });
-                if (optData) {
-                    dot.style.background = optData.color;
-                    label.textContent = optData.label;
-                    label.classList.remove('dsz-trigger-placeholder');
-                }
-                list.classList.remove('open');
-                trigger.classList.remove('open');
-            }
-            ttRebuildMatrix();
-        }
-
+        // === 颜色行管理 ===
         function ttAddColorRow() {
             var container = document.getElementById('tt-color-rows');
             if (!container) return;
@@ -6180,65 +5087,84 @@ function filterBatchProducts(query) {
             row.className = 'tt-color-row';
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-
-            var wrapper = document.createElement('div');
-            wrapper.className = 'dsz-dropdown-wrapper';
-            wrapper.setAttribute('data-color-idx', idx);
-            wrapper.innerHTML = '<div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">'
-                + '<span class="dsz-color-dot" style="background:#ccc;"></span>'
-                + '<span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>'
-                + '<span class="dsz-trigger-arrow"></span></div>'
-                + '<div class="dsz-dropdown-list"></div>'
-                + '<input type="hidden" class="tt-color-value" value="">';
-
+            
+            // 创建select下拉框
+            var newSelect = document.createElement('select');
+            newSelect.className = 'form-control tt-color-select';
+            newSelect.style.cssText = 'width:300px;height:34px;padding:4px 8px;font-size:13px;';
+            newSelect.onchange = function() { ttColorSelectChange(this); };
+            
+            // 复制第一个select的选项
+            var firstSelect = document.querySelector('.tt-color-select');
+            if (firstSelect) {
+                newSelect.innerHTML = firstSelect.innerHTML;
+            }
+            
+            // 创建自定义输入框（默认隐藏）
             var customInput = document.createElement('input');
             customInput.type = 'text';
-            customInput.className = 'dsz-custom-input tt-color-custom';
-            customInput.placeholder = '输入自定义颜色 (如: Black 黑色)';
-            customInput.style.display = 'none';
+            customInput.className = 'form-control tt-color-custom';
+            customInput.placeholder = '输入自定义颜色';
+            customInput.style.cssText = 'width:300px;height:34px;padding:4px 8px;font-size:13px;display:none;';
             customInput.oninput = function() { ttRebuildMatrix(); };
-
+            
+            // 创建取消链接（默认隐藏）
             var cancelLink = document.createElement('a');
             cancelLink.href = 'javascript:void(0)';
-            cancelLink.className = 'dsz-cancel-link tt-color-cancel';
+            cancelLink.className = 'tt-color-cancel';
             cancelLink.innerText = '取消';
-            cancelLink.style.display = 'none';
+            cancelLink.style.cssText = 'display:none;font-size:12px;color:#667eea;margin-left:4px;text-decoration:underline;cursor:pointer;';
             cancelLink.onclick = function() { ttColorCancelCustom(this); };
-
+            
+            // 创建删除按钮
             var removeBtn = document.createElement('button');
-            removeBtn.className = 'dsz-color-remove-btn';
+            removeBtn.className = 'btn btn-sm';
             removeBtn.innerHTML = '&times;';
-            removeBtn.style.display = 'none';
+            removeBtn.style.cssText = 'background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;';
             removeBtn.title = '移除颜色';
             removeBtn.onclick = function() { ttRemoveColorRow(this); };
-
-            row.appendChild(wrapper);
+            
+            row.appendChild(newSelect);
             row.appendChild(customInput);
             row.appendChild(cancelLink);
             row.appendChild(removeBtn);
+            
             container.appendChild(row);
             ttUpdateRemoveButtons();
         }
-
+        
+        // 颜色下拉框选择变化
+        function ttColorSelectChange(sel) {
+            var row = sel.closest('.tt-color-row');
+            var customInput = row.querySelector('.tt-color-custom');
+            var cancelLink = row.querySelector('.tt-color-cancel');
+            
+            if (sel.value === '__custom__') {
+                // 选择"自定义"，显示输入框
+                sel.style.display = 'none';
+                customInput.style.display = 'block';
+                cancelLink.style.display = 'inline';
+                customInput.focus();
+            }
+            ttRebuildMatrix();
+        }
+        
+        // 取消自定义颜色
         function ttColorCancelCustom(link) {
             var row = link.closest('.tt-color-row');
-            var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+            var sel = row.querySelector('.tt-color-select');
             var customInput = row.querySelector('.tt-color-custom');
-
+            
+            // 隐藏输入框，显示下拉框
             customInput.style.display = 'none';
             customInput.value = '';
             link.style.display = 'none';
-            wrapper.style.display = 'inline-block';
-            var dot = wrapper.querySelector('.dsz-color-dot');
-            var label = wrapper.querySelector('.dsz-trigger-label');
-            var hiddenVal = wrapper.querySelector('.tt-color-value');
-            dot.style.background = '#ccc';
-            label.textContent = '请选择颜色...';
-            label.classList.add('dsz-trigger-placeholder');
-            hiddenVal.value = '';
+            sel.style.display = 'block';
+            sel.value = '';
+            
             ttRebuildMatrix();
         }
-
+        
         function ttRemoveColorRow(btn) {
             var container = document.getElementById('tt-color-rows');
             var rows = container.querySelectorAll('.tt-color-row');
@@ -6247,13 +5173,6 @@ function filterBatchProducts(query) {
             ttUpdateRemoveButtons();
             ttRebuildMatrix();
         }
-
-        document.addEventListener('click', function(e) {
-            if (!e.target.closest('.dsz-dropdown-wrapper')) {
-                document.querySelectorAll('.dsz-dropdown-list.open').forEach(function(l) { l.classList.remove('open'); });
-                document.querySelectorAll('.dsz-dropdown-trigger.open').forEach(function(t) { t.classList.remove('open'); });
-            }
-        });
         function ttAddSpecRow() {
             var container = document.getElementById('tt-spec-rows');
             if (!container) return;
@@ -6263,7 +5182,7 @@ function filterBatchProducts(query) {
             row.className = 'tt-spec-row';
             row.setAttribute('data-idx', idx);
             row.style.cssText = 'display:flex;gap:6px;margin-bottom:6px;align-items:center;';
-            row.innerHTML = '<input type="text" class="form-control tt-spec-input" placeholder="如 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">'
+            row.innerHTML = '<input type="text" class="form-control tt-spec-input" placeholder="如 8, 10, 12" oninput="ttRebuildMatrix()" style="width:300px;height:34px;padding:4px 8px;font-size:13px;">'
                 + '<button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#f44336;" title="移除规格">&times;</button>';
             container.appendChild(row);
             ttUpdateRemoveButtons();
@@ -6289,70 +5208,27 @@ function filterBatchProducts(query) {
             });
         }
 
-        // V7.4 从双语字符串提取英文部分（用于导出时剥离中文）
-        function extractEnglish(str) {
-            if (!str) return '';
-            var match = str.match(/^([a-zA-Z0-9\s\-\.\/]+)/);
-            return match ? match[1].trim() : str.trim();
-        }
-
         // === 获取当前颜色和规格列表 ===
         function ttGetColors() {
             var result = [];
             document.querySelectorAll('.tt-color-row').forEach(function(row) {
-                var wrapper = row.querySelector('.dsz-dropdown-wrapper');
+                var sel = row.querySelector('.tt-color-select');
                 var customInput = row.querySelector('.tt-color-custom');
-                var hiddenVal = wrapper ? wrapper.querySelector('.tt-color-value') : null;
+                
                 var v = '';
-                if (wrapper && wrapper.style.display === 'none' && customInput && customInput.value.trim()) {
-                    v = extractEnglish(customInput.value.trim());
-                } else if (wrapper && wrapper.style.display !== 'none' && hiddenVal && hiddenVal.value) {
-                    v = hiddenVal.value.trim();
-                } else if (!wrapper) {
-                    var sel = row.querySelector('.tt-color-select');
-                    var ci = row.querySelector('.tt-color-custom');
-                    if (ci && ci.style.display === 'block') {
-                        v = extractEnglish(ci.value.trim());
-                    } else if (sel && sel.value && sel.value !== '__custom__') {
-                        v = sel.value.trim();
-                    }
-                }
-                if (v) result.push(v);
-            });
-            return result;
-        }
-
-        // 获取颜色双语显示值
-        function ttGetColorsDisplay() {
-            var result = [];
-            document.querySelectorAll('.tt-color-row').forEach(function(row) {
-                var wrapper = row.querySelector('.dsz-dropdown-wrapper');
-                var customInput = row.querySelector('.tt-color-custom');
-                var v = '';
-                if (wrapper && wrapper.style.display === 'none' && customInput && customInput.value.trim()) {
+                if (customInput.style.display === 'block') {
+                    // 自定义输入模式
                     v = customInput.value.trim();
-                } else if (wrapper && wrapper.style.display !== 'none') {
-                    var hiddenVal = wrapper.querySelector('.tt-color-value');
-                    if (hiddenVal && hiddenVal.value) {
-                        var optData = DSZ_COLOR_OPTIONS.find(function(o) { return o.value === hiddenVal.value; });
-                        v = optData ? optData.label : hiddenVal.value;
-                    }
+                } else if (sel && sel.value && sel.value !== '__custom__') {
+                    // 下拉框选择模式
+                    v = sel.value.trim();
                 }
+                
                 if (v) result.push(v);
             });
             return result;
         }
         function ttGetSpecs() {
-            var result = [];
-            document.querySelectorAll('.tt-spec-input').forEach(function(inp) {
-                var v = inp.value.trim();
-                if (v) result.push(extractEnglish(v));
-            });
-            return result;
-        }
-
-        // 获取规格原始双语值（用于矩阵显示）
-        function ttGetSpecsDisplay() {
             var result = [];
             document.querySelectorAll('.tt-spec-input').forEach(function(inp) {
                 var v = inp.value.trim();
@@ -6387,7 +5263,7 @@ function filterBatchProducts(query) {
                 return;
             }
             var parentSku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
-            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            // [V7.7 TikTok] 从矩阵已有数据中取默认值
             var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
             var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
             var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
@@ -6395,19 +5271,14 @@ function filterBatchProducts(query) {
             var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
 
             _ttMatrixData = [];
-            var colorsDisplay = (typeof ttGetColorsDisplay === 'function') ? ttGetColorsDisplay() : colors;
-            var specsDisplay = (typeof ttGetSpecsDisplay === 'function') ? ttGetSpecsDisplay() : specs;
-            colors.forEach(function(color, ci) {
+            colors.forEach(function(color) {
                 var colorCode = (typeof getColorCode === 'function') ? getColorCode(color) : color.replace(/\s+/g,'').substring(0,3).toUpperCase();
                 var getSpecEnFn = (typeof getSpecEn === 'function') ? getSpecEn : function(s){ return s; };
-                specs.forEach(function(spec, si) {
+                specs.forEach(function(spec) {
                     var specEn = getSpecEnFn(spec);
                     var childSku = parentSku ? parentSku + '-' + colorCode + '-' + specEn.replace(/\s+/g,'') : '';
-                    var colorDisplayVal = (colorsDisplay && colorsDisplay[ci]) ? colorsDisplay[ci] : color;
-                    var specDisplayVal = (specsDisplay && specsDisplay[si]) ? specsDisplay[si] : spec;
                     _ttMatrixData.push({
                         color: color, colorCode: colorCode, spec: spec, specEn: specEn,
-                        colorDisplay: colorDisplayVal, specDisplay: specDisplayVal,
                         childSku: childSku,
                         length: defLength, width: defWidth, height: defHeight,
                         weight: defWeight, stock: defStock, enabled: true,
@@ -6424,7 +5295,7 @@ function filterBatchProducts(query) {
             }
 
             // Use defaults from the form for placeholders
-            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            // [V7.7 TikTok] 从矩阵已有数据中取默认值
             var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
             var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
             var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
@@ -6446,15 +5317,14 @@ function filterBatchProducts(query) {
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:80px;">📦 CBM(m³)</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:70px;">库存</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:50px;">启用</th>';
-            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">🖼 预览图</th>';
             html += '</tr></thead><tbody>';
 
             _ttMatrixData.forEach(function(item, i) {
                 var bg = item.enabled ? '' : 'background:#fff5f5;';
                 html += '<tr style="' + bg + (i%2===0?'':'background:#fafafa'.replace('background', bg?'background':'')) + '">';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;color:#999;">' + (i+1) + '</td>';
-                html += '<td style="padding:4px 6px;border:1px solid #eee;">' + (item.colorDisplay || item.color) + '</td>';
-                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + (item.specDisplay || item.spec) + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;">' + item.color + '</td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + item.spec + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + buildVariantThumbCell(item, i) + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.length) + '" placeholder="' + defLength + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'length\',this.value)"></td>';
@@ -6465,17 +5335,12 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-cbm" data-idx="' + i + '" value="' + cbmVal + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;background:#f0f2ff;color:#667eea;font-weight:700;" readonly></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-stock" data-idx="' + i + '" value="' + ttEsc(item.stock) + '" placeholder="' + defStock + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'stock\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
-                // 变体预览图
-                var prevImgHtml = item.previewImage
-                    ? '<img class="variant-preview-img" src="' + item.previewImage + '" onclick="ttUploadVariantPreview(' + i + ')" title="点击更换预览图">'
-                    : '<div class="variant-preview-upload" onclick="ttUploadVariantPreview(' + i + ')" title="上传该变体预览图">+</div>';
-                html += '<td class="variant-preview-cell" style="padding:2px;border:1px solid #eee;">' + prevImgHtml + '</td>';
                 html += '</tr>';
             });
             html += '</tbody></table>';
             matrix.innerHTML = html;
             if (countEl) countEl.textContent = '(' + _ttMatrixData.length + '个变体)';
-            // [V7.4 TikTok] 矩阵变化后刷新定价表
+            // [V7.7 TikTok] 矩阵变化后刷新定价表
             if (typeof ttBuildPricingTable === 'function') ttBuildPricingTable();
         }
         function ttEsc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -6491,27 +5356,6 @@ function filterBatchProducts(query) {
                     if (cbmCell) cbmCell.value = item.cbm;
                 }
             }
-        }
-
-        // V7.4: 上传变体预览图
-        function ttUploadVariantPreview(idx) {
-            var inp = document.createElement('input');
-            inp.type = 'file';
-            inp.accept = 'image/*';
-            inp.onchange = function() {
-                var file = inp.files && inp.files[0];
-                if (!file) return;
-                var reader = new FileReader();
-                reader.onload = function() {
-                    if (idx >= 0 && idx < _ttMatrixData.length) {
-                        _ttMatrixData[idx].previewImage = reader.result;
-                        ttRenderMatrix();
-                        showNotification('变体预览图已更新', 'success');
-                    }
-                };
-                reader.readAsDataURL(file);
-            };
-            inp.click();
         }
 
         // === 变体首图功能 ===
@@ -6545,14 +5389,13 @@ function filterBatchProducts(query) {
             }
             imgsDiv.innerHTML = html;
             popover.style.display = 'block';
-            // Position near the clicked thumbnail
             var rect = e.target.getBoundingClientRect();
-            var popW = 420;
+            var popW = 560;
             var left = rect.left - popW / 2 + rect.width / 2;
             if (left < 10) left = 10;
             if (left + popW > window.innerWidth - 10) left = window.innerWidth - popW - 10;
             var top = rect.bottom + 6;
-            if (top + 200 > window.innerHeight) top = rect.top - 200 - 6;
+            if (top + 260 > window.innerHeight) top = rect.top - 260 - 6;
             popover.style.left = left + 'px';
             popover.style.top = top + 'px';
             popover._matrixIdx = idx;
@@ -6592,7 +5435,7 @@ function filterBatchProducts(query) {
             var specs = ttGetSpecs();
             if (colors.length === 0 || specs.length === 0) return;
             var parentSku = (document.getElementById('sku') && document.getElementById('sku').value || '').trim();
-            // [V7.4 TikTok] 从矩阵已有数据中取默认值
+            // [V7.7 TikTok] 从矩阵已有数据中取默认值
             var defWeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].weight) ? _ttMatrixData[0].weight : '';
             var defLength = (_ttMatrixData.length > 0 && _ttMatrixData[0].length) ? _ttMatrixData[0].length : '';
             var defWidth = (_ttMatrixData.length > 0 && _ttMatrixData[0].width) ? _ttMatrixData[0].width : '';
@@ -6792,14 +5635,10 @@ function filterBatchProducts(query) {
                 });
                 text += line.join('\t') + '\n';
             });
-            if (navigator.clipboard && navigator.clipboard.writeText) {
+            if (navigator.clipboard) {
                 navigator.clipboard.writeText(text).then(function() {
                     showNotification('定价表已复制到剪贴板', 'success');
-                }).catch(function() {
-                    showNotification('复制失败，请手动复制', 'error');
                 });
-            } else {
-                showNotification('复制失败，请手动复制表格内容', 'error');
             }
         }
         function ttCloseBatchFill() {
@@ -6875,7 +5714,7 @@ function filterBatchProducts(query) {
                     skuTitle: name + ' - ' + item.color + ' / ' + item.spec,
                     parentSku: sku,
                     parentSkuTitle: name,
-                    // ⚡ V7.4修正: Dropshipzone模板格式 Option1=Size, Option2=Colour
+                    // ⚡ V7.7修正: Dropshipzone模板格式 Option1=Size, Option2=Colour
                     option1Name: 'Size', option1Value: item.spec || '',
                     option2Name: 'Colour', option2Value: item.color || '',
                     ean: 'N/A', description: '', status: '1',
@@ -6890,7 +5729,7 @@ function filterBatchProducts(query) {
                     rrp: item.rrp || rrp,
                     stock: item.stock || '',
                     subsubcategory: selectedCategory && selectedCategory.id || '',
-                    images: buildVariantImageList(item),
+                    images: buildVariantImageList(item) || '',
                     zones: getDefaultShippingTemplate()
                 };
                 // Auto calc CBM
@@ -7120,7 +5959,7 @@ function filterBatchProducts(query) {
             loadApiKey();
             // v7.0: 默认模型是 doubao+deepseek，必须同时加载豆包 Key
             if (typeof loadDoubaoKey === 'function') loadDoubaoKey();
-            // v7.4: 初始化时设置默认AI模型的UI状态（确保豆包key行可见并加载）
+            // v7.7: 初始化时设置默认AI模型的UI状态（确保豆包key行可见并加载）
             (function() {
                 var defaultModelEl = document.querySelector(".ai-model-option.selected");
                 if (defaultModelEl && typeof selectAIModel === 'function') {
@@ -7376,24 +6215,83 @@ function filterBatchProducts(query) {
             <div class="product-card">
                 <h3>&#127912; 变体信息 <span style="font-size:12px;color:#e91e63;font-weight:400;">(子SKU = 父SKU-颜色码-规格)</span></h3>
 
-                <!-- 颜色选择（V7.4自定义下拉UI） -->
+                <!-- 颜色选择（TikTok风格多行） -->
                 <div class="form-group">
                     <label>颜色 <span class="hint">(下拉选择或手动输入，可添加多个)</span></label>
                     <div id="tt-color-rows">
                         <div class="tt-color-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <div class="dsz-dropdown-wrapper" data-color-idx="0">
-                                <div class="dsz-dropdown-trigger" onclick="ttToggleColorDropdown(this)">
-                                    <span class="dsz-color-dot" style="background:#ccc;"></span>
-                                    <span class="dsz-trigger-label dsz-trigger-placeholder">请选择颜色...</span>
-                                    <span class="dsz-trigger-arrow"></span>
-                                </div>
-                                <div class="dsz-dropdown-list">
-                                </div>
-                                <input type="hidden" class="tt-color-value" value="">
-                            </div>
-                            <input type="text" class="dsz-custom-input tt-color-custom" placeholder="输入自定义颜色 (如: Black 黑色)" style="display:none;">
-                            <a href="javascript:void(0)" class="dsz-cancel-link tt-color-cancel" onclick="ttColorCancelCustom(this)" style="display:none;">取消</a>
-                            <button class="dsz-color-remove-btn" onclick="ttRemoveColorRow(this)" style="display:none;" title="移除颜色">&times;</button>
+                            <select class="form-control tt-color-select" onchange="ttColorSelectChange(this)" style="width:300px;height:34px;padding:4px 8px;font-size:13px;">
+                                <option value="">请选择颜色...</option>
+                                <option value="__custom__">✏️ 自定义颜色...</option>
+                                <option value="Black">Black 黑色</option>
+                                <option value="White">White 白色</option>
+                                <option value="Red">Red 红色</option>
+                                <option value="Blue">Blue 蓝色</option>
+                                <option value="Green">Green 绿色</option>
+                                <option value="Yellow">Yellow 黄色</option>
+                                <option value="Pink">Pink 粉色</option>
+                                <option value="Purple">Purple 紫色</option>
+                                <option value="Gray">Gray 灰色</option>
+                                <option value="Navy">Navy 深蓝</option>
+                                <option value="Brown">Brown 棕色</option>
+                                <option value="Orange">Orange 橙色</option>
+                                <option value="Beige">Beige 米色</option>
+                                <option value="Gold">Gold 金色</option>
+                                <option value="Silver">Silver 银色</option>
+                                <option value="Camel">Camel 驼色</option>
+                                <option value="Khaki">Khaki 卡其</option>
+                                <option value="Burgundy">Burgundy 酒红</option>
+                                <option value="Ivory">Ivory 象牙白</option>
+                                <option value="Charcoal">Charcoal 炭灰</option>
+                                <option value="Lavender">Lavender 薰衣草紫</option>
+                                <option value="Mint">Mint 薄荷绿</option>
+                                <option value="Coral">Coral 珊瑚色</option>
+                                <option value="Teal">Teal 深青</option>
+                                <option value="Maroon">Maroon 褐红</option>
+                                <option value="Olive">Olive 橄榄绿</option>
+                                <option value="Cream">Cream 奶油色</option>
+                                <option value="Mustard">Mustard 芥末黄</option>
+                                <option value="Rose">Rose 玫瑰色</option>
+                                <option value="Sky Blue">Sky Blue 天蓝</option>
+                                <option value="Royal Blue">Royal Blue 宝蓝</option>
+                                <option value="Turquoise">Turquoise 湖蓝</option>
+                                <option value="Slate Blue">Slate Blue 灰蓝</option>
+                                <option value="Cyan">Cyan 青色</option>
+                                <option value="Indigo">Indigo 靛蓝</option>
+                                <option value="Dark Green">Dark Green 深绿</option>
+                                <option value="Light Green">Light Green 浅绿</option>
+                                <option value="Neon Green">Neon Green 荧光绿</option>
+                                <option value="Neon Yellow">Neon Yellow 荧光黄</option>
+                                <option value="Neon Orange">Neon Orange 荧光橙</option>
+                                <option value="Neon Pink">Neon Pink 荧光粉</option>
+                                <option value="Dark Gray">Dark Gray 深灰</option>
+                                <option value="Light Gray">Light Gray 浅灰</option>
+                                <option value="Dark Brown">Dark Brown 深棕</option>
+                                <option value="Light Brown">Light Brown 浅棕</option>
+                                <option value="Bronze">Bronze 古铜</option>
+                                <option value="Peach">Peach 桃色</option>
+                                <option value="Mocha">Mocha 摩卡</option>
+                                <option value="Nude">Nude 裸色</option>
+                                <option value="Clear">Clear 透明</option>
+                                <option value="Camouflage">Camouflage 迷彩</option>
+                                <option value="Multi">Multi 彩色</option>
+                                <option value="Multi-color">Multi-color 多色</option>
+                                <option value="Rainbow">Rainbow 彩虹色</option>
+                                <option value="Tie-dye">Tie-dye 扎染</option>
+                                <option value="Leopard">Leopard 豹纹</option>
+                                <option value="Snake">Snake 蛇纹</option>
+                                <option value="Tiger">Tiger 虎纹</option>
+                                <option value="Plaid">Plaid 格纹</option>
+                                <option value="Stripe">Stripe 条纹</option>
+                                <option value="Polka Dot">Polka Dot 波点</option>
+                                <option value="Floral">Floral 碎花</option>
+                                <option value="Print">Print 印花</option>
+                                <option value="Denim">Denim 牛仔</option>
+                                <option value="__custom__">✏️ 自定义颜色...</option>
+                            </select>
+                            <input type="text" class="form-control tt-color-custom" placeholder="输入自定义颜色" style="width:300px;height:34px;padding:4px 8px;font-size:13px;display:none;">
+                            <a href="javascript:void(0)" class="tt-color-cancel" onclick="ttColorCancelCustom(this)" style="display:none;font-size:12px;color:#667eea;margin-left:4px;text-decoration:underline;cursor:pointer;">取消</a>
+                            <button class="btn btn-sm" onclick="ttRemoveColorRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除颜色">&times;</button>
                         </div>
                     </div>
                     <div style="display:flex;gap:6px;margin-top:6px;">
@@ -7401,13 +6299,13 @@ function filterBatchProducts(query) {
                     </div>
                 </div>
 
-                <!-- 规格/尺码选择（V7.4双语格式） -->
+                <!-- 规格选择（TikTok风格多行） -->
                 <div class="form-group">
-                    <label>规格/尺码 <span class="hint">(每行输入规格，默认英文+中文格式，导出仅保留英文)</span></label>
+                    <label>规格/尺码 <span class="hint">(每行一个规格值，可添加多个)</span></label>
                     <div id="tt-spec-rows">
                         <div class="tt-spec-row" data-idx="0" style="display:flex;gap:6px;margin-bottom:6px;align-items:center;">
-                            <input type="text" class="dsz-spec-input tt-spec-input" placeholder="如: S 小号, M 中码, L 大号, 8, 10, 12" oninput="ttRebuildMatrix()" style="width:320px;height:40px;padding:8px 12px;font-size:14px;border:1px solid #ddd;border-radius:6px;">
-                            <button class="dsz-color-remove-btn" onclick="ttRemoveSpecRow(this)" style="display:none;" title="移除规格">&times;</button>
+                            <input type="text" class="form-control tt-spec-input" placeholder="如 S, M, L 或 8, 10, 12" oninput="ttRebuildMatrix()" style="width:300px;height:34px;padding:4px 8px;font-size:13px;">
+                            <button class="btn btn-sm" onclick="ttRemoveSpecRow(this)" style="background:none;border:1px solid #ddd;border-radius:4px;padding:4px 10px;cursor:pointer;font-size:16px;color:#999;display:none;" title="移除规格">&times;</button>
                         </div>
                     </div>
                     <button class="btn btn-sm" onclick="ttAddSpecRow()" style="margin-top:6px;border:1px dashed #ccc;background:none;color:#667eea;padding:6px 12px;border-radius:4px;cursor:pointer;">+ 添加规格</button>
@@ -7736,187 +6634,6 @@ function filterBatchProducts(query) {
     color: #1d1d1f;
 }
 
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
 </style>
             <div class="info-box">
                 <strong>第6步：</strong> 计算建议售价，确保合理利润空间。上方大主图可截图用1688插件搜同款。
@@ -7982,7 +6699,7 @@ function filterBatchProducts(query) {
             </div>
             </div>
 
-            <!-- [V7.4 TikTok] 按规格/尺码的变体定价表 -->
+            <!-- [V7.7 TikTok] 按规格/尺码的变体定价表 -->
             <div class="product-card" id="tt-pricing-variant-card" style="display:none;border-left:4px solid #e91e63;">
                 <h3>💰 变体定价（按规格/尺码）<span style="font-size:12px;color:#999;font-weight:400;margin-left:8px;">同一规格所有颜色统一价</span>
                     <button onclick="ttFillPriceFromFinal()" style="float:right;padding:6px 14px;background:#667eea;color:#fff;border:none;border-radius:4px;cursor:pointer;font-size:12px;" title="从上方「最终售价」一键填入所有规格">⬇️ 从最终售价填入</button>
@@ -8397,17 +7114,9 @@ window.copySettingsInviteCode = function() {
 function fallbackCopy(text) {
     var tmp = document.createElement('textarea');
     tmp.value = text;
-    tmp.style.position = 'fixed';
-    tmp.style.left = '-9999px';
-    tmp.style.top = '-9999px';
     document.body.appendChild(tmp);
-    tmp.focus();
     tmp.select();
-    try {
-        document.execCommand('copy');
-    } catch(e) {
-        console.warn('[DSZ] fallbackCopy failed:', e);
-    }
+    document.execCommand('copy');
     document.body.removeChild(tmp);
     _showNotification('激活码已复制', 'success');
 }
@@ -8450,7 +7159,7 @@ window.renderAdminUserList = function() {
         html += '<tr>' +
             '<td>' + escapeHtml(u) + '</td>' +
             '<td>' + (info.regTime ? new Date(info.regTime).toLocaleString() : '-') + '</td>' +
-            '<td><button class="btn btn-sm btn-danger" data-username="' + escapeHtml(u) + '" onclick="adminDeleteUser(this.getAttribute(\'data-username\'))">删除</button></td>' +
+            '<td><button class="btn btn-sm btn-danger" onclick="adminDeleteUser(\'' + escapeHtml(u) + '\')">删除</button></td>' +
             '</tr>';
     }
     tbody.innerHTML = html || '<tr><td colspan="3" style="text-align:center;color:#999;">暂无用户</td></tr>';
@@ -9023,187 +7732,6 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
         
 <!-- Apple Glass Force v5 -->
 <style id="<!-- Apple Glass Force v6 -->
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-
 </style>
 
 <!-- ========== Apple Glass v7 完整版 ========== -->
@@ -9236,6 +7764,12 @@ body {
     -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
     border-right: 0.5px solid rgba(0,0,0,0.08) !important;
     padding: 12px 8px !important;
+    position: fixed !important;
+    top: 40px !important;
+    left: 0 !important;
+    height: calc(100vh - 40px) !important;
+    overflow-y: auto !important;
+    z-index: 100 !important;
 }
 
 /* 导航项 */
@@ -9480,8 +8014,20 @@ input:focus, select:focus, textarea:focus {
     z-index: 9999;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 14px;
     border-bottom: 0.5px solid rgba(0,0,0,0.1) !important;
+    -webkit-app-region: drag;
+    user-select: none;
+}
+/* 标题栏左侧标题 */
+.titlebar-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: #333;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     -webkit-app-region: drag;
     user-select: none;
 }
@@ -9578,187 +8124,6 @@ input:focus, select:focus, textarea:focus {
 /* 侧边栏也下移 */
 .sidebar-nav {
     padding-top: 46px !important;
-}
-
-
-/* ===== V7.4 Custom Color/Spec Dropdown UI ===== */
-.dsz-dropdown-wrapper {
-    position: relative;
-    width: 320px;
-    display: inline-block;
-}
-.dsz-dropdown-trigger {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    cursor: pointer;
-    user-select: none;
-    font-size: 13px;
-    transition: border-color 0.2s;
-    position: relative;
-}
-.dsz-dropdown-trigger:hover {
-    border-color: #c0c4cc;
-}
-.dsz-dropdown-trigger.open {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
-}
-.dsz-dropdown-trigger .dsz-trigger-arrow {
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid #909399;
-    transition: transform 0.2s;
-}
-.dsz-dropdown-trigger.open .dsz-trigger-arrow {
-    transform: translateY(-50%) rotate(180deg);
-}
-.dsz-color-dot {
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-trigger-label {
-    flex: 1;
-    color: #303133;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.dsz-trigger-placeholder {
-    color: #c0c4cc;
-}
-.dsz-dropdown-list {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    margin-top: 4px;
-    background: #fff;
-    border: 1px solid #e4e7ed;
-    border-radius: 6px;
-    box-shadow: 0 6px 24px rgba(0,0,0,0.12);
-    z-index: 9999;
-    max-height: 260px;
-    overflow-y: auto;
-}
-.dsz-dropdown-list.open {
-    display: block;
-}
-.dsz-dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    color: #303133;
-    transition: background 0.15s, color 0.15s;
-}
-.dsz-dropdown-item:hover {
-    background: #f0f2ff;
-}
-.dsz-dropdown-item.selected {
-    background: #667eea;
-    color: #fff;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    display: inline-block;
-}
-.dsz-dropdown-item .dsz-item-swatch {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    flex-shrink: 0;
-    border: 1px solid rgba(0,0,0,0.1);
-}
-.dsz-dropdown-item .dsz-item-label {
-    flex: 1;
-}
-.dsz-dropdown-item .dsz-item-indicator {
-    display: none;
-    width: 18px;
-    height: 18px;
-    border-radius: 50%;
-    flex-shrink: 0;
-}
-.dsz-dropdown-item.selected .dsz-item-indicator {
-    background: #fff;
-    color: #667eea;
-    text-align: center;
-    line-height: 18px;
-    font-size: 11px;
-    font-weight: 700;
-}
-.dsz-dropdown-item.custom-entry {
-    color: #667eea;
-    border-top: 1px solid #f0f0f0;
-    font-style: italic;
-}
-.dsz-custom-input {
-    display: none;
-    width: 100%;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-}
-.dsz-custom-input:focus {
-    border-color: #667eea;
-}
-.dsz-color-remove-btn {
-    background: none;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    padding: 4px 10px;
-    cursor: pointer;
-    font-size: 16px;
-    color: #999;
-    flex-shrink: 0;
-    height: 34px;
-    line-height: 1;
-}
-.dsz-color-remove-btn:hover {
-    color: #f44336;
-    border-color: #f44336;
-}
-.dsz-cancel-link {
-    font-size: 12px;
-    color: #667eea;
-    cursor: pointer;
-    text-decoration: underline;
-    flex-shrink: 0;
-}
-.dsz-spec-input {
-    width: 320px;
-    min-height: 38px;
-    padding: 6px 12px;
-    border: 1px solid #dcdfe6;
-    border-radius: 6px;
-    font-size: 13px;
-    outline: none;
-    flex: none;
-}
-.dsz-spec-input:focus {
-    border-color: #667eea;
-    box-shadow: 0 0 0 2px rgba(102,126,234,0.1);
 }
 
 </style>
@@ -9901,18 +8266,55 @@ document.addEventListener('keydown', function(evt) {
     }
 })();
 
+// 翻译按钮拖拽
+var dragState = { translateDragging: false, startX: 0, startY: 0, startLeft: 0, startBottom: 0 };
+function startDragTranslate(e) {
+    if(e.button !== 0) return;
+    e.preventDefault();
+    var btn = document.getElementById('translate-toggle-btn');
+    dragState.translateDragging = true;
+    dragState.startX = e.clientX;
+    dragState.startY = e.clientY;
+    dragState.startLeft = parseInt(btn.style.left) || 20;
+    dragState.startBottom = parseInt(btn.style.bottom) || 140;
+    btn.style.cursor = 'grabbing';
+    btn.style.transform = 'scale(1.1)';
+    document.addEventListener('mousemove', onDragTranslate);
+    document.addEventListener('mouseup', stopDragTranslate);
+}
+function onDragTranslate(e) {
+    if(!dragState.translateDragging) return;
+    var btn = document.getElementById('translate-toggle-btn');
+    var dx = dragState.startX - e.clientX;
+    var dy = dragState.startY - e.clientY;
+    var newLeft = Math.max(0, Math.min(window.innerWidth - 50, dragState.startLeft - dx));
+    var newBottom = Math.max(0, Math.min(window.innerHeight - 50, dragState.startBottom + dy));
+    btn.style.left = newLeft + 'px';
+    btn.style.bottom = newBottom + 'px';
+    btn.style.transition = 'none';
+}
+function stopDragTranslate() {
+    dragState.translateDragging = false;
+    var btn = document.getElementById('translate-toggle-btn');
+    btn.style.cursor = 'grab';
+    btn.style.transform = 'scale(1)';
+    btn.style.transition = 'transform 0.2s,box-shadow 0.2s';
+    document.removeEventListener('mousemove', onDragTranslate);
+    document.removeEventListener('mouseup', stopDragTranslate);
+    try { localStorage.setItem('translateBtnLeft', btn.style.left); localStorage.setItem('translateBtnBottom', btn.style.bottom); } catch(e){}
+}
+(function(){
+    try {
+        var savedLeft = localStorage.getItem('translateBtnLeft');
+        var savedBottom = localStorage.getItem('translateBtnBottom');
+        var btn = document.getElementById('translate-toggle-btn');
+        if(savedLeft) btn.style.left = savedLeft;
+        if(savedBottom) btn.style.bottom = savedBottom;
+    } catch(e){}
+})();
+
 </script>
-<div style="position:fixed;bottom:8px;right:8px;background:#e74c3c;color:#fff;padding:4px 12px;border-radius:6px;font-size:11px;z-index:99999;font-weight:600;">V7.5</div>
-<div style="position:fixed;bottom:8px;right:8px;background:#e91e63;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;z-index:9999;">V7.5</div>
-
-<!-- V7.5 Token 消耗追踪面板（Ctrl+Shift+T 切换，隐藏） -->
-<div id="token-debug-panel">
-    <div id="token-panel-header">
-        <span>&#128200; Token 消耗追踪</span>
-        <button id="token-panel-close" onclick="_toggleTokenPanel()">&times;</button>
-    </div>
-    <div id="token-panel-body">加载中...</div>
-</div>
-
+<div style="position:fixed;bottom:8px;right:8px;background:#e74c3c;color:#fff;padding:4px 12px;border-radius:6px;font-size:11px;z-index:99999;font-weight:600;">V7.7</div>
+<div style="position:fixed;bottom:8px;right:8px;background:#e91e63;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;z-index:9999;">V7.7</div>
 </body>
 </html>
