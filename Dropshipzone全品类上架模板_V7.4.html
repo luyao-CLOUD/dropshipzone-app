@@ -6,9 +6,10 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Dropshipzone全品类上架模板 V7.4</title>
+    <title>Dropshipzone全品类上架模板 V7.7.4</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; }
         body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     background: #ffffff !important;
@@ -27,7 +28,7 @@
     border-radius: 0;
     box-shadow: none;
     overflow: hidden;
-    min-height: 100vh;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -659,6 +660,10 @@
     flex-shrink: 0;
     height: 100%;
     gap: 2px;
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    z-index: 50;
 }
 
 /* 隐藏旧的顶部导航 */
@@ -1872,7 +1877,7 @@ input, select, textarea {
 
     <div class="container">
     <div class="header">
-            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.7.2 (2026-06-28)</span></h1>
+            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.7.4 (2026-06-28)</span></h1>
 
 
         <!-- Header工具栏：统一右侧布局 -->
@@ -3082,6 +3087,7 @@ window.closeAdminPanel = function() {
 
         // ==================== v5.1 图片管理（含手动描述） ====================
         let uploadedImages = [];
+        window.uploadedImages = uploadedImages;
         let uploadedImageUrls = [];
         let mainImageIndex = 0;
 
@@ -3177,6 +3183,7 @@ window.closeAdminPanel = function() {
                 gallery.appendChild(card);
             });
             updateMainImagePreview();
+            if (typeof ttRenderMatrix === 'function') ttRenderMatrix();
         }
 
         function updateImageDesc(index, desc) {
@@ -3202,6 +3209,7 @@ window.closeAdminPanel = function() {
         }
         function clearAllImages() {
             uploadedImages = []; uploadedImageUrls = []; mainImageIndex = 0;
+            window.uploadedImages = uploadedImages;
             renderGallery(); updateStep(1);
             const urlSection = document.getElementById("url-result-section");
             if (urlSection) urlSection.style.display = "none";
@@ -4091,6 +4099,7 @@ function autoCalcBasicCBM() {
             // Clear images for next SKU
             uploadedImages = [];
             uploadedImageUrls = [];
+            window.uploadedImages = uploadedImages;
             mainImageIndex = 0;
             const gallery = document.getElementById("image-gallery");
             if (gallery) gallery.innerHTML = "";
@@ -6403,8 +6412,23 @@ function filterBatchProducts(query) {
             var defHeight = (_ttMatrixData.length > 0 && _ttMatrixData[0].height) ? _ttMatrixData[0].height : '';
             var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
 
-            // Build table
-            var html = '<table style="width:100%;min-width:900px;border-collapse:collapse;font-size:12px;table-layout:auto;">';
+            // Build table with fixed layout and overflow control
+            var html = '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">';
+            html += '<table style="width:100%;min-width:950px;border-collapse:collapse;font-size:12px;table-layout:fixed;">';
+            html += '<colgroup>';
+            html += '<col style="width:30px;">';
+            html += '<col style="width:100px;">';
+            html += '<col style="width:90px;">';
+            html += '<col style="width:60px;">';
+            html += '<col style="width:auto;min-width:160px;">';
+            html += '<col style="width:60px;">';
+            html += '<col style="width:60px;">';
+            html += '<col style="width:60px;">';
+            html += '<col style="width:70px;">';
+            html += '<col style="width:80px;">';
+            html += '<col style="width:70px;">';
+            html += '<col style="width:50px;">';
+            html += '</colgroup>';
             html += '<thead><tr style="background:#f5f6fa;position:sticky;top:48px;z-index:10;">';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:30px;">#</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:100px;">&#127912; 颜色</th>';
@@ -6428,7 +6452,7 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + (item.specDisplay || item.spec) + '</td>';
                 // 变体首图：从图库中选择
                 html += '<td style="padding:2px;border:1px solid #eee;text-align:center;">' + buildVariantThumbCell(i) + '</td>';
-                html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
+                html += '<td style="padding:4px 6px;border:1px solid #eee;word-break:break-all;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.length) + '" placeholder="' + defLength + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'length\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.width) + '" placeholder="' + defWidth + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'width\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.height) + '" placeholder="' + defHeight + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'height\',this.value)"></td>';
@@ -6439,7 +6463,7 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
                 html += '</tr>';
             });
-            html += '</tbody></table>';
+            html += '</tbody></table></div>';
             matrix.innerHTML = html;
             if (countEl) countEl.textContent = '(' + _ttMatrixData.length + '个变体)';
             // [V7.4 TikTok] 矩阵变化后刷新定价表
@@ -6462,22 +6486,25 @@ function filterBatchProducts(query) {
 
         // V7.4: 变体首图（从图库选择）
         function buildVariantThumbCell(idx) {
-            if (typeof uploadedImages === 'undefined' || uploadedImages.length === 0) return '<span style="color:#ccc;font-size:11px">无图</span>';
+            var imgs = (typeof uploadedImages !== 'undefined' && uploadedImages.length > 0) ? uploadedImages : window.uploadedImages;
+            if (!imgs || imgs.length === 0) return '<span style="color:#ccc;font-size:11px">无图</span>';
             var item = _ttMatrixData[idx];
             var mIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : 0;
-            if (mIdx >= uploadedImages.length) mIdx = 0;
-            var url = uploadedImages[mIdx].data;
+            if (mIdx >= imgs.length) mIdx = 0;
+            var url = imgs[mIdx].data;
             return '<img src="' + url + '" class="variant-thumb" onclick="event.stopPropagation();openVariantImgPopover(event,' + idx + ')" title="点击选择首图">';
         }
         function openVariantImgPopover(e, idx) {
             var popover = document.getElementById('variant-img-popover');
             var imgsDiv = document.getElementById('popover-imgs');
             if (!popover || !imgsDiv) return;
+            var imgs = (typeof uploadedImages !== 'undefined' && uploadedImages.length > 0) ? uploadedImages : window.uploadedImages;
+            if (!imgs || imgs.length === 0) return;
             var item = _ttMatrixData[idx];
             var curIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : 0;
             var html = '';
-            for (var i = 0; i < uploadedImages.length; i++) {
-                html += '<img src="' + uploadedImages[i].data + '" class="' + (i === curIdx ? 'active' : '') + '" onclick="event.stopPropagation();selectVariantImage(' + idx + ',' + i + ')" title="' + (i === 0 ? '主图' : ('图片' + (i+1))) + '">';
+            for (var i = 0; i < imgs.length; i++) {
+                html += '<img src="' + imgs[i].data + '" class="' + (i === curIdx ? 'active' : '') + '" onclick="event.stopPropagation();selectVariantImage(' + idx + ',' + i + ')" title="' + (i === 0 ? '主图' : ('图片' + (i+1))) + '">';
             }
             imgsDiv.innerHTML = html;
             popover.style.display = 'block';
