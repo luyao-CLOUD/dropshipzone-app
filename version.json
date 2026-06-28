@@ -1,1 +1,1 @@
-{"version": "7.7.4", "changelog": "V7.7.4: ①变体矩阵表格改用table-layout:fixed+colgroup精确列宽+overflow-x:auto容器彻底解决列重叠；②侧边栏导航添加position:sticky+html,body overflow:hidden确保侧边栏始终固定可见；③首图弹窗增加window.uploadedImages全局暴露+renderGallery后自动刷新矩阵解决首图无法更换；④uploadedImages变量同步到window全局作用域。"}
+{"version": "7.7.5", "changelog": "V7.7.5: ①变体矩阵首图功能移植至Electron桌面版app.html(新增variant-thumb样式/首图列/弹出层选择/导出时首图优先)；②同步V7.4变体首图修改。"}

@@ -9,13 +9,11 @@
     <title>Dropshipzone全品类上架模板 V7.7.4</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow: hidden; }
         body {
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
     background: #ffffff !important;
     color: #1d1d1f;
-    min-height: 100vh;
- 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #ffffff !important; padding: 20px; line-height: 1.6; }
+}
         /* V1.4风格：无圆角无阴影 */
 .container {
     max-width: 1400px;
@@ -27,8 +25,7 @@
     background: #ffffff;
     border-radius: 0;
     box-shadow: none;
-    overflow: hidden;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
 }
@@ -6414,7 +6411,7 @@ function filterBatchProducts(query) {
 
             // Build table with fixed layout and overflow control
             var html = '<div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">';
-            html += '<table style="width:100%;min-width:950px;border-collapse:collapse;font-size:12px;table-layout:fixed;">';
+            html += '<table style="width:100%;min-width:950px;border-collapse:collapse;font-size:12px;table-layout:auto;">';
             html += '<colgroup>';
             html += '<col style="width:30px;">';
             html += '<col style="width:100px;">';
