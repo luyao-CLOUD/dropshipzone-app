@@ -657,6 +657,8 @@
     overflow-y: auto;
     overflow-x: hidden;
     flex-shrink: 0;
+    height: 100%;
+    gap: 2px;
 }
 
 /* 隐藏旧的顶部导航 */
@@ -6402,7 +6404,7 @@ function filterBatchProducts(query) {
             var defStock = (_ttMatrixData.length > 0 && _ttMatrixData[0].stock) ? _ttMatrixData[0].stock : '';
 
             // Build table
-            var html = '<table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;">';
+            var html = '<table style="width:100%;min-width:900px;border-collapse:collapse;font-size:12px;table-layout:auto;">';
             html += '<thead><tr style="background:#f5f6fa;position:sticky;top:48px;z-index:10;">';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:30px;">#</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:100px;">&#127912; 颜色</th>';
@@ -6475,7 +6477,7 @@ function filterBatchProducts(query) {
             var curIdx = (item.variantMainImageIdx !== undefined) ? item.variantMainImageIdx : 0;
             var html = '';
             for (var i = 0; i < uploadedImages.length; i++) {
-                html += '<img src="' + uploadedImages[i].data + '" class="' + (i === curIdx ? 'active' : '') + '" onclick="selectVariantImage(' + idx + ',' + i + ')" title="' + (i === 0 ? '主图' : ('图片' + (i+1))) + '">';
+                html += '<img src="' + uploadedImages[i].data + '" class="' + (i === curIdx ? 'active' : '') + '" onclick="event.stopPropagation();selectVariantImage(' + idx + ',' + i + ')" title="' + (i === 0 ? '主图' : ('图片' + (i+1))) + '">';
             }
             imgsDiv.innerHTML = html;
             popover.style.display = 'block';
