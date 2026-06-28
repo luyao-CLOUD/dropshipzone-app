@@ -1866,11 +1866,11 @@ input, select, textarea {
     </div>
 
     <button id="admin-open-btn" onclick="openAdminPanel()" title="账号管理">&#9881;</button>
-    <button id="translate-toggle-btn" onclick="toggleTranslatePanel()" title="显示/隐藏翻译框" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:pointer;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:all 0.2s;backdrop-filter:blur(8px);" onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'">&#127760;</button>
+    <button id="translate-toggle-btn" title="显示/隐藏翻译框（可拖拽移动）" style="position:fixed;bottom:140px;left:20px;z-index:9990;width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.9);color:#007aff;border:none;font-size:20px;cursor:grab;box-shadow:0 4px 15px rgba(0,0,0,0.15);transition:transform 0.2s,box-shadow 0.2s;backdrop-filter:blur(8px);user-select:none;" onmouseover="if(!this.dataset.dragging){this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 20px rgba(0,122,255,0.3)'}" onmouseout="if(!this.dataset.dragging){this.style.transform='scale(1)';this.style.boxShadow='0 4px 15px rgba(0,0,0,0.15)'}">&#127760;</button>
 
     <div class="container">
     <div class="header">
-            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.4 (2026-06-21)</span></h1>
+            <h1 style="font-size:20px;font-weight:700;color:#333;">Dropshipzone 全品类上架模板 <span style="background:rgba(233,30,99,0.08);padding:4px 14px;border-radius:8px;color:#e91e63;font-size:16px;">V7.7.2 (2026-06-28)</span></h1>
 
 
         <!-- Header工具栏：统一右侧布局 -->
@@ -6403,10 +6403,11 @@ function filterBatchProducts(query) {
 
             // Build table
             var html = '<table style="width:100%;border-collapse:collapse;font-size:12px;table-layout:fixed;">';
-            html += '<thead><tr style="background:#f5f6fa;position:sticky;top:0;z-index:10;">';
+            html += '<thead><tr style="background:#f5f6fa;position:sticky;top:48px;z-index:10;">';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:30px;">#</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:100px;">&#127912; 颜色</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;width:90px;">&#128207; 规格</th>';
+            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">&#128444; 首图</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:left;min-width:160px;">&#128230; 商品货号 (子SKU)</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">长(cm)</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">宽(cm)</th>';
@@ -6415,7 +6416,6 @@ function filterBatchProducts(query) {
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:80px;">📦 CBM(m³)</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:70px;">库存</th>';
             html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:50px;">启用</th>';
-            html += '<th style="padding:8px 6px;border:1px solid #e0e0e0;text-align:center;width:60px;">🖼 预览图</th>';
             html += '</tr></thead><tbody>';
 
             _ttMatrixData.forEach(function(item, i) {
@@ -6424,6 +6424,8 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;color:#999;">' + (i+1) + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;">' + (item.colorDisplay || item.color) + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;">' + (item.specDisplay || item.spec) + '</td>';
+                // 变体首图：从图库中选择
+                html += '<td style="padding:2px;border:1px solid #eee;text-align:center;">' + buildVariantThumbCell(i) + '</td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-sku" data-idx="' + i + '" value="' + ttEsc(item.childSku) + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;font-family:monospace;color:#e91e63;" oninput="ttOnMatrixChange(' + i + ',\'childSku\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.length) + '" placeholder="' + defLength + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'length\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-dim" data-idx="' + i + '" value="' + ttEsc(item.width) + '" placeholder="' + defWidth + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'width\',this.value)"></td>';
@@ -6433,8 +6435,6 @@ function filterBatchProducts(query) {
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-cbm" data-idx="' + i + '" value="' + cbmVal + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;background:#f0f2ff;color:#667eea;font-weight:700;" readonly></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;"><input class="tt-matrix-stock" data-idx="' + i + '" value="' + ttEsc(item.stock) + '" placeholder="' + defStock + '" style="width:100%;border:1px solid #e0e0e0;border-radius:3px;padding:4px 6px;font-size:12px;text-align:center;" oninput="ttOnMatrixChange(' + i + ',\'stock\',this.value)"></td>';
                 html += '<td style="padding:4px 6px;border:1px solid #eee;text-align:center;"><input type="checkbox" class="tt-matrix-toggle" data-idx="' + i + '" ' + (item.enabled?'checked':'') + ' onchange="ttOnMatrixChange(' + i + ',\'enabled\',this.checked)" style="cursor:pointer;"></td>';
-                // 变体首图：从图库中选择
-                html += '<td style="padding:2px;border:1px solid #eee;text-align:center;">' + buildVariantThumbCell(i) + '</td>';
                 html += '</tr>';
             });
             html += '</tbody></table>';
@@ -7343,7 +7343,7 @@ function filterBatchProducts(query) {
 
                 <!-- 变体矩阵表 -->
                 <div style="margin-top:16px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;position:sticky;top:0;z-index:100;background:#fff;padding:8px 0;border-bottom:1px solid #eee;">
                         <h4 style="margin:0;font-size:15px;">&#128203; 变体清单 <span id="tt-variant-count" style="font-size:12px;color:#999;font-weight:400;">(0个变体)</span></h4>
                         <div style="display:flex;gap:6px;">
                             <div style="position:relative;">
@@ -8877,6 +8877,43 @@ console.log('[DSZ Admin] Admin functions loaded OK (v2)');
         el.textContent = '⚠️ ' + msg;
         el.style.display = 'block';
     }
+
+    // ============ 翻译按钮拖拽 ============
+    (function() {
+        var btn = document.getElementById('translate-toggle-btn');
+        if (!btn) return;
+        var startX, startY, initLeft, initBottom;
+        var moved = false;
+        btn.addEventListener('mousedown', function(e) {
+            e.preventDefault();
+            startX = e.clientX;
+            startY = e.clientY;
+            initLeft = parseInt(btn.style.left) || btn.getBoundingClientRect().left;
+            initBottom = parseInt(btn.style.bottom) || (window.innerHeight - btn.getBoundingClientRect().bottom);
+            btn.dataset.dragging = '1';
+            btn.style.cursor = 'grabbing';
+            btn.style.transform = 'scale(1)';
+            btn.style.transition = 'none';
+            moved = false;
+            window.addEventListener('mousemove', onMove);
+            window.addEventListener('mouseup', onUp);
+        });
+        function onMove(e) {
+            var dx = e.clientX - startX;
+            var dy = startY - e.clientY;
+            if (Math.abs(dx) > 3 || Math.abs(dy) > 3) moved = true;
+            btn.style.left = Math.max(0, Math.min(window.innerWidth - 44, initLeft + dx)) + 'px';
+            btn.style.bottom = Math.max(0, Math.min(window.innerHeight - 44, initBottom + dy)) + 'px';
+        }
+        function onUp() {
+            window.removeEventListener('mousemove', onMove);
+            window.removeEventListener('mouseup', onUp);
+            btn.dataset.dragging = '';
+            btn.style.cursor = 'grab';
+            btn.style.transition = 'transform 0.2s,box-shadow 0.2s';
+            if (!moved) toggleTranslatePanel();
+        }
+    })();
 
     // ============ 翻译按钮：显示/隐藏整个翻译面板 ============
     window.toggleTranslatePanel = function() {
